@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/colored_cylinder.js" libraries="{WebGL}" />
+    <file url="file://$PROJECT_DIR$/colored_geometry.js" libraries="{WebGL}" />
+    <file url="file://$PROJECT_DIR$/colored_sphere.js" libraries="{WebGL}" />
+    <file url="file://$PROJECT_DIR$/colored_string.js" libraries="{WebGL}" />
+    <file url="file://$PROJECT_DIR$/h_section.js" libraries="{WebGL}" />
+    <file url="file://$PROJECT_DIR$/index.html" libraries="{WebGL}" />
+    <file url="file://$PROJECT_DIR$/textured_sphere.js" libraries="{WebGL}" />
+  </component>
+</project>
