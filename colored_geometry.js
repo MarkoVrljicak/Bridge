@@ -43,8 +43,7 @@ function ColoredGeometry(){
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         // Configuración de la luz
         // Se inicializan las variables asociadas con la Iluminación
-        var lighting;
-        lighting = true;
+        var lighting = true;
         gl.uniform1i(shaderProgramColoredObject.useLightingUniform, lighting);
 
         gl.uniform3fv(shaderProgramColoredObject.lightingDirectionUniform, lightPosition);

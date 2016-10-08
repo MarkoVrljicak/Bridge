@@ -160,4 +160,6 @@ function TexturedSphere(latitude_bands, longitude_bands){
         gl.drawElements(gl.TRIANGLES, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
     }
 
+
+
 }

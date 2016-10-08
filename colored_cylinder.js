@@ -25,9 +25,9 @@ function ColoredCylinder(latitude_bands, longitude_bands){
                 var u = 1.0 - (longNumber / this.longitudeBands);
                 var v = 1.0 - (latNumber / this.latitudeBands);
 
-                this.normal_buffer.push(x);
+                this.normal_buffer.push(2*x);
                 this.normal_buffer.push(0);
-                this.normal_buffer.push(z);
+                this.normal_buffer.push(2*z);
 
                 // Mejorar o modificar el algoritmo que inicializa
                 // el color de cada vertice

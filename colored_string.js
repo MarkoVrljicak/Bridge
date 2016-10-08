@@ -24,7 +24,7 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 var x = curve_img[0];
                 var y = curve_img[1] + Math.cos(phi) * .5;
                 var z = curve_img[2] + Math.sin(phi) * .5;
-                console.log(x, y, z);
+                //console.log(x, y, z);
                 var u = 1.0 - (longNumber / this.longitude_bands);
                 var v = 1.0 - (eval / this.n_curve_evaluations);
 

@@ -13,6 +13,8 @@
     <script type="text/javascript" src="h_section.js"></script>
     <script type="text/javascript" src="bezier_curve.js"></script>
     <script type="text/javascript" src="colored_string.js"></script>
+    <script src="libs/dat.gui.min.js"></script>
+    <script type="text/javascript" src="gui.js"></script>
 
 
     <script id="shader-fs-colored-obj" type="x-shader/x-fragment">
@@ -275,15 +277,6 @@
             gl.generateMipmap(gl.TEXTURE_2D);
 
             gl.bindTexture(gl.TEXTURE_2D, null);
-
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-            gl.bindTexture(gl.TEXTURE_2D, deimos.texture);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, deimos.texture.image);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
-            gl.generateMipmap(gl.TEXTURE_2D);
-
-            gl.bindTexture(gl.TEXTURE_2D, null);
         }
 
         var CameraMatrix = mat4.create();
@@ -303,8 +296,8 @@
         var deimosRotationMatrix = mat4.create();
         mat4.identity(deimosRotationMatrix);
 
-        var deimosRotationAnglemars = 0.0;
-        var phobosRotationAngledeimos = 0.0;
+        var deimosRotationAngleMars = 0.0;
+        var phobosRotationAngleDeimos = 0.0;
 
         //////////////////////////////////////////////////////////////////////////////
         //Esto de aca no pareceria estar usandose.////////////////////////////////////
@@ -353,11 +346,8 @@
             // Se inicializan las variables asociadas con la Iluminación
 
             // Definimos la ubicación de la camara
-            // Pensamos por el momento marsamente la posición de la cámara, la cual siempre mira al mars.
             var matriz_camara = mat4.create();
             mat4.identity(matriz_camara);
-            //mat4.identity(CameraMatrix);
-            //mat4.translate(CameraMatrix, CameraMatrix, [0, 0, -60]);
             var eye_point = vec3.create();
             vec3.set(eye_point, 40, 75, -100);
             var at_point = vec3.create();
@@ -381,7 +371,7 @@
             mat4.identity(model_matrix_deimos)        ;
             var translate_deimos = mat4.create();
             mat4.identity(translate_deimos);
-            mat4.translate(translate_deimos, translate_deimos, [10, 0, 0 ]);
+            mat4.translate(translate_deimos, translate_deimos, vec3.fromValues(10, 0, 0));
 
             // Matriz de rotación del eje sobre el plano de la eclíptica a 23 grados
             var axis_inclination_matrix = mat4.create();
@@ -394,8 +384,8 @@
             mat4.identity(translation_movement);
             mat4.identity(inverse_translation_movement);
 
-            mat4.rotate(translation_movement, translation_movement, deimosRotationAnglemars, [0, 1, 0]);
-            mat4.rotate(inverse_translation_movement, inverse_translation_movement, -deimosRotationAnglemars, [0, 1, 0]);
+            mat4.rotate(translation_movement, translation_movement, deimosRotationAngleMars, [0, 1, 0]);
+            mat4.rotate(inverse_translation_movement, inverse_translation_movement, -deimosRotationAngleMars, [0, 1, 0]);
 
             // Las transformaciones
             mat4.multiply(model_matrix_deimos, model_matrix_deimos, translation_movement);
@@ -431,7 +421,7 @@
 
             var phobos_rotation_matrix = mat4.create();
             mat4.identity(phobos_rotation_matrix);
-            mat4.rotate(phobos_rotation_matrix, phobos_rotation_matrix, phobosRotationAngledeimos, [0, 1 , 0]);
+            mat4.rotate(phobos_rotation_matrix, phobos_rotation_matrix, phobosRotationAngleDeimos, [0, 1 , 0]);
 
             // Secuencia de transformaciones
             mat4.multiply(model_matrix_phobos, model_matrix_phobos, phobos_rotation_matrix);
@@ -457,7 +447,7 @@
             // Matriz de modelado del mars
             var model_matrix_mars = mat4.create();
             mat4.identity(model_matrix_mars);
-            mat4.scale(model_matrix_mars, model_matrix_mars, [7.0, 7.0, 7.0]);
+            mat4.scale(model_matrix_mars, model_matrix_mars, vec3.fromValues(7.0, 7.0, 7.0));
             mars.draw(model_matrix_mars);
             //
             ////////////////////////////////////////////////////////
@@ -467,11 +457,11 @@
             requestAnimFrame(tick);
             var newRotationMatrix = mat4.create();
             mat4.identity(newRotationMatrix);
-            mat4.rotate(newRotationMatrix, newRotationMatrix, 0.025, [0, 1, 0]);
+            mat4.rotate(newRotationMatrix, newRotationMatrix, 0.025, vec3.fromValues(0, 1, 0));
             mat4.multiply(newRotationMatrix, deimosRotationMatrix, deimosRotationMatrix);
 
-            deimosRotationAnglemars += 0.0045;
-            phobosRotationAngledeimos += 0.0005;
+            deimosRotationAngleMars += 0.0045;
+            phobosRotationAngleDeimos += 0.0005;
             drawScene();
         }
 
@@ -482,11 +472,11 @@
 
             var curve = new BezierCurve([
                     [0.0, 0.0, 0.0],
-                    [0.0, 1.0, 1.0],
-                    [2.0, 1.0, 3.0],
-                    [3.0, 3.0, 3.0]
+                    [1.0, 0.0, 0.0],
+                    [2.0, 0.0, 0.0],
+                    [3.0, 0.0, 0.0]
             ]);
-            deimos = new ColoredString(curve, 10, 10);
+            deimos = new ColoredSphere(10, 10);
             deimos.initBuffers();
 
             mars = new TexturedSphere(64, 64);
@@ -502,6 +492,8 @@
             tick();
         }
 
+
+
     </script>
 </head>
 
@@ -514,6 +506,11 @@
     </center>
     <br/>
     <br/>
+
+    <script>
+        GUI();
+    </script>
+
 </body>
 
 </html>
