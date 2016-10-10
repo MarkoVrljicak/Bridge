@@ -15,6 +15,7 @@
     <script type="text/javascript" src="colored_string.js"></script>
     <script src="libs/dat.gui.min.js"></script>
     <script type="text/javascript" src="gui.js"></script>
+    <script type="text/javascript" src="orbital_camera.js"></script>
 
 
     <script id="shader-fs-colored-obj" type="x-shader/x-fragment">
@@ -145,6 +146,7 @@
 
     <script type="text/javascript">
 
+
         var gl;
 
         function initGL(canvas) {
@@ -152,8 +154,7 @@
                 gl = canvas.getContext("experimental-webgl");
                 gl.viewportWidth = canvas.width;
                 gl.viewportHeight = canvas.height;
-            } catch (e) {
-            }
+            } catch (e) {}
             if (!gl) {
                 alert("Could not initialise WebGL, sorry :-(");
             }
@@ -331,6 +332,8 @@
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
 
+        var camera = new OrbitalCamera();
+
         function drawScene() {
             // Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
             // el área disponible
@@ -346,17 +349,7 @@
             // Se inicializan las variables asociadas con la Iluminación
 
             // Definimos la ubicación de la camara
-            var matriz_camara = mat4.create();
-            mat4.identity(matriz_camara);
-            var eye_point = vec3.create();
-            vec3.set(eye_point, 40, 75, -100);
-            var at_point = vec3.create();
-            vec3.set(at_point, 0, 0, 0);
-            var up_point = vec3.create();
-            vec3.set(up_point, 0, 1, 0);
-
-            mat4.lookAt(CameraMatrix, eye_point, at_point, up_point);
-            mat4.multiply(CameraMatrix, CameraMatrix, matriz_camara);
+            camera.update();
 
             // Dibujamos a Deimos
 
@@ -469,6 +462,17 @@
             var canvas = document.getElementById("tp");
             initGL(canvas);
             initShaders();
+
+            //Eventos
+            if (canvas.addEventListener) {
+                // IE9, Chrome, Safari, Opera
+                canvas.addEventListener("mousewheel", camera.onWheel, false);
+                // Firefox
+                canvas.addEventListener("DOMMouseScroll", camera.onWheel, false);
+            }
+            // IE 6/7/8
+            else canvas.attachEvent("onmousewheel", camera.onWheel);
+            //end Eventos
 
             var curve = new BezierCurve([
                     [0.0, 0.0, 0.0],
