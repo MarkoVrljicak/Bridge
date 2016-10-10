@@ -143,10 +143,18 @@
         }
     </script>
 
+    <script type="text/javascript">
+        function onMouseClick(){
+            mouseDown = true;
+        }
+        function onMouseRelease(){
+            mouseDown = false;
+            lastMouseX = null;
+            lastMouseY = null;
+        }
+    </script>
 
     <script type="text/javascript">
-
-
         var gl;
 
         function initGL(canvas) {
@@ -503,8 +511,10 @@
 
 <body onload="webGLStart();">
     <center>
-        <canvas id="tp" style="border: none;" width="1280" height="720">
-            Your browser does not support the HTML5 canvas element.
+        <canvas id="tp" style="border: none;" width="1280" height="720"
+                onmousedown="onMouseClick()"
+                onmouseup="onMouseRelease()"
+                onmousemove="camera.onMovement(event)">
         </canvas>
         <h2>Trabajo Pr&aacute;ctico 2016 - Marcos Vrljicak</h2>
     </center>

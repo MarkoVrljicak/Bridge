@@ -2,23 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7abab35-b867-496e-ba01-a8d0da212ddf" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/map/mars_1k_color.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/sisgraf.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bezier_curve.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colored_cylinder.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colored_geometry.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colored_sphere.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colored_string.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datgui/dat.gui.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/datgui/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/h_section.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/gl-matrix.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libs/webgl-utils.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/textured_sphere.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/sisgraf.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/webgl-utils.js" afterPath="$PROJECT_DIR$/libs/webgl-utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/orbital_camera.js" afterPath="$PROJECT_DIR$/orbital_camera.js" />
     </list>
     <ignored path="sisgraf.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,28 +31,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
-              <folding>
-                <element signature="n#script#9;n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#script#10;n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#script#11;n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#script#12;n#head#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="e#4949#5281#0" expanded="false" />
-                <element signature="e#5318#6323#0" expanded="false" />
-                <element signature="e#13489#13614#0" expanded="false" />
-                <element signature="e#13647#13805#0" expanded="false" />
-                <element signature="e#13850#14055#0" expanded="false" />
-                <element signature="e#14092#14147#0" expanded="false" />
-                <element signature="e#20462#20899#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="bezier_curve.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bezier_curve.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -73,11 +41,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="colored_string.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/colored_string.js">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="59" column="25" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
+            <state relative-caret-position="258">
+              <caret line="356" column="33" selection-start-line="356" selection-start-column="33" selection-end-line="356" selection-end-column="33" />
+              <folding>
+                <element signature="n#script#12;n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#script#13;n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#script#14;n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#script#15;n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="e#5740#6745#0" expanded="false" />
+                <element signature="e#6860#11962#0" expanded="false" />
+                <element signature="e#14024#14079#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orbital_camera.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/orbital_camera.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="23" column="90" selection-start-line="23" selection-start-column="90" selection-end-line="23" selection-end-column="90" />
               <folding />
             </state>
           </provider>
@@ -96,11 +82,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="colored_sphere.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/colored_sphere.js">
+      <file leaf-file-name="gui.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="501">
-              <caret line="60" column="25" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
+            <state relative-caret-position="270">
+              <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#40#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -109,31 +107,19 @@
       <file leaf-file-name="colored_cylinder.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/colored_cylinder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+            <state relative-caret-position="695">
+              <caret line="56" column="25" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mars_1k_color.jpg" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/map/mars_1k_color.jpg">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="colored_geometry.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/colored_geometry.js">
+      <file leaf-file-name="colored_sphere.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/colored_sphere.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-              <folding>
-                <element signature="e#333#1774#0" expanded="false" />
-                <element signature="e#1811#1869#0" expanded="false" />
-                <element signature="e#1948#2452#0" expanded="false" />
-                <element signature="e#2492#3854#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="497">
+              <caret line="60" column="25" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -141,19 +127,23 @@
       <file leaf-file-name="textured_sphere.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/textured_sphere.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state relative-caret-position="695">
+              <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gl-matrix.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/gl-matrix.js">
+      <file leaf-file-name="colored_geometry.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/colored_geometry.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="522">
+              <caret line="65" column="105" selection-start-line="65" selection-start-column="86" selection-end-line="65" selection-end-column="105" />
+              <folding>
+                <element signature="e#333#1774#0" expanded="false" />
+                <element signature="e#1811#1869#0" expanded="false" />
+                <element signature="e#1948#2434#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -185,13 +175,18 @@
         <option value="$PROJECT_DIR$/datgui/colored_geometry.js" />
         <option value="$PROJECT_DIR$/h_section_cap.js" />
         <option value="$PROJECT_DIR$/bezier_curve.js" />
-        <option value="$PROJECT_DIR$/textured_sphere.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/colored_sphere.js" />
+        <option value="$PROJECT_DIR$/h_section.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/colored_geometry.js" />
+        <option value="$PROJECT_DIR$/textured_sphere.js" />
         <option value="$PROJECT_DIR$/colored_cylinder.js" />
         <option value="$PROJECT_DIR$/colored_string.js" />
-        <option value="$PROJECT_DIR$/h_section.js" />
+        <option value="$PROJECT_DIR$/map/gui.js" />
+        <option value="$PROJECT_DIR$/gui.js" />
+        <option value="$PROJECT_DIR$/camera.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/orbital_camera.js" />
       </list>
     </option>
   </component>
@@ -231,8 +226,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -253,6 +246,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -263,13 +258,13 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/map" />
-      <recent name="$PROJECT_DIR$/libs" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/libs" />
+      <recent name="$PROJECT_DIR$/map" />
     </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.Unnamed">
@@ -359,12 +354,37 @@
       <workItem from="1475677932073" duration="4366000" />
       <workItem from="1475764508240" duration="6772000" />
       <workItem from="1475838193514" duration="1708000" />
-      <workItem from="1475841240024" duration="2567000" />
+      <workItem from="1475841240024" duration="3851000" />
+      <workItem from="1475893110994" duration="419000" />
+      <workItem from="1475933282203" duration="7492000" />
+      <workItem from="1476102819433" duration="13012000" />
     </task>
+    <task id="LOCAL-00001" summary="First">
+      <created>1475843865631</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1475843865631</updated>
+    </task>
+    <task id="LOCAL-00002" summary="First">
+      <created>1475938669696</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1475938669696</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Orbit">
+      <created>1476110408492</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1476110408492</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53489000" />
+    <option name="totallyTimeSpent" value="75696000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="26" width="1440" height="874" extended-state="6" />
@@ -372,7 +392,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33158585" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33158585" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -380,6 +400,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -399,54 +420,18 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First" />
+    <MESSAGE value="Orbit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Orbit" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="16" />
+      <option name="time" value="22" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/colored_sphere.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colored_cylinder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="139" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/map/mars_1k_color.jpg">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/textured_sphere.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/webgl-utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-            <marker date="1388414206000" expanded="true" signature="2628:2678" ph="..." />
-            <marker date="1388414206000" expanded="true" signature="2733:2777" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/libs/gl-matrix.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -460,17 +445,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#script#9;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#script#10;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#script#11;n#head#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#12;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#4949#5281#0" expanded="false" />
-            <element signature="e#5318#6323#0" expanded="false" />
-            <element signature="e#13489#13614#0" expanded="false" />
-            <element signature="e#13647#13805#0" expanded="false" />
-            <element signature="e#13850#14055#0" expanded="false" />
-            <element signature="e#14092#14147#0" expanded="false" />
-            <element signature="e#20462#20899#0" expanded="false" />
+            <element signature="n#script#13;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#14;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#15;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#5740#6745#0" expanded="false" />
+            <element signature="e#6860#11962#0" expanded="false" />
+            <element signature="e#14024#14079#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -554,11 +535,58 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/h_section_cap.js" />
-    <entry file="file://$PROJECT_DIR$/textured_sphere.js">
+    <entry file="file://$PROJECT_DIR$/libs/dat.gui.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datgui/index.html" />
+    <entry file="file://$PROJECT_DIR$/colored_string.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="30" column="41" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/colored_geometry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="65" column="105" selection-start-line="65" selection-start-column="86" selection-end-line="65" selection-end-column="105" />
+          <folding>
+            <element signature="e#333#1774#0" expanded="false" />
+            <element signature="e#1811#1869#0" expanded="false" />
+            <element signature="e#1948#2434#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/colored_sphere.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="60" column="25" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/colored_cylinder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="695">
+          <caret line="56" column="25" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#40#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -566,43 +594,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colored_cylinder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colored_geometry.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
-          <folding>
-            <element signature="e#333#1774#0" expanded="false" />
-            <element signature="e#1811#1869#0" expanded="false" />
-            <element signature="e#1948#2452#0" expanded="false" />
-            <element signature="e#2492#3854#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colored_sphere.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="60" column="25" selection-start-line="60" selection-start-column="25" selection-end-line="60" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colored_string.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="59" column="25" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -618,22 +609,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/textured_sphere.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="695">
+          <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+          <caret line="0" column="6" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orbital_camera.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="23" column="90" selection-start-line="23" selection-start-column="90" selection-end-line="23" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="356" column="33" selection-start-line="356" selection-start-column="33" selection-end-line="356" selection-end-column="33" />
           <folding>
-            <element signature="n#script#9;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#script#10;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#script#11;n#head#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#12;n#head#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#4949#5281#0" expanded="false" />
-            <element signature="e#5318#6323#0" expanded="false" />
-            <element signature="e#13489#13614#0" expanded="false" />
-            <element signature="e#13647#13805#0" expanded="false" />
-            <element signature="e#13850#14055#0" expanded="false" />
-            <element signature="e#14092#14147#0" expanded="false" />
-            <element signature="e#20462#20899#0" expanded="false" />
+            <element signature="n#script#13;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#14;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#15;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#5740#6745#0" expanded="false" />
+            <element signature="e#6860#11962#0" expanded="false" />
+            <element signature="e#14024#14079#0" expanded="false" />
           </folding>
         </state>
       </provider>

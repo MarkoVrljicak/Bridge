@@ -6,7 +6,7 @@ function OrbitalCamera(){
     this.up_point = vec3.create();
     vec3.set(this.up_point, 0, 1, 0);
 
-    this.update = function(){
+    this.update = function() {
         mat4.lookAt(CameraMatrix, this.eye_point, this.at_point, this.up_point);
     };
 
@@ -17,6 +17,7 @@ function OrbitalCamera(){
     };
 
     this.orbit = function(speed){
+        // Move
         var direction = vec3.create();
         vec3.cross(direction, this.eye_point, this.up_point);
         vec3.normalize(direction, direction);
@@ -24,10 +25,25 @@ function OrbitalCamera(){
     };
 
     this.onWheel = function(e) {
+        var sensibility = 7;
         var e = window.event || e;
         e.preventDefault();
         var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-        camera.pan(-5*delta);
+        camera.pan(-sensibility*delta);
+    };
+
+    this.onMovement = function(e){
+        if (mouseDown) {
+            console.log("antes: ", this.eye_point);
+            var X = e.pageX;
+            if (lastMouseX) {
+                var delta = X - lastMouseX;
+                camera.orbit(delta);
+            }
+            lastMouseX = X;
+            console.log("despues: ", this.eye_point);
+        }
+
     }
 
 }
