@@ -8,7 +8,7 @@ function OrbitalCamera(){
     vec3.set(this.up_point, 0, 1, 0);
 
     this.update = function() {
-        mat4.lookAt(CameraMatrix, this.eye_point, this.at_point, this.up_point);
+        mat4.lookAt(camera_matrix, this.eye_point, this.at_point, this.up_point);
     };
 
     this.pan = function(speed){

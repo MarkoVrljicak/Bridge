@@ -20,7 +20,7 @@ function TexturedSphere(latitude_bands, longitude_bands){
         this.texture.image = new Image();
 
         this.texture.image.onload = function () {
-            handleLoadedTexture()
+            this.handleLoadedTexture()
         };
         this.texture.image.src = texture_file;
     };
@@ -131,7 +131,7 @@ function TexturedSphere(latitude_bands, longitude_bands){
 
         // setViewProjectionMatrix();
         gl.uniformMatrix4fv(shaderProgramTexturedObject.pMatrixUniform, false, pMatrix);
-        gl.uniformMatrix4fv(shaderProgramTexturedObject.ViewMatrixUniform, false, CameraMatrix);
+        gl.uniformMatrix4fv(shaderProgramTexturedObject.ViewMatrixUniform, false, camera_matrix);
 
         // Se configuran los buffers que alimentarán el pipeline
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
@@ -158,8 +158,17 @@ function TexturedSphere(latitude_bands, longitude_bands){
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         gl.drawElements(gl.TRIANGLES, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
+    };
+
+    this.handleLoadedTexture = function handleLoadedTexture() {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, this.texture.image);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+        gl.generateMipmap(gl.TEXTURE_2D);
+
+        gl.bindTexture(gl.TEXTURE_2D, null);
     }
-
-
 
 }
