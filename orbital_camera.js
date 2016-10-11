@@ -1,7 +1,7 @@
 function OrbitalCamera(){
-    this.constant_hight = 75;
+    this.height = 75;
     this.eye_point = vec3.create();
-    vec3.set(this.eye_point, 40, this.constant_hight, -100);
+    vec3.set(this.eye_point, 40, this.height, -100);
     this.at_point = vec3.create();
     vec3.set(this.at_point, 0, 0, 0);
     this.up_point = vec3.create();
@@ -15,6 +15,7 @@ function OrbitalCamera(){
         var direction = vec3.create();
         vec3.normalize(direction, this.eye_point); //Supone que at_point no sale nunca del origen.
         vec3.add(this.eye_point, vec3.scale(direction, direction, speed), this.eye_point);
+        this.height = this.eye_point[1];
     };
 
     this.orbit = function(speed){
@@ -28,7 +29,7 @@ function OrbitalCamera(){
         vec3.normalize(direction, direction);
         vec3.add(this.eye_point, vec3.scale(direction, direction, speed), this.eye_point);
         // Correct
-        this.eye_point[1] = this.constant_hight;
+        this.eye_point[1] = this.height;
         var uncorrected = vec2.create();
         uncorrected[0] = this.eye_point[0];
         uncorrected[1] = this.eye_point[2];
@@ -48,14 +49,12 @@ function OrbitalCamera(){
 
     this.onMovement = function(e){
         if (mouseDown) {
-            console.log("antes: ", this.eye_point);
             var X = e.pageX;
             if (lastMouseX) {
                 var delta = X - lastMouseX;
                 camera.orbit(delta);
             }
             lastMouseX = X;
-            console.log("despues: ", this.eye_point);
         }
 
     }
