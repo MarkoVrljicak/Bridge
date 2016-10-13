@@ -1,4 +1,6 @@
 function ColoredGeometry(){
+    this.model_matrix = mat4.create();
+
     this.position_buffer = null;
     this.normal_buffer = null;
     this.color_buffer = null;
@@ -51,7 +53,19 @@ function ColoredGeometry(){
         gl.uniform3fv(shaderProgramColoredObject.directionalColorUniform, diffuseColor);
     };
 
-    this.draw = function(modelMatrix){
+    this.draw = function(){
+        // Configuramos la iluminación
+        this.setupShaders();
+        this.setupLighting(
+            vec3.fromValues(-100.0, 0.0, -60.0),
+            vec3.fromValues(0.3, 0.3, 0.3),
+            vec3.fromValues(0.05, 0.05, 0.05)
+        );
+
+        // Matriz de modelado
+        mat4.identity(this.model_matrix);
+        mat4.scale(this.model_matrix, this.model_matrix, vec3.fromValues(7.0, 7.0, 7.0));
+
         gl.uniformMatrix4fv(shaderProgramColoredObject.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(shaderProgramColoredObject.ViewMatrixUniform, false, camera_matrix);
 
@@ -65,14 +79,14 @@ function ColoredGeometry(){
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
         gl.vertexAttribPointer(shaderProgramColoredObject.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
-        gl.uniformMatrix4fv(shaderProgramColoredObject.ModelMatrixUniform, false, modelMatrix);
+        gl.uniformMatrix4fv(shaderProgramColoredObject.ModelMatrixUniform, false, this.model_matrix);
         var normalMatrix = mat3.create();
-        mat3.fromMat4(normalMatrix, modelMatrix);
+        mat3.fromMat4(normalMatrix, this.model_matrix);
         mat3.invert(normalMatrix, normalMatrix);
         mat3.transpose(normalMatrix, normalMatrix);
         gl.uniformMatrix3fv(shaderProgramColoredObject.nMatrixUniform, false, normalMatrix);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();
-    }
+    };
 }
