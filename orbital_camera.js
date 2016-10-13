@@ -11,14 +11,14 @@ function OrbitalCamera(){
         mat4.lookAt(camera_matrix, this.eye_point, this.at_point, this.up_point);
     };
 
-    this.pan = function(speed){
+    this.zoom = function(speed){
         var direction = vec3.create();
         vec3.normalize(direction, this.eye_point); //Supone que at_point no sale nunca del origen.
         vec3.add(this.eye_point, vec3.scale(direction, direction, speed), this.eye_point);
         this.height = this.eye_point[1];
     };
 
-    this.orbit = function(speed){
+    this.pan = function(speed){
         var orbit_radius_vector = vec2.create();
         orbit_radius_vector[0] = this.eye_point[0];
         orbit_radius_vector[1] = this.eye_point[2];
@@ -44,7 +44,7 @@ function OrbitalCamera(){
         var e = window.event || e;
         e.preventDefault();
         var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-        camera.pan(-sensibility*delta);
+        camera.zoom(-sensibility*delta);
     };
 
     this.onMovement = function(e){
@@ -52,7 +52,7 @@ function OrbitalCamera(){
             var X = e.pageX;
             if (lastMouseX) {
                 var delta = X - lastMouseX;
-                camera.orbit(delta);
+                camera.pan(delta);
             }
             lastMouseX = X;
         }

@@ -367,7 +367,13 @@
 
             listen(canvas);
 
-            ob = new HSection();
+            var curve = new BezierCurve([
+                    [0, 0, 0],
+                    [1, 1, 0],
+                    [2, 1, 0],
+                    [3, 0, 0]
+            ]);
+            ob = new ColoredString(curve, 64, 64);
             ob.initBuffers();
 
             gl.clearColor(0.0, 0.0, 0.0, 1.0);

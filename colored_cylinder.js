@@ -22,8 +22,6 @@ function ColoredCylinder(latitude_bands, longitude_bands){
                 var x = Math.cos(phi) * .5;
                 var y = h;
                 var z = Math.sin(phi) * .5;
-                var u = 1.0 - (longNumber / this.longitudeBands);
-                var v = 1.0 - (latNumber / this.latitudeBands);
 
                 this.normal_buffer.push(2*x);
                 this.normal_buffer.push(0);
@@ -53,7 +51,6 @@ function ColoredCylinder(latitude_bands, longitude_bands){
                 }
             }
         }
-
         this.bufferize();
     };
 
