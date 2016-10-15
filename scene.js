@@ -6,7 +6,7 @@ function Scene(){
         [this.side/3, 0, 3*this.side/4],
         [this.side/2, 0, this.side]
     ]);
-    this.river = new River(this.side, 200, 200);
+    this.river = new River(this.side, 150, 150);
     this.river.initBuffers();
 
     this.bridge = new ColoredCylinder(64, 64);
