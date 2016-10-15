@@ -1,7 +1,7 @@
 function OrbitalCamera(){
-    this.height = 75;
+    this.height = 200;
     this.eye_point = vec3.create();
-    vec3.set(this.eye_point, 40, this.height, -100);
+    vec3.set(this.eye_point, 200, this.height, -200);
     this.at_point = vec3.create();
     vec3.set(this.at_point, 0, 0, 0);
     this.up_point = vec3.create();

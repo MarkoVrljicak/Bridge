@@ -1,7 +1,7 @@
 /**
  * Created by marko on 08/10/16.
  */
-var app={
+var app = {
     alturaMaxima: 10,
     reiniciar: function(){
         alert("apreto reiniciar");
