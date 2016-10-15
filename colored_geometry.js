@@ -94,3 +94,4 @@ function ColoredGeometry(){
         mat4.translate(this.model_matrix, this.model_matrix, vec3.fromValues(x, y, z));
     }
 }
+

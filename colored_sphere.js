@@ -26,8 +26,6 @@ function ColoredSphere(latitude_bands, longitude_bands){
                 var x = cosPhi * sinTheta;
                 var y = cosTheta;
                 var z = sinPhi * sinTheta;
-                var u = 1.0 - (longNumber / this.longitudeBands);
-                var v = 1.0 - (latNumber / this.latitudeBands);
 
                 this.normal_buffer.push(x);
                 this.normal_buffer.push(y);
