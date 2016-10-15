@@ -37,7 +37,6 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 this.position_buffer.push(y);
                 this.position_buffer.push(z);
 
-                // Indices de los triangulos
                 if (eval != this.n_curve_evaluations && longitude != this.longitude_bands) {
                     var first = (eval * (this.longitude_bands + 1)) + longitude;
                     var second = first + this.longitude_bands + 1;

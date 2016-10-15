@@ -54,18 +54,6 @@ function ColoredGeometry(){
     };
 
     this.draw = function(){
-        // Configuramos la iluminación
-        this.setupShaders();
-        this.setupLighting(
-            vec3.fromValues(-100.0, 0.0, -60.0),
-            vec3.fromValues(0.3, 0.3, 0.3),
-            vec3.fromValues(0.05, 0.05, 0.05)
-        );
-
-        // Matriz de modelado
-        mat4.identity(this.model_matrix);
-        mat4.scale(this.model_matrix, this.model_matrix, vec3.fromValues(7.0, 7.0, 7.0));
-
         gl.uniformMatrix4fv(shaderProgramColoredObject.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(shaderProgramColoredObject.ViewMatrixUniform, false, camera_matrix);
 
@@ -90,8 +78,39 @@ function ColoredGeometry(){
         this.drawMode();
     };
 
+    this.setIdentity = function(){
+        mat4.identity(this.model_matrix);
+    };
+
     this.translate = function(x, y, z){
         mat4.translate(this.model_matrix, this.model_matrix, vec3.fromValues(x, y, z));
+    };
+
+    this.scale = function(x, y, z){
+        mat4.scale(this.model_matrix, this.model_matrix, vec3.fromValues(x, y, z));
+    };
+
+    this.rotate = function(x, y, z, deg){
+        mat4.rotate(this.model_matrix, this.model_matrix, degToRad(deg),vec3.fromValues(x, y, z));
+    };
+
+    this.setUniformColor = function(r, g, b){
+        for (var i= 0; i < this.color_buffer.length; ++i){
+            var rgb_mag;
+            switch(i%3){
+                case 0:
+                    rgb_mag = r;
+                    break;
+                case 1:
+                    rgb_mag = g;
+                    break;
+                case 2:
+                    rgb_mag = b;
+                    break;
+            }
+            this.color_buffer[i] = rgb_mag;
+        }
+        this.bufferize();
     }
 }
 

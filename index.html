@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Sistemas Grï¿½ficos - 66.71</title>
+    <title>Sistemas Gráficos - 66.71</title>
     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
     <script type="text/javascript" src="libs/gl-matrix.js"></script>
@@ -54,17 +54,17 @@
 
         void main(void) {
 
-            // Transformamos al vï¿½rtice al espacio de la cï¿½mara
+            // Transformamos al vertice al espacio de la camara
             vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 
-            // Transformamos al vï¿½rtice al espacio de la proyecciï¿½n
+            // Transformamos al vertice al espacio de la proyeccion
             gl_Position = uPMatrix * pos_camera_view;
 
             // Coordenada de textura sin modifiaciones
             vVertexColor = aVertexColor;
 
             ////////////////////////////////////////////
-            // Calculos de la iluminaciï¿½n
+            // Calculos de la iluminacion
             vec3 light_dir =  uLightPosition;
             normalize(light_dir);
             if (!uUseLighting)
@@ -117,17 +117,17 @@
 
         void main(void) {
 
-            // Transformamos al vï¿½rtice al espacio de la cï¿½mara
+            // Transformamos al vertice al espacio de la camara
             vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 
-            // Transformamos al vï¿½rtice al espacio de la proyecciï¿½n
+            // Transformamos al vertice al espacio de la proyeccion
             gl_Position = uPMatrix * pos_camera_view;
 
             // Coordenada de textura sin modifiaciones
             vTextureCoord = aTextureCoord;
 
             ////////////////////////////////////////////
-            // Calculos de la iluminaciï¿½n
+            // Calculos de la iluminacion
             vec3 light_dir =  uLightPosition;
             normalize(light_dir);
             if (!uUseLighting)
@@ -286,10 +286,6 @@
         var lastMouseX = null;
         var lastMouseY = null;
 
-        // Object declaration
-        var ob = null;
-        var ob1 = null;
-
         //////////////////////////////////////////////////////////////////////////////
         //Esto de aca no pareceria estar usandose.////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
@@ -322,24 +318,20 @@
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
 
-        var scene = new Scene();
         var camera = new OrbitalCamera();
+        var scene = null;
 
         function drawScene() {
-            // Se configura el vierport dentro de ï¿½rea ï¿½canvasï¿½. en este caso se utiliza toda
-            // el ï¿½rea disponible
+            // Se configura el vierport
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
 
             // Se habilita el color de borrado para la pantalla (Color Buffer) y otros buffers
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-            // Se configura la matriz de proyecciï¿½n
+            // Se configura la matriz de proyeccion
             mat4.perspective(pMatrix, 3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
 
-            // Configuraciï¿½n de la luz
-            // Se inicializan las variables asociadas con la Iluminaciï¿½n
-
-            // Definimos la ubicaciï¿½n de la camara
+            // Definimos la ubicacion de la camara
             camera.update();
 
             // Dibujamos un objeto en el centro de la escena
@@ -358,7 +350,7 @@
 
             listen(canvas);
 
-            scene.draw();
+            scene = new Scene();
 
             gl.clearColor(0.0, 0.0, 0.0, 1.0);
             gl.enable(gl.DEPTH_TEST);
@@ -383,14 +375,12 @@
 </head>
 
 <body onload="webGLStart();">
-    <center>
         <canvas id="tp" style="border: none;" width="1280" height="720"
                 onmousedown="onMouseClick()"
                 onmouseup="onMouseRelease()"
                 onmousemove="camera.onMovement(event)">
         </canvas>
         <h2>Trabajo Pr&aacute;ctico 2016 - Marcos Vrljicak</h2>
-    </center>
     <br/>
     <br/>
 
