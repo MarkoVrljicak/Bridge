@@ -89,4 +89,8 @@ function ColoredGeometry(){
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();
     };
+
+    this.translate = function(x, y, z){
+        mat4.translate(this.model_matrix, this.model_matrix, vec3.fromValues(x, y, z));
+    }
 }

@@ -16,6 +16,7 @@
     <script src="libs/dat.gui.min.js"></script>
     <script type="text/javascript" src="gui.js"></script>
     <script type="text/javascript" src="orbital_camera.js"></script>
+    <script type="text/javascript" src="scene.js"></script>
 
 
     <script id="shader-fs-colored-obj" type="x-shader/x-fragment">
@@ -320,6 +321,7 @@
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
 
+        var scene = new Scene();
         var camera = new OrbitalCamera();
 
         function drawScene() {
@@ -340,8 +342,7 @@
             camera.update();
 
             // Dibujamos un objeto en el centro de la escena
-
-            ob.draw();
+            scene.draw();
         }
 
         function tick() {
@@ -356,14 +357,7 @@
 
             listen(canvas);
 
-            var curve = new BezierCurve([
-                    [0, 0, 0],
-                    [1, 1, 0],
-                    [2, 1, 0],
-                    [3, 0, 0]
-            ]);
-            ob = new ColoredString(curve, 64, 64);
-            ob.initBuffers();
+            scene.draw();
 
             gl.clearColor(0.0, 0.0, 0.0, 1.0);
             gl.enable(gl.DEPTH_TEST);

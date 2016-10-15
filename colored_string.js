@@ -29,7 +29,7 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 this.normal_buffer.push(y);
                 this.normal_buffer.push(z);
 
-                this.color_buffer.push(.5);
+                this.color_buffer.push(0);
                 this.color_buffer.push(.5);
                 this.color_buffer.push(.5);
 
