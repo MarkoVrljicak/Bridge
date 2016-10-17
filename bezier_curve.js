@@ -11,5 +11,5 @@ function BezierCurve(control_points){
             res[i] = y0 + y1 + y2 + y3;
         }
         return res;
-    }
+    };
 }
