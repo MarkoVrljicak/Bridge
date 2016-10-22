@@ -1,8 +1,8 @@
 function ColoredCylinder(latitude_bands, longitude_bands){
     ColoredGeometry.call(this);
 
-    this.latitudeBands = latitude_bands;
-    this.longitudeBands = longitude_bands;
+    this.latitude_bands = latitude_bands;
+    this.longitude_bands = longitude_bands;
 
     this.initBuffers = function(){
         this.position_buffer = [];
@@ -10,14 +10,14 @@ function ColoredCylinder(latitude_bands, longitude_bands){
         this.color_buffer = [];
         this.index_buffer = [];
 
-        var latNumber;
-        var longNumber;
+        var lat_number;
+        var long_number;
 
-        for (latNumber=0; latNumber <= this.latitudeBands; latNumber++) {
-            var h = 1.0/latNumber;
+        for (lat_number=0; lat_number <= this.latitude_bands; lat_number++) {
+            var h = 1.0/lat_number;
 
-            for (longNumber=0; longNumber <= this.longitudeBands; longNumber++) {
-                var phi = longNumber * 2 * Math.PI / this.longitudeBands;
+            for (long_number=0; long_number <= this.longitude_bands; long_number++) {
+                var phi = long_number * 2 * Math.PI / this.longitude_bands;
 
                 var x = Math.cos(phi) * .5;
                 var y = h;
@@ -38,9 +38,9 @@ function ColoredCylinder(latitude_bands, longitude_bands){
                 this.position_buffer.push(z);
 
                 // Indices de los triangulos
-                if (latNumber != this.latitudeBands && longNumber != this.longitudeBands) {
-                    var first = (latNumber * (this.longitudeBands + 1)) + longNumber;
-                    var second = first + this.longitudeBands + 1;
+                if (lat_number != this.latitude_bands && long_number != this.longitude_bands) {
+                    var first = (lat_number * (this.longitude_bands + 1)) + long_number;
+                    var second = first + this.longitude_bands + 1;
                     this.index_buffer.push(first);
                     this.index_buffer.push(second);
                     this.index_buffer.push(first + 1);
