@@ -59,15 +59,16 @@ function HSection(){
             -.7, 0, -.7 //26 vertices
         ];
         this.color_buffer = [];
-        for (var i = 0; i < this.position_buffer.length; i++){
+        this.index_buffer = [];
+
+        for (var i = 0; i < this.position_buffer.length/3; i++){
             this.color_buffer.push(1.0);
             this.color_buffer.push(0);
             this.color_buffer.push(0);
-        }
-        this.index_buffer = [];
-        for (i = 0; i < 26; i++){
+
             this.index_buffer.push(i);
         }
+
         this.bufferize();
     };
 

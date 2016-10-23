@@ -32,17 +32,9 @@ function Tree() {
         this.crown.setupShaders();
     };
 
-    this.setupLighting = function(){
-        this.trunk.setupLighting(
-            vec3.fromValues(-100.0, 0.0, -60.0),
-            vec3.fromValues(0.3, 0.3, 0.3),
-            vec3.fromValues(0.05, 0.05, 0.05)
-        );
-        this.crown.setupLighting(
-            vec3.fromValues(-100.0, 0.0, -60.0),
-            vec3.fromValues(0.3, 0.3, 0.3),
-            vec3.fromValues(0.05, 0.05, 0.05)
-        );
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
+        this.trunk.setupLighting(lightPosition, ambientColor, diffuseColor);
+        this.crown.setupLighting(lightPosition, ambientColor, diffuseColor);
     };
 
     this.setIdentity = function() {

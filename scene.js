@@ -6,11 +6,24 @@ function Scene(){
         [this.side/3, 0, 3*this.side/4],
         [this.side/2, 0, this.side]
     ]);
+
     this.river = new River(this.side, 150, 150);
     this.river.initBuffers();
 
-    this.land = new Land(250, 250, this.side, this.river_curve, 100);
+    this.river_width = 100;
+    this.n_towers = 2;
+    this.bridge_pos = -7.5;
+
+    this.land = new Land(218, 250, this.side, this.river_curve, this.river_width);
     this.land.initBuffers();
+
+    this.bridge = new Bridge(
+        this.river_curve,
+        this.river_width,
+        this.bridge_pos,
+        this.n_towers,
+        this.side
+    );
 
     this.trees = [];
     this.tree_positions = [];
@@ -37,10 +50,24 @@ function Scene(){
         this.land.translate(-this.side/2, 0, -this.side/2);
         this.land.draw();
 
+        //Bridge
+        this.bridge.setupShaders();
+        this.bridge.setupLighting(
+            vec3.fromValues(-100.0, 10.0, -60.0),
+            vec3.fromValues(0.3, 0.3, 0.3),
+            vec3.fromValues(0.05, 0.05, 0.05)
+        );
+        this.bridge.setIdentity();
+        this.bridge.draw();
+
         //Trees
         for (var i = 0; i < this.trees.length; i++){
             this.trees[i].setupShaders();
-            this.trees[i].setupLighting();
+            this.trees[i].setupLighting(
+                vec3.fromValues(-100.0, 10.0, -60.0),
+                vec3.fromValues(0.3, 0.3, 0.3),
+                vec3.fromValues(0.05, 0.05, 0.05)
+            );
             this.trees[i].setIdentity();
             this.trees[i].translate(
                 this.tree_positions[3*i],

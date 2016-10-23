@@ -13,6 +13,8 @@
     <script type="text/javascript" src="colored_sphere.js"></script>
     <script type="text/javascript" src="colored_cylinder.js"></script>
     <script type="text/javascript" src="h_section.js"></script>
+    <script type="text/javascript" src="h_transition.js"></script>
+    <script type="text/javascript" src="h_cap.js"></script>
     <script type="text/javascript" src="bezier_curve.js"></script>
     <script type="text/javascript" src="colored_string.js"></script>
     <script src="libs/dat.gui.min.js"></script>
@@ -21,9 +23,11 @@
     <script type="text/javascript" src="river.js"></script>
     <script type="text/javascript" src="land.js"></script>
     <script type="text/javascript" src="crown.js"></script>
+    <script type="text/javascript" src="pillar.js"></script>
+    <script type="text/javascript" src="tower.js"></script>
+    <script type="text/javascript" src="bridge.js"></script>
     <script type="text/javascript" src="tree.js"></script>
     <script type="text/javascript" src="scene.js"></script>
-
 
     <script id="shader-fs-colored-obj" type="x-shader/x-fragment">
         precision mediump float;
@@ -293,7 +297,6 @@
         var lastMouseY = null;
 
         //////////////////////////////////////////////////////////////////////////////
-        //Esto de aca no pareceria estar usandose.////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
 
@@ -319,7 +322,6 @@
             return degrees * Math.PI / 180;
         }
 
-        //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
