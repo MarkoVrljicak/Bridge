@@ -1,9 +1,10 @@
-function Land(latitude_bands, longitude_bands, side_len, river_curve, river_width) {
+function Land(latitude_bands, longitude_bands, side_len, ground_height, river_curve, river_width) {
     ColoredGeometry.call(this);
 
     this.latitude_bands = latitude_bands;
     this.longitude_bands = longitude_bands;
     this.side_len = side_len;
+    this.ground_height = ground_height;
     this.river_curve = river_curve;
     this.river_width = river_width;
 
@@ -25,7 +26,7 @@ function Land(latitude_bands, longitude_bands, side_len, river_curve, river_widt
             for (long_number = 0; long_number <= this.longitude_bands; long_number++) {
 
                 x = long_number*this.side_len/this.longitude_bands;
-                y = 1;
+                y = ground_height;
                 z = lowest_point[2];
 
                 if (Math.abs(x - lowest_point[0]) < this.river_width/2){

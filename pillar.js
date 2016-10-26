@@ -46,25 +46,29 @@ function Pillar(th1, th2, th3) {
     };
 
     this.draw = function() {
-        this.h1.translate(0, 1.5, 0);
-        this.h1.scale(1/3, this.th1/3, 1/3);
+        var offset = this.th1/2;
+        this.h1.translate(0, offset, 0);
+        this.h1.scale(1, this.th1/3, 1);
         this.h1.draw();
 
-        this.h2.translate(0, 1.5 + this.th1, 0);
-        this.h2.scale(.7/3, this.th2/3, .7/3);
+        this.h2.translate(0, offset + this.th1, 0);
+        this.h2.scale(.7, this.th2/3, .7);
         this.h2.draw();
 
-        this.h3.translate(0, 1.5 + this.th1 + this.th2, 0);
-        this.h3.scale(.49/3, this.th3/3, .49/3);
+        this.h3.translate(0, offset + this.th1 + this.th2, 0);
+        this.h3.scale(.49, this.th3/3, .49);
         this.h3.draw();
 
-        //this.t1.translate(0, this.th1, 0);
-        //this.t1.draw();
+        this.t1.translate(0, this.th1, 0);
+        this.t1.draw();
 
-        //this.t2.draw();
 
-        this.cap.translate(0, this.th1 + this.th2 + this.th3 -4.5, 0);
-        this.cap.scale(.49/3, .49/3, .49/3);
+        this.t2.translate(0, this.th1 + this.th2, 0);
+        this.t2.scale(.7,.7,.7);
+        this.t2.draw();
+
+        this.cap.translate(0, this.th1 + this.th2 + this.th3, 0);
+        this.cap.scale(.49, 1, .49);
         this.cap.draw();
 
     };

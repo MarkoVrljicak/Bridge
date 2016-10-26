@@ -1,4 +1,5 @@
-function Bridge(river_curve, river_width, z_pos, n_towers, side_len) {
+function Bridge(ground_height, river_curve, river_width, z_pos, n_towers, side_len) {
+    this.ground_height = ground_height;
     this.side_len = side_len;
     this.river_curve = river_curve;
     this.z_pos = z_pos;
@@ -9,6 +10,9 @@ function Bridge(river_curve, river_width, z_pos, n_towers, side_len) {
     this.n_towers = n_towers;
     this.tower_pos = [];
     this.towers = [];
+
+    this.road = new Road(this.side_len, 10, this.ground_height);
+    this.road.initBuffers();
 
     this.setTowerPos = function(){
         var lowest_point = this.river_curve.evaluate(this.z_pos/this.side_len);
@@ -52,6 +56,8 @@ function Bridge(river_curve, river_width, z_pos, n_towers, side_len) {
     };
 
     this.draw = function() {
+        this.road.draw();
+
         for (var i = 0; i < this.n_towers; i++){
             this.towers[i].translate(
                 this.tower_pos[i][0] - this.side_len/2,
@@ -61,4 +67,8 @@ function Bridge(river_curve, river_width, z_pos, n_towers, side_len) {
             this.towers[i].draw();
         }
     };
+
+    this.getWidth = function() {
+        return this.bridge_width;
+    }
 }

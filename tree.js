@@ -43,10 +43,10 @@ function Tree() {
     };
 
     this.draw = function() {
-        this.trunk.scale(.8,4,.8);
+        this.trunk.scale(.6,3,.6);
         this.trunk.draw();
-        this.crown.translate(0, 3, 0);
-        this.crown.scale(2, 2, 2);
+        this.crown.translate(0, 2, 0);
+        this.crown.scale(1.5, 1.5, 1.5);
         this.crown.draw();
     };
 

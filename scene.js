@@ -10,14 +10,17 @@ function Scene(){
     this.river = new River(this.side, 150, 150);
     this.river.initBuffers();
 
+    this.ground_height = 2;
+
     this.river_width = 100;
     this.n_towers = 2;
-    this.bridge_pos = -7.5;
+    this.bridge_pos = -10.5;
 
-    this.land = new Land(218, 250, this.side, this.river_curve, this.river_width);
+    this.land = new Land(218, 250, this.side, this.ground_height, this.river_curve, this.river_width);
     this.land.initBuffers();
 
     this.bridge = new Bridge(
+        this.ground_height,
         this.river_curve,
         this.river_width,
         this.bridge_pos,
@@ -78,14 +81,20 @@ function Scene(){
         }
     };
 
+    this.on_bridge = function(z){
+        return this.bridge_pos < z && z < (this.bridge_pos + this.bridge.getWidth());
+    };
+
     this.spawnTrees = function() {
-        for (var i = -this.side/2; i < this.side/2; i++){
-            for (var j = -this.side/2; j < this.side/2 ; j++){
-                if (Math.random() < 0.001 &&
-                    this.land.on_land(i+(this.side/2), j+(this.side/2))) {
+        var margin = this.side/2 + 1;
+        for (var i = -margin; i < margin; i++){
+            for (var j = -margin; j < margin ; j++){
+                if (!this.on_bridge(j) &&
+                    this.land.on_land(i+(margin), j+(margin)) &&
+                    Math.random() < 0.001) {
                     var new_tree = new Tree();
                     this.trees.push(new_tree);
-                    this.tree_positions.push(i, 0, j);
+                    this.tree_positions.push(i, this.ground_height, j);
                 }
             }
         }
