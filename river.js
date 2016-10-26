@@ -1,9 +1,9 @@
-function River(side, latitude, longitude){
+function River(data){
     ColoredGeometry.call(this);
-    this.side = side;
+    this.side = data.side;
 
-    this.latitude_bands = latitude;
-    this.longitude_bands = longitude;
+    this.latitude_bands = 150;
+    this.longitude_bands = 150;
 
     this.initBuffers = function(){
         this.position_buffer = [];

@@ -34,8 +34,8 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 this.color_buffer.push(.5);
 
                 this.position_buffer.push(x);
-                this.position_buffer.push(y);
-                this.position_buffer.push(z);
+                this.position_buffer.push(y/3);
+                this.position_buffer.push(z/3);
 
                 if (eval != this.n_curve_evaluations && longitude != this.longitude_bands) {
                     var first = (eval * (this.longitude_bands + 1)) + longitude;

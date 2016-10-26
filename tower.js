@@ -1,10 +1,10 @@
-function Tower(width) {
+function Tower(data) {
     this.pillars = [
         new Pillar(10, 10, 10),
         new Pillar(10, 10, 10)
     ];
 
-    this.width = width;
+    this.width = data.bridge_width;
 
     this.setupShaders = function(){
         this.pillars[0].setupShaders();
@@ -22,8 +22,9 @@ function Tower(width) {
     };
 
     this.draw = function() {
+        this.pillars[0].translate(0, 0, -this.width/2);
         this.pillars[0].draw();
-        this.pillars[1].translate(0, 0, this.width);
+        this.pillars[1].translate(0, 0, this.width/2);
         this.pillars[1].draw();
     };
 

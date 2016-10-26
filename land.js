@@ -1,12 +1,8 @@
-function Land(latitude_bands, longitude_bands, side_len, ground_height, river_curve, river_width) {
+function Land(data) {
     ColoredGeometry.call(this);
 
-    this.latitude_bands = latitude_bands;
-    this.longitude_bands = longitude_bands;
-    this.side_len = side_len;
-    this.ground_height = ground_height;
-    this.river_curve = river_curve;
-    this.river_width = river_width;
+    this.latitude_bands = 218;
+    this.longitude_bands = 250;
 
     this.initBuffers = function () {
         this.position_buffer = [];
@@ -21,15 +17,15 @@ function Land(latitude_bands, longitude_bands, side_len, ground_height, river_cu
         var lowest_point;
 
         for (lat_number = 0; lat_number <= this.latitude_bands; lat_number++) {
-            lowest_point = this.river_curve.evaluate(lat_number/this.latitude_bands);
+            lowest_point = data.river_curve.evaluate(lat_number/this.latitude_bands);
 
             for (long_number = 0; long_number <= this.longitude_bands; long_number++) {
 
-                x = long_number*this.side_len/this.longitude_bands;
-                y = ground_height;
+                x = long_number*data.side/this.longitude_bands;
+                y = data.ph1;
                 z = lowest_point[2];
 
-                if (Math.abs(x - lowest_point[0]) < this.river_width/2){
+                if (Math.abs(x - lowest_point[0]) < data.river_width/2){
                     y = -1;
                     this.color_buffer.push(.3);
                     this.color_buffer.push(.4);
@@ -65,8 +61,8 @@ function Land(latitude_bands, longitude_bands, side_len, ground_height, river_cu
     };
 
     this.on_land = function(x, z){
-        var lowest_point = this.river_curve.evaluate(z/this.side_len);
-        return (Math.abs(x - lowest_point[0]) > this.river_width/2);
+        var lowest_point = data.river_curve.evaluate(z/data.side);
+        return (Math.abs(x - lowest_point[0]) > data.river_width/2);
     };
 
     this.drawMode = function () {

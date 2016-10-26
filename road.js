@@ -1,9 +1,12 @@
-function Road(map_side, n_sections, ground_height){
+function Road(data){
     ColoredGeometry.call(this);
 
-    this.length = map_side;
-    this.n_sections = n_sections;
-    this.ground_height = ground_height;
+    this.length = data.side;
+    this.n_sections = 300;
+    this.ground_height = data.ph1;
+    this.max_height = data.ph2;
+    this.z_pos = data.bridge_pos;
+    this.lowest_point = data.lowest_point;
     this.section = [
         0, -.5, -7.5,
         0, -.5, 7.5,
@@ -51,15 +54,19 @@ function Road(map_side, n_sections, ground_height){
                         break;
                     case 1:
                         new_section[coordinate] += this.ground_height;
+                        var dist = Math.abs(new_section[coordinate-1] - this.lowest_point[0]);
+                        if (dist <= data.river_width/2){
+                            new_section[coordinate] +=
+                                Math.cos((Math.PI/2)*(dist/(data.river_width/2)))*this.max_height;
+                        }
                         break;
                     case 2:
+                        new_section[coordinate] += this.z_pos;
                         break;
                 }
             }
-
             this.position_buffer.push.apply(this.position_buffer, new_section);
             this.normal_buffer.push.apply(this.normal_buffer, this.section_normals);
-
         }
 
         for (var longitude = 0; longitude < this.n_sections; longitude++){
