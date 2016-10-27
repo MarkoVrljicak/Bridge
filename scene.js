@@ -8,8 +8,9 @@ function Scene(){
             [this.side/3, 0, 3*this.side/4],
             [this.side/2, 0, this.side]
         ]),
-        ph1 : 4, // Ground height
-        ph2 : 6, // Max road height
+        ph1 : 7.5, // Ground height
+        ph2 : 6.5, // Max road height
+        ph3 : 16, // Min height from road to top of tower
         river_width : 100,
         n_towers : 2,
         bridge_pos : 0,
@@ -19,8 +20,8 @@ function Scene(){
     data.lowest_point[0] -= data.side/2;
     data.lowest_point[2] -= data.side/2;
 
-    this.guide = new Guide();
-    this.guide.initBuffers();
+    //this.guide = new Guide();
+    //this.guide.initBuffers();
 
     this.river = new River(data);
     this.river.initBuffers();
@@ -34,7 +35,7 @@ function Scene(){
     this.tree_positions = [];
 
     this.draw = function(){
-        this.guide.draw();
+        //this.guide.draw();
 
         //River
         this.river.setupShaders();

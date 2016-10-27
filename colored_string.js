@@ -22,20 +22,20 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 var phi = longitude * 2 * Math.PI / this.longitude_bands;
 
                 var x = curve_img[0];
-                var y = curve_img[1] + Math.cos(phi) * .5;
-                var z = curve_img[2] + Math.sin(phi) * .5;
+                var y = curve_img[1] + Math.cos(phi) * .25;
+                var z = curve_img[2] + Math.sin(phi) * .25;
 
                 this.normal_buffer.push(0);
-                this.normal_buffer.push(y);
-                this.normal_buffer.push(z);
+                this.normal_buffer.push(Math.cos(phi) * .5);
+                this.normal_buffer.push(Math.sin(phi) * .5);
 
                 this.color_buffer.push(0);
                 this.color_buffer.push(.5);
                 this.color_buffer.push(.5);
 
                 this.position_buffer.push(x);
-                this.position_buffer.push(y/3);
-                this.position_buffer.push(z/3);
+                this.position_buffer.push(y);
+                this.position_buffer.push(z);
 
                 if (eval != this.n_curve_evaluations && longitude != this.longitude_bands) {
                     var first = (eval * (this.longitude_bands + 1)) + longitude;
