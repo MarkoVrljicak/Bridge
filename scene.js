@@ -11,6 +11,7 @@ function Scene(){
         ph1 : 7.5, // Ground height
         ph2 : 6.5, // Max road height
         ph3 : 16, // Min height from road to top of tower
+        s1 : 1.5,
         river_width : 100,
         n_towers : 2,
         bridge_pos : 0,
@@ -61,7 +62,7 @@ function Scene(){
         //Bridge
         this.bridge.setupShaders();
         this.bridge.setupLighting(
-            vec3.fromValues(-100.0, 10.0, -60.0),
+            vec3.fromValues(-150.0, 150.0, 150.0),
             vec3.fromValues(0.3, 0.3, 0.3),
             vec3.fromValues(0.05, 0.05, 0.05)
         );

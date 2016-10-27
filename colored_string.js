@@ -29,9 +29,9 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 this.normal_buffer.push(Math.cos(phi) * .5);
                 this.normal_buffer.push(Math.sin(phi) * .5);
 
+                this.color_buffer.push(.4);
                 this.color_buffer.push(0);
-                this.color_buffer.push(.5);
-                this.color_buffer.push(.5);
+                this.color_buffer.push(0);
 
                 this.position_buffer.push(x);
                 this.position_buffer.push(y);

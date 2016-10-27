@@ -35,6 +35,20 @@ function Road(data){
         0, -.7, -.7
     ];
 
+    this.section_colors = [
+        .01, .01, .01,
+        .01, .01, .01,
+        .1, .1, .1,
+        .1, .1, .1,
+        .1, .1, .1,
+        .01, .01, .01,
+        .01, .01, .01,
+        .1, .1, .1,
+        .1, .1, .1,
+        .1, .1, .1,
+        .01, .01, .01
+    ];
+
     this.initBuffers = function(){
         this.position_buffer = [];
         this.normal_buffer = [];
@@ -45,9 +59,6 @@ function Road(data){
         for (var offset = -this.length/2; offset <= this.length/2; offset += step){
             var new_section = this.section.slice();
             for (var coordinate = 0; coordinate < new_section.length; coordinate++){
-                this.color_buffer.push(.4);
-                this.color_buffer.push(.4);
-                this.color_buffer.push(.4);
                 switch (coordinate%3){
                     case 0:
                         new_section[coordinate] += offset;
@@ -67,6 +78,7 @@ function Road(data){
             }
             this.position_buffer.push.apply(this.position_buffer, new_section);
             this.normal_buffer.push.apply(this.normal_buffer, this.section_normals);
+            this.color_buffer.push.apply(this.color_buffer, this.section_colors);
         }
 
         for (var longitude = 0; longitude < this.n_sections; longitude++){
