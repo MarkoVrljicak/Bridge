@@ -1,7 +1,8 @@
 function Support(data, tower_pos){
     this.tower_pos = tower_pos;
     this.strings = [];
-    this.tensor_sets = [];
+    this.left_tensor_set = [];
+    this.right_tensor_set = [];
 
     this.buildStrings = function() {
         var curve;
@@ -34,12 +35,12 @@ function Support(data, tower_pos){
                     ]
                 )
             }
-            this.strings.push(new ColoredString(curve, 250, 250));
+            this.strings.push(new ColoredString(curve, 100, 20));
             this.strings[i].initBuffers();
-            this.tensor_sets.push(new TensorSet(data, curve));
+            this.left_tensor_set.push(new TensorSet(data, curve));
+            this.right_tensor_set.push(new TensorSet(data, curve));
         }
         this.strings.push.apply(this.strings, this.strings.slice());
-        this.tensor_sets.push.apply(this.tensor_sets, this.tensor_sets.slice());
     };
 
     this.buildStrings();
@@ -47,21 +48,30 @@ function Support(data, tower_pos){
     this.setupShaders = function(){
         for (var i = 0; i < this.strings.length; i++){
             this.strings[i].setupShaders();
-            this.tensor_sets[i].setupShaders();
+            if (i < this.strings.length/2){
+                this.left_tensor_set[i].setupShaders();
+                this.right_tensor_set[i].setupShaders();
+            }
         }
     };
 
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         for (var i = 0; i < this.strings.length; i++){
             this.strings[i].setupLighting(lightPosition, ambientColor, diffuseColor);
-            this.tensor_sets[i].setupLighting(lightPosition, ambientColor, diffuseColor);
+            if (i < this.strings.length/2) {
+                this.left_tensor_set[i].setupLighting(lightPosition, ambientColor, diffuseColor);
+                this.right_tensor_set[i].setupLighting(lightPosition, ambientColor, diffuseColor);
+            }
         }
     };
 
     this.setIdentity = function(){
         for (var i = 0; i < this.strings.length; i++){
             this.strings[i].setIdentity();
-            this.tensor_sets[i].setIdentity();
+            if (i < this.strings.length/2) {
+                this.left_tensor_set[i].setIdentity();
+                this.right_tensor_set[i].setIdentity();
+            }
         }
     };
 
@@ -69,15 +79,14 @@ function Support(data, tower_pos){
         for (var i = 0; i < this.strings.length; i++){
             if (i < this.strings.length/2) {
                 this.strings[i].translate(0, -.5, data.lowest_point[2] - data.bridge_width/2);
-                this.tensor_sets[i].translate(0, -.5, data.lowest_point[2] - data.bridge_width/2);
+                this.left_tensor_set[i].translate(0, -.5, data.lowest_point[2] - data.bridge_width/2);
+                this.right_tensor_set[i].translate(0, -.5, data.lowest_point[2] + data.bridge_width/2);
+                this.left_tensor_set[i].draw();
+                this.right_tensor_set[i].draw();
             } else {
                 this.strings[i].translate(0, 0, data.bridge_width);
-                //this.tensor_sets[i].translate(0, 0, data.bridge_width);
             }
             this.strings[i].draw();
-        }
-        for (i = 0; i < this.strings.length/2; i++){
-            this.tensor_sets[i].draw();
         }
     }
 }

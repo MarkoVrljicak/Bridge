@@ -12,4 +12,21 @@ function BezierCurve(control_points){
         }
         return res;
     };
+
+    this.evaluate_by_x = function(x){
+        return this._evaluate_by_x(x, 1);
+    };
+
+    this._evaluate_by_x = function(x, t){
+        var acceptable_delta = 0.1;
+        var res = this.evaluate(t);
+        var distance_off = x-res[0];
+        if (Math.abs(distance_off) <= acceptable_delta) {
+            return res;
+        } else if (distance_off < 0){
+            return this._evaluate_by_x(x, t-(t/2));
+        } else {
+            return this._evaluate_by_x(x, t+(t/2));
+        }
+    }
 }
