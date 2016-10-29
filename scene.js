@@ -12,7 +12,7 @@ function Scene(){
         ph2 : 6.5, // Max road height
         ph3 : 16, // Min height from road to top of tower
         s1 : 1.5,
-        river_width : 100,
+        river_width : 120,
         n_towers : 2,
         bridge_pos : 0,
         bridge_width : 15
@@ -38,45 +38,33 @@ function Scene(){
     this.draw = function(){
         //this.guide.draw();
 
+        var light_position = vec3.fromValues(-150.0, 150.0, 150.0);
+        var ambient_color = vec3.fromValues(0.3, 0.3, 0.3);
+        var diffuse_color = vec3.fromValues(0.01, 0.01, 0.01);
+
         //River
         this.river.setupShaders();
-        this.river.setupLighting(
-            vec3.fromValues(-100.0, 10.0, -60.0),
-            vec3.fromValues(0.3, 0.3, 0.3),
-            vec3.fromValues(0.05, 0.05, 0.05)
-        );
+        this.river.setupLighting(light_position, ambient_color, diffuse_color);
         this.river.setIdentity();
         this.river.draw();
 
         //Land
         this.land.setupShaders();
-        this.land.setupLighting(
-            vec3.fromValues(-100.0, 10.0, -60.0),
-            vec3.fromValues(0.3, 0.3, 0.3),
-            vec3.fromValues(0.05, 0.05, 0.05)
-        );
+        this.land.setupLighting(light_position, ambient_color, diffuse_color);
         this.land.setIdentity();
         this.land.translate(-this.side/2, 0, -this.side/2);
         this.land.draw();
 
         //Bridge
         this.bridge.setupShaders();
-        this.bridge.setupLighting(
-            vec3.fromValues(-150.0, 150.0, 150.0),
-            vec3.fromValues(0.3, 0.3, 0.3),
-            vec3.fromValues(0.05, 0.05, 0.05)
-        );
+        this.bridge.setupLighting(light_position, ambient_color, diffuse_color);
         this.bridge.setIdentity();
         this.bridge.draw();
 
         //Trees
         for (var i = 0; i < this.trees.length; i++){
             this.trees[i].setupShaders();
-            this.trees[i].setupLighting(
-                vec3.fromValues(-100.0, 10.0, -60.0),
-                vec3.fromValues(0.3, 0.3, 0.3),
-                vec3.fromValues(0.05, 0.05, 0.05)
-            );
+            this.trees[i].setupLighting(light_position, ambient_color, diffuse_color);
             this.trees[i].setIdentity();
             this.trees[i].translate(
                 this.tree_positions[3*i],

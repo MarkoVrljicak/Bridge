@@ -26,23 +26,35 @@ function Land(data) {
                 z = lowest_point[2];
 
                 if (Math.abs(x - lowest_point[0]) < data.river_width/2){
-                    y = -1;
+                    y = data.ph1
+                        - Math.cos((Math.PI/2)*((x-lowest_point[0])/(data.river_width/2)))
+                        *(data.ph1+data.ph3);
+
                     this.color_buffer.push(.3);
-                    this.color_buffer.push(.4);
+                    this.color_buffer.push(.15);
                     this.color_buffer.push(0);
+
+                    var n = vec3.fromValues(x, y, z);
+                    var center = vec3.fromValues(lowest_point[0], lowest_point[1], lowest_point[2]);
+                    vec3.subtract(n, center, n);
+                    vec3.normalize(n, n);
+
+                    this.normal_buffer.push(n[0]);
+                    this.normal_buffer.push(n[1]);
+                    this.normal_buffer.push(n[2]);
                 } else {
                     this.color_buffer.push(0);
                     this.color_buffer.push(.4);
                     this.color_buffer.push(0);
+
+                    this.normal_buffer.push(0);
+                    this.normal_buffer.push(1);
+                    this.normal_buffer.push(0);
                 }
 
                 this.position_buffer.push(x);
                 this.position_buffer.push(y);
                 this.position_buffer.push(z);
-
-                this.normal_buffer.push(0);
-                this.normal_buffer.push(1);
-                this.normal_buffer.push(0);
 
                 if (lat_number != this.latitude_bands && long_number != this.longitude_bands) {
                     var first = (lat_number * (this.longitude_bands + 1)) + long_number;
