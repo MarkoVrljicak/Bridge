@@ -24,7 +24,7 @@ function River(data){
 
                 this.color_buffer.push(0);
                 this.color_buffer.push(0);
-                this.color_buffer.push(.45);
+                this.color_buffer.push(.3);
 
                 this.position_buffer.push(long_number);
                 this.position_buffer.push(0);

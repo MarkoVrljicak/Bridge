@@ -44,7 +44,7 @@ function Land(data) {
                     this.normal_buffer.push(n[2]);
                 } else {
                     this.color_buffer.push(0);
-                    this.color_buffer.push(.4);
+                    this.color_buffer.push(.2);
                     this.color_buffer.push(0);
 
                     this.normal_buffer.push(0);
