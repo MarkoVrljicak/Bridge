@@ -1,7 +1,11 @@
 function Tower(data) {
+    this.th1 = data.ph1+(data.ph2/2);
+    this.th2 = (data.ph1+data.ph2+data.ph3-this.th1)/2;
+    this.th3 = this.th2;
+
     this.pillars = [
-        new Pillar(10, 10, 10),
-        new Pillar(10, 10, 10)
+        new Pillar(this.th1, this.th2, this.th3),
+        new Pillar(this.th1, this.th2, this.th3)
     ];
 
     this.width = data.bridge_width;

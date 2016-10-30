@@ -1,7 +1,4 @@
 function Pillar(th1, th2, th3) {
-    this.th1 = th1;
-    this.th2 = th2;
-    this.th3 = th3;
 
     this.h1 = new HSection();
     this.h1.initBuffers();
@@ -46,28 +43,25 @@ function Pillar(th1, th2, th3) {
     };
 
     this.draw = function() {
-        var offset = this.th1/2;
-        this.h1.translate(0, offset, 0);
-        this.h1.scale(1, this.th1/3, 1);
+        this.h1.scale(1, th1/3, 1);
         this.h1.draw();
 
-        this.h2.translate(0, offset + this.th1, 0);
-        this.h2.scale(.7, this.th2/3, .7);
+        this.h2.translate(0, th1, 0);
+        this.h2.scale(.7, th2/3, .7);
         this.h2.draw();
 
-        this.h3.translate(0, offset + this.th1 + this.th2, 0);
-        this.h3.scale(.49, this.th3/3, .49);
+        this.h3.translate(0, th1 + th2, 0);
+        this.h3.scale(.49, th3/3, .49);
         this.h3.draw();
 
-        this.t1.translate(0, this.th1, 0);
+        this.t1.translate(0, th1, 0);
         this.t1.draw();
 
-
-        this.t2.translate(0, this.th1 + this.th2, 0);
+        this.t2.translate(0, th1 + th2, 0);
         this.t2.scale(.7,.7,.7);
         this.t2.draw();
 
-        this.cap.translate(0, this.th1 + this.th2 + this.th3, 0);
+        this.cap.translate(0, th1 + th2 + th3, 0);
         this.cap.scale(.49, 1, .49);
         this.cap.draw();
 

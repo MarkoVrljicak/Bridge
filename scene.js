@@ -1,22 +1,12 @@
 function Scene(){
     this.side = 300;
-    var data = {
-        side : this.side,
-        river_curve : new BezierCurve([
-            [this.side/2, 0, 0],
-            [2*this.side/3, 0, this.side/4],
-            [this.side/3, 0, 3*this.side/4],
-            [this.side/2, 0, this.side]
-        ]),
-        ph1 : 7.5, // Ground height
-        ph2 : 6.5, // Max road height
-        ph3 : 16, // Min height from road to top of tower
-        s1 : 1.5,
-        river_width : 120,
-        n_towers : 2,
-        bridge_pos : 0,
-        bridge_width : 15
-    };
+    data.side = this.side;
+    data.river_curve = new BezierCurve([
+        [this.side/2, 0, 0],
+        [2*this.side/3, 0, this.side/4],
+        [this.side/3, 0, 3*this.side/4],
+        [this.side/2, 0, this.side]
+    ]);
     data.lowest_point = data.river_curve.evaluate((data.bridge_pos + (data.side/2))/data.side);
     data.lowest_point[0] -= data.side/2;
     data.lowest_point[2] -= data.side/2;

@@ -355,6 +355,20 @@
             drawScene();
         }
 
+        var data = {
+            ph1 : 7.5, // Ground height
+            ph2 : 6.5, // Max road height
+            ph3 : 16, // Min height from road to top of tower
+            s1 : 1.5,
+            river_width : 120,
+            n_towers : 2,
+            bridge_pos : 0,
+            bridge_width : 15,
+            refresh: function(){
+                scene = new Scene();
+            }
+        };
+
         function webGLStart() {
             var canvas = document.getElementById("tp");
             initGL(canvas);

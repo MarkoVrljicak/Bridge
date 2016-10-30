@@ -1,41 +1,21 @@
-/**
- * Created by marko on 08/10/16.
- */
-var app = {
-    alturaMaxima: 10,
-    reiniciar: function(){
-        alert("apreto reiniciar");
-    },
-    detener: function(){
-        alert("apreto detener");
-    },
-    modo: "random",
-    ancho: 0,
-    umbral: 100
-
-};
-
 function GUI (){
     var gui = new dat.GUI();
 
-    var f1 = gui.addFolder('Comandos');
-    f1.add(app, 'reiniciar').name("Reiniciar");
-    f1.add(app, 'detener').name("detener");
+    var f1 = gui.addFolder('Commands');
+    f1.add(data, 'refresh').name("Refresh");
     f1.open();
 
-    var f2 = gui.addFolder('Parametros generales');
+    var f2 = gui.addFolder('Parameters');
 
-    f2.add(app, 'alturaMaxima', 1.0, 60.0).name("altura maxima").step(1);
-    f2.add(app, 'ancho',4,25).name("Ancho");
-
-    f2.add(app, 'modo',["random","secuencial"]).name("modo");
-
-    var f3 = gui.addFolder('Parametros Especiales ');
-    f3.add(app,'umbral',0.0,1.0).name("umbral");
+    f2.add(data, 'bridge_pos', -120, 120).name("position").step(1);
+    f2.add(data, 'ph1', 1.0, 10.0).name("ph1").step(0.5);
+    f2.add(data, 'ph2', 1.0, 15.0).name("ph2").step(0.5);
+    f2.add(data, 'ph3', 10.0, 30.0).name("ph3").step(0.5);
+    f2.add(data, 's1', .5, 4).name("s1").step(.25);
+    //f2.add(data, 'n_towers', 2, 4).name("towers").step(1);
 
     f1.open();
     f2.open();
-    f3.open();
 
     gui.close();
 }
