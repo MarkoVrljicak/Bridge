@@ -17,7 +17,7 @@ function Land(data) {
         var lowest_point;
 
         for (lat_number = 0; lat_number <= this.latitude_bands; lat_number++) {
-            lowest_point = data.river_curve.evaluate(lat_number/this.latitude_bands);
+            lowest_point = data.river_curve.evaluate_by_z(lat_number*data.side/this.latitude_bands);
 
             for (long_number = 0; long_number <= this.longitude_bands; long_number++) {
 
@@ -73,7 +73,7 @@ function Land(data) {
     };
 
     this.on_land = function(x, z){
-        var lowest_point = data.river_curve.evaluate(z/data.side);
+        var lowest_point = data.river_curve.evaluate_by_z(z);
         return (Math.abs(x - lowest_point[0]) > data.river_width/2);
     };
 

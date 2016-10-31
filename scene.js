@@ -7,7 +7,7 @@ function Scene(){
         [this.side/3, 0, 3*this.side/4],
         [this.side/2, 0, this.side]
     ]);
-    data.lowest_point = data.river_curve.evaluate((data.bridge_pos + (data.side/2))/data.side);
+    data.lowest_point = data.river_curve.evaluate_by_z(data.bridge_pos + (data.side/2));
     data.lowest_point[0] -= data.side/2;
     data.lowest_point[2] -= data.side/2;
 

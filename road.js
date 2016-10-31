@@ -8,17 +8,17 @@ function Road(data){
     this.z_pos = data.bridge_pos;
     this.lowest_point = data.lowest_point;
     this.section = [
-        0, -.5, -7.5,
-        0, -.5, 7.5,
-        0, 1, 7.5,
+        0, -.5, -8,
+        0, -.5, 8,
+        0, 1, 8,
         0, 1, 6,
         0, 1, 6,
         0, .5, 6,
         0, .5, -6,
         0, 1, -6,
         0, 1, -6,
-        0, 1, -7.5,
-        0, -.5, -7.5
+        0, 1, -8,
+        0, -.5, -8
     ];
 
     this.section_normals = [

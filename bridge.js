@@ -11,6 +11,17 @@ function Bridge(data) {
                 this.tower_pos.push([data.lowest_point[0]-(data.river_width/4), 0, data.lowest_point[2]]);
                 this.tower_pos.push([data.lowest_point[0]+(data.river_width/4), 0, data.lowest_point[2]]);
                 break;
+            case 3:
+                this.tower_pos.push([data.lowest_point[0]-(data.river_width/4), 0, data.lowest_point[2]]);
+                this.tower_pos.push([data.lowest_point[0], 0, data.lowest_point[2]]);
+                this.tower_pos.push([data.lowest_point[0]+(data.river_width/4), 0, data.lowest_point[2]]);
+                break;
+            case 4:
+                this.tower_pos.push([data.lowest_point[0]-(data.river_width*3/10), 0, data.lowest_point[2]]);
+                this.tower_pos.push([data.lowest_point[0]-(data.river_width/10), 0, data.lowest_point[2]]);
+                this.tower_pos.push([data.lowest_point[0]+(data.river_width/10), 0, data.lowest_point[2]]);
+                this.tower_pos.push([data.lowest_point[0]+(data.river_width*3/10), 0, data.lowest_point[2]]);
+                break;
             default:
                 throw "Invalid number of towers";
         }
@@ -52,7 +63,6 @@ function Bridge(data) {
     };
 
     this.draw = function() {
-        this.road.scale(1, 1, 1.05);
         this.road.draw();
         for (var i = 0; i < data.n_towers; i++){
             this.towers[i].translate(
