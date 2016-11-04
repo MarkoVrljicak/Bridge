@@ -1,18 +1,9 @@
 function Scene(){
     this.side = 300;
     data.side = this.side;
-    data.river_curve = new BezierCurve([
-        [this.side/2, 0, 0],
-        [2*this.side/3, 0, this.side/4],
-        [this.side/3, 0, 3*this.side/4],
-        [this.side/2, 0, this.side]
-    ]);
     data.lowest_point = data.river_curve.evaluate_by_z(data.bridge_pos + (data.side/2));
     data.lowest_point[0] -= data.side/2;
     data.lowest_point[2] -= data.side/2;
-
-    //this.guide = new Guide();
-    //this.guide.initBuffers();
 
     this.river = new River(data);
     this.river.initBuffers();
@@ -26,9 +17,7 @@ function Scene(){
     this.tree_positions = [];
 
     this.draw = function(){
-        //this.guide.draw();
-
-        var light_position = vec3.fromValues(-150.0, 150.0, 150.0);
+        var light_position = vec3.fromValues(-150, 150.0, 150);
         var ambient_color = vec3.fromValues(0.3, 0.3, 0.3);
         var diffuse_color = vec3.fromValues(0.01, 0.01, 0.01);
 
@@ -73,7 +62,7 @@ function Scene(){
     };
 
     this.spawnTrees = function() {
-        var margin = this.side/2 + 1;
+        var margin = this.side/2;
         for (var i = -margin; i < margin; i++){
             for (var j = -margin; j < margin ; j++){
                 if (!this.on_bridge(j) &&

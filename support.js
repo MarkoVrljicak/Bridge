@@ -11,8 +11,7 @@ function Support(data, tower_pos){
                 curve = new BezierCurve(
                     [
                         [data.lowest_point[0]-data.river_width/2, data.ph1, 0],
-                        [(this.tower_pos[i][0]-(data.river_width/2))*(1/2), data.ph1 + data.ph2, 0],
-                        [(this.tower_pos[i][0]-(data.river_width/2))*(1/2), data.ph1 + data.ph2, 0],
+                        [((data.lowest_point[0]-data.river_width/2)+this.tower_pos[i][0])/2, data.ph1 + data.ph2, 0],
                         [this.tower_pos[i][0], data.ph1 + data.ph2 + data.ph3, 0]
                     ]
                 )
@@ -20,8 +19,7 @@ function Support(data, tower_pos){
                 curve = new BezierCurve(
                     [
                         [this.tower_pos[i-1][0], data.ph1 + data.ph2 + data.ph3, 0],
-                        [(this.tower_pos[i-1][0]+(data.river_width/2))*(1/2), data.ph1 + data.ph2, 0],
-                        [(this.tower_pos[i-1][0]+(data.river_width/2))*(1/2), data.ph1 + data.ph2, 0],
+                        [((data.lowest_point[0]+data.river_width/2)+this.tower_pos[i-1][0])/2, data.ph1 + data.ph2, 0],
                         [data.lowest_point[0]+data.river_width/2, data.ph1, 0]
                     ]
                 );

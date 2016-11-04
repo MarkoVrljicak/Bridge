@@ -9,7 +9,7 @@ function Crown(curve, curve_eval, rotation_points){
 
     this.curve = curve;
     this.curve_eval = curve_eval;
-    this.rotation_points = rotation_points;
+    this.rotation_points = rotation_points -1;
 
     this.initBuffers = function(){
         this.position_buffer = [];
@@ -54,7 +54,6 @@ function Crown(curve, curve_eval, rotation_points){
         // Calcula la normal de cada punto mediante el producto vectorial de
         // (1) el vector que va del punto adyacente superior al inferior y
         // (2) el vector que va del punto adyacente izquierdo al derecho
-        // TODO: DEBUG
         var below_point;
         var upper_point;
         var previous_point;
@@ -71,13 +70,13 @@ function Crown(curve, curve_eval, rotation_points){
                     this.normal_buffer.push(0);
                 } else if (eval == this.curve_eval) {
                     this.normal_buffer.push(0);
-                    this.normal_buffer.push(1);
+                    this.normal_buffer.push(1/this.curve_eval);
                     this.normal_buffer.push(0);
                 } else {
                     if (!longitude) {
-                        offset = 3*((this.rotation_points+1)*(longitude+1));
+                        offset = 3*((eval + 1)*(this.rotation_points+1) - 1);
                     } else {
-                        offset = 3*((this.rotation_points+1)*longitude + eval + 1);
+                        offset = 3*(eval*(this.rotation_points+1) + (longitude-1));
                     }
                     previous_point = vec3.fromValues(
                         this.position_buffer[offset],
@@ -85,22 +84,24 @@ function Crown(curve, curve_eval, rotation_points){
                         this.position_buffer[offset + 2]
                     );
                     if (longitude == this.rotation_points) {
-                        offset = 3*((this.rotation_points+1)*longitude+1);
+                        offset = 3*eval*(this.rotation_points+1);
                     } else {
-                        offset = 3*((this.rotation_points+1)*longitude + eval - 1);
+                        offset = 3*(eval*(this.rotation_points+1)+(longitude+1));
                     }
                     next_point = vec3.fromValues(
                         this.position_buffer[offset],
                         this.position_buffer[offset + 1],
                         this.position_buffer[offset + 2]
                     );
-                    offset = 3*(this.rotation_points*(longitude-1)+eval);
+                    offset = 3*((this.rotation_points+1)*(eval-1) + longitude);
+
                     below_point = vec3.fromValues(
                         this.position_buffer[offset],
                         this.position_buffer[offset + 1],
                         this.position_buffer[offset + 2]
                     );
-                    offset = 3*(this.rotation_points*(longitude+1)+eval);
+                    offset = 3*((this.rotation_points+1)*(eval+1)+longitude);
+
                     upper_point = vec3.fromValues(
                         this.position_buffer[offset],
                         this.position_buffer[offset + 1],
@@ -113,6 +114,7 @@ function Crown(curve, curve_eval, rotation_points){
                     this.normal_buffer.push(normal[0]);
                     this.normal_buffer.push(normal[1]);
                     this.normal_buffer.push(normal[2]);
+
                 }
             }
         }

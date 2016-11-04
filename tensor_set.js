@@ -15,7 +15,7 @@ function TensorSet(data, curve){
         this.tensor_pos.push(x_spawn);
         var top_height = curve.evaluate_by_x(x_spawn)[1];
         this.tensor_top_height.push(top_height);
-        var bottom_height = data.ph1 + Math.cos((Math.PI/2)*(x_spawn/(data.river_width/2)))*data.ph2;
+        var bottom_height = data.ph1 + Math.cos((Math.PI/2)*((x_spawn-data.lowest_point[0])/(data.river_width/2)))*data.ph2;
         this.tensor_bottom_height.push(bottom_height);
     }
 

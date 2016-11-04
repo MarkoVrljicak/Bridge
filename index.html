@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 
     <script type="text/javascript" src="libs/gl-matrix.js"></script>
+    <script type="text/javascript" src="libs/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="libs/webgl-utils.js"></script>
+    <script src="libs/dat.gui.min.js"></script>
+
     <script type="text/javascript" src="textured_sphere.js"></script>
     <script type="text/javascript" src="colored_geometry.js"></script>
     <script type="text/javascript" src="colored_sphere.js"></script>
@@ -15,11 +18,13 @@
     <script type="text/javascript" src="h_section.js"></script>
     <script type="text/javascript" src="h_transition.js"></script>
     <script type="text/javascript" src="h_cap.js"></script>
+    <script type="text/javascript" src="curve.js"></script>
     <script type="text/javascript" src="bezier_curve.js"></script>
+    <script type="text/javascript" src="bspline.js"></script>
     <script type="text/javascript" src="colored_string.js"></script>
-    <script src="libs/dat.gui.min.js"></script>
     <script type="text/javascript" src="gui.js"></script>
     <script type="text/javascript" src="orbital_camera.js"></script>
+    <script type="text/javascript" src="fp_camera.js"></script>
     <script type="text/javascript" src="guide.js"></script>
     <script type="text/javascript" src="tensor_set.js"></script>
     <script type="text/javascript" src="support.js"></script>
@@ -32,6 +37,7 @@
     <script type="text/javascript" src="bridge.js"></script>
     <script type="text/javascript" src="tree.js"></script>
     <script type="text/javascript" src="scene.js"></script>
+    <script type="text/javascript" src="river_panel.js"></script>
 
     <script id="shader-fs-colored-obj" type="x-shader/x-fragment">
         precision mediump float;
@@ -330,8 +336,31 @@
         //////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////////
 
+        var data = {
+            river_curve : new BSpline([
+                [150, 0, 0],
+                [200, 0, 75],
+                [150, 0, 150],
+                [100, 0, 225],
+                [150, 0, 300]
+            ]),
+            ph1 : 7.5, // Ground height
+            ph2 : 6.5, // Max road height
+            ph3 : 16, // Min height from road to top of tower
+            s1 : 1.5,
+            river_width : 120,
+            n_towers : 2,
+            bridge_pos : -70,
+            bridge_width : 15,
+            refresh: function(){
+                scene = new Scene();
+            }
+        };
+
         var camera = new OrbitalCamera();
+        var orbital = true;
         var scene = null;
+        var ahead = 0, sideways = 0;
 
         function drawScene() {
             // Se configura el vierport
@@ -345,6 +374,10 @@
 
             // Definimos la ubicacion de la camara
             camera.update();
+            if (ahead < -1) ahead = -1;
+            if (ahead > 1) ahead = 1;
+            if (sideways < -1) sideways = -1;
+            if (sideways > 1) sideways = 1;
 
             // Dibujamos un objeto en el centro de la escena
             scene.draw();
@@ -354,20 +387,6 @@
             requestAnimFrame(tick);
             drawScene();
         }
-
-        var data = {
-            ph1 : 7.5, // Ground height
-            ph2 : 6.5, // Max road height
-            ph3 : 16, // Min height from road to top of tower
-            s1 : 1.5,
-            river_width : 120,
-            n_towers : 4,
-            bridge_pos : 0,
-            bridge_width : 15,
-            refresh: function(){
-                scene = new Scene();
-            }
-        };
 
         function webGLStart() {
             var canvas = document.getElementById("tp");
@@ -384,6 +403,15 @@
             tick();
         }
 
+        function toggle_cam(){
+            if (orbital) {
+                camera = new FPCamera(data);
+            } else {
+                camera = new OrbitalCamera();
+            }
+            orbital = !orbital;
+        }
+
         function listen(object){
             if (object.addEventListener) {
                 // IE9, Chrome, Safari, Opera
@@ -395,23 +423,56 @@
             else object.attachEvent("onmousewheel", camera.onWheel);
         }
 
-
-
+        var panel;
     </script>
+
 </head>
 
 <body onload="webGLStart();">
-        <canvas id="tp" style="border: none;" width="1280" height="720"
+        <canvas id="tp" style="border: none;" width="1150" height="650"
                 onmousedown="onMouseClick()"
                 onmouseup="onMouseRelease()"
                 onmousemove="camera.onMovement(event)">
         </canvas>
+        <canvas id="river_draw" style="border: 4px solid black;" width="180" height="180"
+                onmousedown="panel.onMouseClick()">
+        </canvas>
         <h1>Trabajo Pr&aacute;ctico 2016 - Marcos Vrljicak</h1>
-    <br/>
-    <br/>
+        <p> X - Cambio de cámara <br />
+            Cámara orbital: <br />
+            - Rotar arrastrando el mouse <br />
+            - Acercarse y/o alejarse con la rueda del mouse <br />
+            Primera persona: <br />
+            - Moverse con WASD <br />
+            - Mirar alrededor moviendo el mouse <br />
+            Abrir opciones para modificar los parametros del puente <br />
+            Colocar puntos de control en el panel de la derecha para dibujar el río <br />
+            En ambos casos debe presionarse "refresh" en la pestaña de controles para que los cambios surtan efecto <br />
+        </p>
 
     <script>
         GUI();
+        panel = new RiverPanel(data);
+        panel.draw();
+
+        $("body")
+            .keydown(function(e){
+                if (e.keyCode == 88) toggle_cam(); // X
+                if (!orbital) {
+                    if (e.keyCode == 87) ahead += 1; // W
+                    if (e.keyCode == 65) sideways -= 1; // A
+                    if (e.keyCode == 83) ahead -= 1; // S
+                    if (e.keyCode == 68) sideways += 1; // D
+                }
+            })
+            .keyup(function(e){
+                if (!orbital) {
+                    if (e.keyCode == 87) ahead = 0; // W
+                    if (e.keyCode == 65) sideways = 0; // A
+                    if (e.keyCode == 83) ahead = 0; // S
+                    if (e.keyCode == 68) sideways = 0; // D
+                }
+            });
     </script>
 
 </body>
