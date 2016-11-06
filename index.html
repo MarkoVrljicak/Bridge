@@ -20,6 +20,7 @@
     <script type="text/javascript" src="h_cap.js"></script>
     <script type="text/javascript" src="curve.js"></script>
     <script type="text/javascript" src="bezier_curve.js"></script>
+    <script type="text/javascript" src="bspline_base.js"></script>
     <script type="text/javascript" src="bspline.js"></script>
     <script type="text/javascript" src="colored_string.js"></script>
     <script type="text/javascript" src="gui.js"></script>
@@ -350,7 +351,7 @@
             s1 : 1.5,
             river_width : 120,
             n_towers : 2,
-            bridge_pos : -70,
+            bridge_pos : 0,
             bridge_width : 15,
             refresh: function(){
                 scene = new Scene();
@@ -363,7 +364,7 @@
         var ahead = 0, sideways = 0;
 
         function drawScene() {
-            // Se configura el vierport
+            // Se configura el viewport
             gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
 
             // Se habilita el color de borrado para la pantalla (Color Buffer) y otros buffers
@@ -434,8 +435,8 @@
                 onmouseup="onMouseRelease()"
                 onmousemove="camera.onMovement(event)">
         </canvas>
-        <canvas id="river_draw" style="border: 4px solid black;" width="180" height="180"
-                onmousedown="panel.onMouseClick()">
+        <canvas id="river_draw" width="180" height="180"
+                onmousedown="panel.onMouseClick(event)">
         </canvas>
         <h1>Trabajo Pr&aacute;ctico 2016 - Marcos Vrljicak</h1>
         <p> X - Cambio de cámara <br />

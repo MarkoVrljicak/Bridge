@@ -3,7 +3,6 @@ function Land(data) {
 
     this.latitude_bands = 218;
     this.longitude_bands = 250;
-    console.log("Generating land...");
 
     this.initBuffers = function () {
         this.position_buffer = [];
@@ -71,8 +70,6 @@ function Land(data) {
             }
         }
         this.bufferize();
-
-        console.log("done");
     };
 
     this.on_land = function(x, z){
