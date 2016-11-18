@@ -1,10 +1,10 @@
 function Support(data, tower_pos){
     this.tower_pos = tower_pos;
-    this.strings = [];
+    this.wires = [];
     this.left_tensor_set = [];
     this.right_tensor_set = [];
 
-    this.buildStrings = function() {
+    this.buildWires = function() {
         var curve;
         for (var i = 0; i <= this.tower_pos.length; i++){
             if (!i){
@@ -33,30 +33,21 @@ function Support(data, tower_pos){
                     ]
                 )
             }
-            this.strings.push(new ColoredString(curve, 100, 20));
-            this.strings[i].initBuffers();
+            this.wires.push(new Wire(curve, 100, 20));
+            this.wires[i].initBuffers();
+            this.wires[i].initTexture("maps/wires.jpg");
             this.left_tensor_set.push(new TensorSet(data, curve));
             this.right_tensor_set.push(new TensorSet(data, curve));
         }
-        this.strings.push.apply(this.strings, this.strings.slice());
+        this.wires.push.apply(this.wires, this.wires.slice());
     };
 
-    this.buildStrings();
-
-    this.setupShaders = function(){
-        for (var i = 0; i < this.strings.length; i++){
-            this.strings[i].setupShaders();
-            if (i < this.strings.length/2){
-                this.left_tensor_set[i].setupShaders();
-                this.right_tensor_set[i].setupShaders();
-            }
-        }
-    };
+    this.buildWires();
 
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-        for (var i = 0; i < this.strings.length; i++){
-            this.strings[i].setupLighting(lightPosition, ambientColor, diffuseColor);
-            if (i < this.strings.length/2) {
+        for (var i = 0; i < this.wires.length; i++){
+            this.wires[i].setupLighting(lightPosition, ambientColor, diffuseColor);
+            if (i < this.wires.length/2) {
                 this.left_tensor_set[i].setupLighting(lightPosition, ambientColor, diffuseColor);
                 this.right_tensor_set[i].setupLighting(lightPosition, ambientColor, diffuseColor);
             }
@@ -64,9 +55,9 @@ function Support(data, tower_pos){
     };
 
     this.setIdentity = function(){
-        for (var i = 0; i < this.strings.length; i++){
-            this.strings[i].setIdentity();
-            if (i < this.strings.length/2) {
+        for (var i = 0; i < this.wires.length; i++){
+            this.wires[i].setIdentity();
+            if (i < this.wires.length/2) {
                 this.left_tensor_set[i].setIdentity();
                 this.right_tensor_set[i].setIdentity();
             }
@@ -74,17 +65,17 @@ function Support(data, tower_pos){
     };
 
     this.draw = function(){
-        for (var i = 0; i < this.strings.length; i++){
-            if (i < this.strings.length/2) {
-                this.strings[i].translate(0, -.5, data.lowest_point[2] - data.bridge_width/2);
+        for (var i = 0; i < this.wires.length; i++){
+            if (i < this.wires.length/2) {
+                this.wires[i].translate(0, -.5, data.lowest_point[2] - data.bridge_width/2);
                 this.left_tensor_set[i].translate(0, -.5, data.lowest_point[2] - data.bridge_width/2);
                 this.right_tensor_set[i].translate(0, -.5, data.lowest_point[2] + data.bridge_width/2);
                 this.left_tensor_set[i].draw();
                 this.right_tensor_set[i].draw();
             } else {
-                this.strings[i].translate(0, 0, data.bridge_width);
+                this.wires[i].translate(0, 0, data.bridge_width);
             }
-            this.strings[i].draw();
+            this.wires[i].draw();
         }
     }
 }

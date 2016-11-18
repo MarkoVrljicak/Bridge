@@ -1,5 +1,5 @@
-function ColoredString(curve, n_curve_evaluations, longitude_bands){
-    ColoredGeometry.call(this);
+function Wire(curve, n_curve_evaluations, longitude_bands){
+    TexturedGeometry.call(this);
 
     this.curve = curve;
     this.curve_len = Math.abs(this.curve.evaluate(1)[0] - this.curve.evaluate(0)[0]);
@@ -10,7 +10,7 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
     this.initBuffers = function(){
         this.position_buffer = [];
         this.normal_buffer = [];
-        this.color_buffer = [];
+        this.texture_coord_buffer = [];
         this.index_buffer = [];
 
         var eval;
@@ -26,14 +26,15 @@ function ColoredString(curve, n_curve_evaluations, longitude_bands){
                 var x = curve_img[0];
                 var y = curve_img[1] + Math.cos(phi) * .25;
                 var z = curve_img[2] + Math.sin(phi) * .25;
+                var u = 1.0 - (longitude / this.longitude_bands);
+                var v = 1.0 - (eval / this.latitude_bands);
 
                 this.normal_buffer.push(0);
                 this.normal_buffer.push(Math.cos(phi) * .5);
                 this.normal_buffer.push(Math.sin(phi) * .5);
 
-                this.color_buffer.push(.4);
-                this.color_buffer.push(0);
-                this.color_buffer.push(0);
+                this.texture_coord_buffer.push(u);
+                this.texture_coord_buffer.push(v);
 
                 this.position_buffer.push(x);
                 this.position_buffer.push(y);

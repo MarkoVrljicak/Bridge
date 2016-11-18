@@ -27,11 +27,6 @@ function Tree() {
     this.crown = new Crown(curves[Math.floor(Math.random() * curves.length)], 16, 16);
     this.crown.initBuffers();
 
-    this.setupShaders = function(){
-        this.trunk.setupShaders();
-        this.crown.setupShaders();
-    };
-
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         this.trunk.setupLighting(lightPosition, ambientColor, diffuseColor);
         this.crown.setupLighting(lightPosition, ambientColor, diffuseColor);

@@ -1,5 +1,5 @@
 function ColoredGeometry(){
-    this.model_matrix = mat4.create();
+    Geometry.call(this);
 
     this.position_buffer = null;
     this.normal_buffer = null;
@@ -54,6 +54,8 @@ function ColoredGeometry(){
     };
 
     this.draw = function(){
+        this.setupShaders();
+
         gl.uniformMatrix4fv(shaderProgramColoredObject.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(shaderProgramColoredObject.ViewMatrixUniform, false, camera_matrix);
 
@@ -75,22 +77,6 @@ function ColoredGeometry(){
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();
-    };
-
-    this.setIdentity = function(){
-        mat4.identity(this.model_matrix);
-    };
-
-    this.translate = function(x, y, z){
-        mat4.translate(this.model_matrix, this.model_matrix, vec3.fromValues(x, y, z));
-    };
-
-    this.scale = function(x, y, z){
-        mat4.scale(this.model_matrix, this.model_matrix, vec3.fromValues(x, y, z));
-    };
-
-    this.rotate = function(x, y, z, deg){
-        mat4.rotate(this.model_matrix, this.model_matrix, degToRad(deg),vec3.fromValues(x, y, z));
     };
 
     this.setUniformColor = function(r, g, b){

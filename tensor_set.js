@@ -25,12 +25,6 @@ function TensorSet(data, curve){
         }
     };
 
-    this.setupShaders = function(){
-        for (var i = 0; i < this.tensors.length; i++){
-            this.tensors[i].setupShaders();
-        }
-    };
-
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         for (var i = 0; i < this.tensors.length; i++){
             this.tensors[i].setupLighting(lightPosition, ambientColor, diffuseColor);

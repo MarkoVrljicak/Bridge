@@ -1,5 +1,6 @@
 function FPCamera(data){
-    this.eye_point = vec3.create();
+    Camera.call(this);
+
     vec3.set(this.eye_point, -150, data.ph1 + data.ph2 + 1.8, data.bridge_pos);
     this.at_point = vec3.create();
     this.up_point = vec3.create();

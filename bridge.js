@@ -40,14 +40,6 @@ function Bridge(data) {
 
     this.buildTowers();
 
-    this.setupShaders = function(){
-        this.road.setupShaders();
-        for (var i = 0; i < this.n_towers; i++){
-            this.towers[i].setupShaders();
-        }
-        this.support.setupShaders();
-    };
-
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         this.road.setupLighting(lightPosition, ambientColor, diffuseColor);
         for (var i = 0; i < this.n_towers; i++){

@@ -11,7 +11,6 @@ function RiverPanel(data){
     };
 
     this.onMouseClick = function(e){
-
         var x = e.pageX, z = e.pageY;
         x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
         z = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;

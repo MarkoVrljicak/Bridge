@@ -11,6 +11,9 @@
     <script type="text/javascript" src="libs/webgl-utils.js"></script>
     <script src="libs/dat.gui.min.js"></script>
 
+    <script type="text/javascript" src="geometry.js"></script>
+    <script type="text/javascript" src="camera.js"></script>
+    <script type="text/javascript" src="textured_geometry.js"></script>
     <script type="text/javascript" src="textured_sphere.js"></script>
     <script type="text/javascript" src="colored_geometry.js"></script>
     <script type="text/javascript" src="colored_sphere.js"></script>
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="bezier_curve.js"></script>
     <script type="text/javascript" src="bspline_base.js"></script>
     <script type="text/javascript" src="bspline.js"></script>
-    <script type="text/javascript" src="colored_string.js"></script>
+    <script type="text/javascript" src="wire.js"></script>
     <script type="text/javascript" src="gui.js"></script>
     <script type="text/javascript" src="orbital_camera.js"></script>
     <script type="text/javascript" src="fp_camera.js"></script>
@@ -190,6 +193,8 @@
             }
         }
 
+
+
         function getShader(gl, id) {
             var shaderScript = document.getElementById(id);
             if (!shaderScript) {
@@ -231,28 +236,21 @@
         function initShaders() {
             // Inicializamos lo relacionado con el program shader para
             // renderizar objetos texturados
-
             var fragmentShaderTexturedObj = getShader(gl, "shader-fs-textured-obj");
             var vertexShaderTexturedObj = getShader(gl, "shader-vs-textured-obj");
-
             shaderProgramTexturedObject = gl.createProgram();
             gl.attachShader(shaderProgramTexturedObject, vertexShaderTexturedObj);
             gl.attachShader(shaderProgramTexturedObject, fragmentShaderTexturedObj);
             gl.linkProgram(shaderProgramTexturedObject);
-
             if (!gl.getProgramParameter(shaderProgramTexturedObject, gl.LINK_STATUS)) {
                 alert("Could not initialise shaders");
             }
-
             shaderProgramTexturedObject.vertexPositionAttribute = gl.getAttribLocation(shaderProgramTexturedObject, "aVertexPosition");
             gl.enableVertexAttribArray(shaderProgramTexturedObject.vertexPositionAttribute);
-
             shaderProgramTexturedObject.textureCoordAttribute = gl.getAttribLocation(shaderProgramTexturedObject, "aTextureCoord");
             gl.enableVertexAttribArray(shaderProgramTexturedObject.textureCoordAttribute);
-
             shaderProgramTexturedObject.vertexNormalAttribute = gl.getAttribLocation(shaderProgramTexturedObject, "aVertexNormal");
             gl.enableVertexAttribArray(shaderProgramTexturedObject.vertexNormalAttribute);
-
             shaderProgramTexturedObject.pMatrixUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uPMatrix");
             shaderProgramTexturedObject.ViewMatrixUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uViewMatrix");
             shaderProgramTexturedObject.ModelMatrixUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uModelMatrix");
@@ -262,31 +260,23 @@
             shaderProgramTexturedObject.ambientColorUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uAmbientColor");
             shaderProgramTexturedObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uLightPosition");
             shaderProgramTexturedObject.directionalColorUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uDirectionalColor");
-
             // Inicializamos lo relacionado con el program shader para
             // renderizar objetos Coloreados
-
             var fragmentShaderColoredObj = getShader(gl, "shader-fs-colored-obj");
             var vertexShaderColoredObj = getShader(gl, "shader-vs-colored-obj");
-
             shaderProgramColoredObject = gl.createProgram();
             gl.attachShader(shaderProgramColoredObject, vertexShaderColoredObj);
             gl.attachShader(shaderProgramColoredObject, fragmentShaderColoredObj);
             gl.linkProgram(shaderProgramColoredObject);
-
             if (!gl.getProgramParameter(shaderProgramColoredObject, gl.LINK_STATUS)) {
                 alert("Could not initialise shaders");
             }
-
             shaderProgramColoredObject.vertexPositionAttribute = gl.getAttribLocation(shaderProgramColoredObject, "aVertexPosition");
             gl.enableVertexAttribArray(shaderProgramColoredObject.vertexPositionAttribute);
-
             shaderProgramColoredObject.vertexColorAttribute = gl.getAttribLocation(shaderProgramColoredObject, "aVertexColor");
             gl.enableVertexAttribArray(shaderProgramColoredObject.vertexColorAttribute);
-
             shaderProgramColoredObject.vertexNormalAttribute = gl.getAttribLocation(shaderProgramColoredObject, "aVertexNormal");
             gl.enableVertexAttribArray(shaderProgramColoredObject.vertexNormalAttribute);
-
             shaderProgramColoredObject.pMatrixUniform = gl.getUniformLocation(shaderProgramColoredObject, "uPMatrix");
             shaderProgramColoredObject.ViewMatrixUniform = gl.getUniformLocation(shaderProgramColoredObject, "uViewMatrix");
             shaderProgramColoredObject.ModelMatrixUniform = gl.getUniformLocation(shaderProgramColoredObject, "uModelMatrix");
@@ -298,44 +288,17 @@
             shaderProgramColoredObject.directionalColorUniform = gl.getUniformLocation(shaderProgramColoredObject, "uDirectionalColor");
         }
 
+
         var camera_matrix = mat4.create();
-        var mvMatrix = mat4.create();
-        var mvMatrixStack = [];
         var pMatrix = mat4.create();
 
         var mouseDown = false;
         var lastMouseX = null;
         var lastMouseY = null;
 
-        //////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////
-
-        function mvPushMatrix() {
-            var copy = mat4.create();
-            mat4.set(mvMatrix, copy);
-            mvMatrixStack.push(copy);
-        }
-
-        function mvPopMatrix() {
-            if (mvMatrixStack.length == 0) {
-                throw "Invalid popMatrix!";
-            }
-            mvMatrix = mvMatrixStack.pop();
-        }
-
-        function setViewProjectionMatrix() {
-            gl.uniformMatrix4fv(shaderProgramTexturedObject.pMatrixUniform, false, pMatrix);
-            gl.uniformMatrix4fv(shaderProgramTexturedObject.ViewMatrixUniform, false, camera_matrix);
-        }
-
         function degToRad(degrees) {
             return degrees * Math.PI / 180;
         }
-
-        //////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////
 
         var data = {
             river_curve : new BSpline([

@@ -16,33 +16,42 @@ function Scene(){
     this.trees = [];
     this.tree_positions = [];
 
+    this.sky = new TexturedSphere(30, 30);
+    var sky_radius = 500;
+    this.sky.initBuffers();
+    this.sky.initTexture("maps/sky_lightblue_mod.jpg");
+
     this.draw = function(){
-        var light_position = vec3.fromValues(-150, 150.0, 150);
+        var light_position = vec3.fromValues(-1500, 1500.0, 1500);
         var ambient_color = vec3.fromValues(0.3, 0.3, 0.3);
-        var diffuse_color = vec3.fromValues(0.01, 0.01, 0.01);
+        var diffuse_color = vec3.fromValues(0.001, 0.001, 0.001);
+
+        //Sky
+        if (camera.insideSky(sky_radius)){
+            this.sky.setupLighting(vec3.fromValues(0, 0, 0), vec3.fromValues(0.9, 0.9, 0.9), vec3.fromValues(0.01, 0.01, 0.01));
+            this.sky.setIdentity();
+            this.sky.scale(sky_radius, sky_radius, sky_radius);
+            this.sky.draw();
+        }
 
         //River
-        this.river.setupShaders();
         this.river.setupLighting(light_position, ambient_color, diffuse_color);
         this.river.setIdentity();
         this.river.draw();
 
         //Land
-        this.land.setupShaders();
         this.land.setupLighting(light_position, ambient_color, diffuse_color);
         this.land.setIdentity();
         this.land.translate(-this.side/2, 0, -this.side/2);
         this.land.draw();
 
         //Bridge
-        this.bridge.setupShaders();
         this.bridge.setupLighting(light_position, ambient_color, diffuse_color);
         this.bridge.setIdentity();
         this.bridge.draw();
 
         //Trees
         for (var i = 0; i < this.trees.length; i++){
-            this.trees[i].setupShaders();
             this.trees[i].setupLighting(light_position, ambient_color, diffuse_color);
             this.trees[i].setIdentity();
             this.trees[i].translate(
