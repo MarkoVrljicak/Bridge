@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Sistemas Gráficos - 66.71</title>
+    <title>Sistemas Grï¿½ficos - 66.71</title>
     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
     <link rel="stylesheet" href="styles.css">
@@ -182,6 +182,11 @@
     <script type="text/javascript">
         var gl;
 
+        var textures = {
+            rust: "maps/rust.jpg",
+            sky: "maps/sky_lightblue.jpg"
+        };
+
         function initGL(canvas) {
             try {
                 gl = canvas.getContext("webgl");
@@ -192,8 +197,6 @@
                 alert("Could not initialise WebGL, sorry :-(");
             }
         }
-
-
 
         function getShader(gl, id) {
             var shaderScript = document.getElementById(id);
@@ -402,16 +405,16 @@
                 onmousedown="panel.onMouseClick(event)">
         </canvas>
         <h1>Trabajo Pr&aacute;ctico 2016 - Marcos Vrljicak</h1>
-        <p> X - Cambio de cámara <br />
-            Cámara orbital: <br />
+        <p> X - Cambio de cï¿½mara <br />
+            Cï¿½mara orbital: <br />
             - Rotar arrastrando el mouse <br />
             - Acercarse y/o alejarse con la rueda del mouse <br />
             Primera persona: <br />
             - Moverse con WASD <br />
             - Mirar alrededor moviendo el mouse <br />
             Abrir opciones para modificar los parametros del puente <br />
-            Colocar puntos de control en el panel de la derecha para dibujar el río <br />
-            En ambos casos debe presionarse "refresh" en la pestaña de controles para que los cambios surtan efecto <br />
+            Colocar puntos de control en el panel de la derecha para dibujar el rï¿½o <br />
+            En ambos casos debe presionarse "refresh" en la pestaï¿½a de controles para que los cambios surtan efecto <br />
         </p>
 
     <script>

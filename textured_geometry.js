@@ -71,6 +71,8 @@ function TexturedGeometry(){
 
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         var lighting = true;
+        this.setupShaders();
+
         gl.uniform1i(shaderProgramTexturedObject.useLightingUniform, lighting);
 
         gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, lightPosition);

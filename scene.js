@@ -19,7 +19,7 @@ function Scene(){
     this.sky = new TexturedSphere(30, 30);
     var sky_radius = 500;
     this.sky.initBuffers();
-    this.sky.initTexture("maps/sky_lightblue_mod.jpg");
+    this.sky.initTexture(textures.sky);
 
     this.draw = function(){
         var light_position = vec3.fromValues(-1500, 1500.0, 1500);

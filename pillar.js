@@ -1,23 +1,24 @@
 function Pillar(th1, th2, th3) {
-    var texture = "maps/rust.jpg";
-
     this.h1 = new HSection();
     this.h1.initBuffers();
-    this.h1.initTexture(texture);
+    this.h1.initTexture(textures.rust);
     this.h2 = new HSection();
     this.h2.initBuffers();
-    this.h2.initTexture(texture);
+    this.h2.initTexture(textures.rust);
     this.h3 = new HSection();
     this.h3.initBuffers();
-    this.h3.initTexture(texture);
+    this.h3.initTexture(textures.rust);
 
     this.t1 = new HTransition();
     this.t1.initBuffers();
+    this.t1.initTexture(textures.rust);
     this.t2 = new HTransition();
     this.t2.initBuffers();
+    this.t2.initTexture(textures.rust);
 
     this.cap = new HCap();
     this.cap.initBuffers();
+    this.cap.initTexture(textures.rust);
 
     this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
         this.h1.setupLighting(lightPosition, ambientColor, diffuseColor);
