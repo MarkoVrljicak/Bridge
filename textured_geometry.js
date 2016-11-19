@@ -69,15 +69,15 @@ function TexturedGeometry(){
         gl.useProgram(shaderProgramTexturedObject);
     };
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-        var lighting = true;
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
         this.setupShaders();
 
-        gl.uniform1i(shaderProgramTexturedObject.useLightingUniform, lighting);
+        gl.uniform1i(shaderProgramTexturedObject.useLightingUniform, true);
 
         gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, lightPosition);
         gl.uniform3fv(shaderProgramTexturedObject.ambientColorUniform, ambientColor );
         gl.uniform3fv(shaderProgramTexturedObject.directionalColorUniform, diffuseColor);
+        gl.uniform3fv(shaderProgramTexturedObject.reflectivityUniform, reflectivity);
     };
 
     this.draw = function(){

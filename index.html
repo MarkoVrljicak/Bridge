@@ -1,8 +1,8 @@
 <html>
 
 <head>
-    <title>Sistemas Gr�ficos - 66.71</title>
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <title>Sistemas Gráficos - 66.71</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <link rel="stylesheet" href="styles.css">
 
@@ -15,6 +15,7 @@
     <script type="text/javascript" src="camera.js"></script>
     <script type="text/javascript" src="textured_geometry.js"></script>
     <script type="text/javascript" src="textured_sphere.js"></script>
+    <script type="text/javascript" src="textured_cylinder.js"></script>
     <script type="text/javascript" src="colored_geometry.js"></script>
     <script type="text/javascript" src="colored_sphere.js"></script>
     <script type="text/javascript" src="colored_cylinder.js"></script>
@@ -77,7 +78,6 @@
         varying vec3 vLightWeighting;
 
         void main(void) {
-
             // Transformamos al vertice al espacio de la camara
             vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 
@@ -87,21 +87,16 @@
             // Coordenada de textura sin modifiaciones
             vVertexColor = aVertexColor;
 
-            ////////////////////////////////////////////
             // Calculos de la iluminacion
-            vec3 light_dir =  uLightPosition;
+            vec3 light_dir =  uLightPosition - aVertexNormal;
             normalize(light_dir);
-            if (!uUseLighting)
-            {
+            if (!uUseLighting) {
                 vLightWeighting = vec3(1.0, 1.0, 1.0);
-            }
-            else
-            {
+            } else {
                 vec3 transformedNormal = normalize(uNMatrix * aVertexNormal);
                 float directionalLightWeighting = max(dot(transformedNormal, light_dir), 0.0);
                 vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
             }
-            ////////////////////////////////////////////
         }
     </script>
 
@@ -133,6 +128,7 @@
 
         uniform vec3 uLightPosition;
         uniform vec3 uDirectionalColor;
+        uniform vec3 uReflectivity;
 
         uniform bool uUseLighting;
 
@@ -140,7 +136,6 @@
         varying vec3 vLightWeighting;
 
         void main(void) {
-
             // Transformamos al vertice al espacio de la camara
             vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 
@@ -150,21 +145,16 @@
             // Coordenada de textura sin modifiaciones
             vTextureCoord = aTextureCoord;
 
-            ////////////////////////////////////////////
             // Calculos de la iluminacion
-            vec3 light_dir =  uLightPosition;
+            vec3 light_dir =  uLightPosition - aVertexNormal;
             normalize(light_dir);
-            if (!uUseLighting)
-            {
+            if (!uUseLighting){
                 vLightWeighting = vec3(1.0, 1.0, 1.0);
-            }
-            else
-            {
+            } else {
                 vec3 transformedNormal = normalize(uNMatrix * aVertexNormal);
                 float directionalLightWeighting = max(dot(transformedNormal, light_dir), 0.0);
-                vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
+                vLightWeighting = uAmbientColor + uReflectivity * uDirectionalColor * directionalLightWeighting;
             }
-            ////////////////////////////////////////////
         }
     </script>
 
@@ -184,7 +174,9 @@
 
         var textures = {
             rust: "maps/rust.jpg",
-            sky: "maps/sky_lightblue.jpg"
+            sky: "maps/sky_lightblue_mod.jpg",
+            crown: "maps/leaves.jpg",
+            bark: "maps/bark.jpg"
         };
 
         function initGL(canvas) {
@@ -263,6 +255,7 @@
             shaderProgramTexturedObject.ambientColorUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uAmbientColor");
             shaderProgramTexturedObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uLightPosition");
             shaderProgramTexturedObject.directionalColorUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uDirectionalColor");
+            shaderProgramTexturedObject.reflectivityUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uReflectivity");
             // Inicializamos lo relacionado con el program shader para
             // renderizar objetos Coloreados
             var fragmentShaderColoredObj = getShader(gl, "shader-fs-colored-obj");
@@ -290,7 +283,6 @@
             shaderProgramColoredObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramColoredObject, "uLightPosition");
             shaderProgramColoredObject.directionalColorUniform = gl.getUniformLocation(shaderProgramColoredObject, "uDirectionalColor");
         }
-
 
         var camera_matrix = mat4.create();
         var pMatrix = mat4.create();
@@ -405,15 +397,15 @@
                 onmousedown="panel.onMouseClick(event)">
         </canvas>
         <h1>Trabajo Pr&aacute;ctico 2016 - Marcos Vrljicak</h1>
-        <p> X - Cambio de c�mara <br />
-            C�mara orbital: <br />
+        <p> X - Cambio de cámara <br />
+            Cámara orbital: <br />
             - Rotar arrastrando el mouse <br />
             - Acercarse y/o alejarse con la rueda del mouse <br />
             Primera persona: <br />
             - Moverse con WASD <br />
             - Mirar alrededor moviendo el mouse <br />
             Abrir opciones para modificar los parametros del puente <br />
-            Colocar puntos de control en el panel de la derecha para dibujar el r�o <br />
+            Colocar puntos de control en el panel de la derecha para dibujar el río <br />
             En ambos casos debe presionarse "refresh" en la pesta�a de controles para que los cambios surtan efecto <br />
         </p>
 

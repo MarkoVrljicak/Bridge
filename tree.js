@@ -1,7 +1,7 @@
 function Tree() {
-    this.trunk = new ColoredCylinder(32, 32);
+    this.trunk = new TexturedCylinder(32, 32);
     this.trunk.initBuffers();
-    this.trunk.setUniformColor(.4, .15, 0);
+    this.trunk.initTexture(textures.bark);
 
     var curves = [
         new BezierCurve([
@@ -26,10 +26,11 @@ function Tree() {
 
     this.crown = new Crown(curves[Math.floor(Math.random() * curves.length)], 16, 16);
     this.crown.initBuffers();
+    this.crown.initTexture(textures.crown);
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-        this.trunk.setupLighting(lightPosition, ambientColor, diffuseColor);
-        this.crown.setupLighting(lightPosition, ambientColor, diffuseColor);
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
+        this.trunk.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
+        this.crown.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
     };
 
     this.setIdentity = function() {

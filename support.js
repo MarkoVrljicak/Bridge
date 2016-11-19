@@ -44,9 +44,9 @@ function Support(data, tower_pos){
 
     this.buildWires();
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
         for (var i = 0; i < this.wires.length; i++){
-            this.wires[i].setupLighting(lightPosition, ambientColor, diffuseColor);
+            this.wires[i].setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
             if (i < this.wires.length/2) {
                 this.left_tensor_set[i].setupLighting(lightPosition, ambientColor, diffuseColor);
                 this.right_tensor_set[i].setupLighting(lightPosition, ambientColor, diffuseColor);

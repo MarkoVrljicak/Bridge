@@ -5,7 +5,7 @@ function Crown(curve, curve_eval, rotation_points){
      * @param {Number} curve_eval: number of evaluations on the curve
      * @param {Number} rotation_points: Number of times the curve is rotated to generate a surface
      */
-    ColoredGeometry.call(this);
+    TexturedGeometry.call(this);
 
     this.curve = curve;
     this.curve_eval = curve_eval;
@@ -14,7 +14,7 @@ function Crown(curve, curve_eval, rotation_points){
     this.initBuffers = function(){
         this.position_buffer = [];
         this.normal_buffer = [];
-        this.color_buffer = [];
+        this.texture_coord_buffer = [];
         this.index_buffer = [];
 
         var eval;
@@ -29,13 +29,15 @@ function Crown(curve, curve_eval, rotation_points){
             for (longitude=0; longitude <= this.rotation_points; longitude++) {
                 vec3.rotateY(point, point, vec3.fromValues(0,0,0), phi);
 
-                this.color_buffer.push(0);
-                this.color_buffer.push(.3);
-                this.color_buffer.push(0);
-
                 this.position_buffer.push(point[0]);
                 this.position_buffer.push(point[1]);
                 this.position_buffer.push(point[2]);
+
+                var u = 1.0 - (longitude / this.rotation_points);
+                var v = 1.0 - (eval / this.curve_eval);
+
+                this.texture_coord_buffer.push(u);
+                this.texture_coord_buffer.push(v);
 
                 if (eval != this.curve_eval && longitude != this.rotation_points) {
                     var first = (eval * (this.rotation_points + 1)) + longitude;

@@ -10,9 +10,9 @@ function Tower(data) {
 
     this.width = data.bridge_width;
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-        this.pillars[0].setupLighting(lightPosition, ambientColor, diffuseColor);
-        this.pillars[1].setupLighting(lightPosition, ambientColor, diffuseColor);
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
+        this.pillars[0].setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
+        this.pillars[1].setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
     };
 
     this.setIdentity = function() {
