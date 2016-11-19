@@ -129,6 +129,7 @@
         uniform vec3 uLightPosition;
         uniform vec3 uDirectionalColor;
         uniform vec3 uReflectivity;
+        uniform vec3 uShininess;
 
         uniform bool uUseLighting;
 
@@ -153,7 +154,12 @@
             } else {
                 vec3 transformedNormal = normalize(uNMatrix * aVertexNormal);
                 float directionalLightWeighting = max(dot(transformedNormal, light_dir), 0.0);
-                vLightWeighting = uAmbientColor + uReflectivity * uDirectionalColor * directionalLightWeighting;
+                vec3 ambient = uAmbientColor;
+                vec3 diffuse = uReflectivity * uDirectionalColor * directionalLightWeighting;
+                vec3 r = - light_dir + vec3(2, 2, 2) * directionalLightWeighting * transformedNormal;
+                vec3 specular = uDirectionalColor * uShininess * max(dot(r, vec3(pos_camera_view)), 0.0);
+                specular = vec3(0, 0, 0);
+                vLightWeighting = ambient + diffuse + specular;
             }
         }
     </script>
@@ -256,6 +262,7 @@
             shaderProgramTexturedObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uLightPosition");
             shaderProgramTexturedObject.directionalColorUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uDirectionalColor");
             shaderProgramTexturedObject.reflectivityUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uReflectivity");
+            shaderProgramTexturedObject.shininessUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uShininess");
             // Inicializamos lo relacionado con el program shader para
             // renderizar objetos Coloreados
             var fragmentShaderColoredObj = getShader(gl, "shader-fs-colored-obj");
@@ -305,8 +312,8 @@
             ]),
             ph1 : 7.5, // Ground height
             ph2 : 6.5, // Max road height
-            ph3 : 16, // Min height from road to top of tower
-            s1 : 1.5,
+            ph3 : 22, // Min height from road to top of tower
+            s1 : 1.2,
             river_width : 120,
             n_towers : 2,
             bridge_pos : 0,

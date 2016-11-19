@@ -30,6 +30,9 @@ function Scene(){
     var rust_reflectivity = vec3.fromValues(.6, .6, .6);
     var tree_reflectivity = vec3.fromValues(.5, .5, .5);
 
+    var full_shininess = vec3.fromValues(.1, .1, .1);
+    var no_shininess = vec3.fromValues(0, 0, 0);
+
     this.draw = function(){
         //Sky
         if (camera.insideSky(sky_radius)){
@@ -37,7 +40,8 @@ function Scene(){
                 vec3.fromValues(0, 0, 0),
                 vec3.fromValues(0.9, 0.9, 0.9),
                 vec3.fromValues(0.01, 0.01, 0.01),
-                full_reflectivity
+                full_reflectivity,
+                no_shininess
             );
             this.sky.setIdentity();
             this.sky.scale(sky_radius, sky_radius, sky_radius);
@@ -68,7 +72,8 @@ function Scene(){
             std_light_position,
             std_ambient_color,
             std_diffuse_color,
-            rust_reflectivity
+            rust_reflectivity,
+            full_shininess
         );
         this.bridge.setIdentity();
         this.bridge.draw();
@@ -79,7 +84,8 @@ function Scene(){
                 std_light_position,
                 std_ambient_color,
                 std_diffuse_color,
-                tree_reflectivity
+                tree_reflectivity,
+                no_shininess
             );
             this.trees[i].setIdentity();
             this.trees[i].translate(

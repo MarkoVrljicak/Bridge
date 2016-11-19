@@ -40,12 +40,12 @@ function Bridge(data) {
 
     this.buildTowers();
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity, shininess){
         this.road.setupLighting(lightPosition, ambientColor, diffuseColor);
         for (var i = 0; i < this.n_towers; i++){
-            this.towers[i].setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
+            this.towers[i].setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
         }
-        this.support.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
+        this.support.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
     };
 
     this.setIdentity = function() {

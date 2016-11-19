@@ -28,9 +28,9 @@ function Tree() {
     this.crown.initBuffers();
     this.crown.initTexture(textures.crown);
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
-        this.trunk.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
-        this.crown.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity);
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity, shininess){
+        this.trunk.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
+        this.crown.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
     };
 
     this.setIdentity = function() {

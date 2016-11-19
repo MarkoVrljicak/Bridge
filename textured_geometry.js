@@ -69,7 +69,7 @@ function TexturedGeometry(){
         gl.useProgram(shaderProgramTexturedObject);
     };
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity){
+    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity, shininess){
         this.setupShaders();
 
         gl.uniform1i(shaderProgramTexturedObject.useLightingUniform, true);
@@ -78,6 +78,7 @@ function TexturedGeometry(){
         gl.uniform3fv(shaderProgramTexturedObject.ambientColorUniform, ambientColor );
         gl.uniform3fv(shaderProgramTexturedObject.directionalColorUniform, diffuseColor);
         gl.uniform3fv(shaderProgramTexturedObject.reflectivityUniform, reflectivity);
+        gl.uniform3fv(shaderProgramTexturedObject.shininessUniform, shininess);
     };
 
     this.draw = function(){
