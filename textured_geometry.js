@@ -1,6 +1,14 @@
 function TexturedGeometry(){
     Geometry.call(this);
 
+    this.material = {
+        //Default values
+        ambientReflectivity: vec3.fromValues(.5, .5, .5),
+        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
+        specularReflectivity: vec3.fromValues(.5, .5, .5),
+        shininess: 1.0
+    };
+
     this.model_matrix = mat4.create();
 
     this.position_buffer = null;
@@ -69,16 +77,19 @@ function TexturedGeometry(){
         gl.useProgram(shaderProgramTexturedObject);
     };
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity, shininess){
+    this.setupLighting = function(light){
         this.setupShaders();
 
-        gl.uniform1i(shaderProgramTexturedObject.useLightingUniform, true);
+        gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, light.position);
 
-        gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, lightPosition);
-        gl.uniform3fv(shaderProgramTexturedObject.ambientColorUniform, ambientColor );
-        gl.uniform3fv(shaderProgramTexturedObject.directionalColorUniform, diffuseColor);
-        gl.uniform3fv(shaderProgramTexturedObject.reflectivityUniform, reflectivity);
-        gl.uniform3fv(shaderProgramTexturedObject.shininessUniform, shininess);
+        gl.uniform3fv(shaderProgramTexturedObject.ambientIntensityUniform, light.ambient);
+        gl.uniform3fv(shaderProgramTexturedObject.diffuseIntensityUniform, light.diffuse);
+        gl.uniform3fv(shaderProgramTexturedObject.specularIntensityUniform, light.specular);
+
+        gl.uniform3fv(shaderProgramTexturedObject.ambientReflectivityUniform, this.material.ambientReflectivity);
+        gl.uniform3fv(shaderProgramTexturedObject.diffuseReflectivityUniform, this.material.diffuseReflectivity);
+        gl.uniform3fv(shaderProgramTexturedObject.specularReflectivityUniform, this.material.specularReflectivity);
+        gl.uniform1f(shaderProgramTexturedObject.shininessUniform, this.material.shininess);
     };
 
     this.draw = function(){

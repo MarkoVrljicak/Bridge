@@ -42,16 +42,15 @@ function ColoredGeometry(){
         gl.useProgram(shaderProgramColoredObject);
     };
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
+    this.setupLighting = function(light){
         // Configuración de la luz
         // Se inicializan las variables asociadas con la Iluminación
-        var lighting = true;
         this.setupShaders();
-        gl.uniform1i(shaderProgramColoredObject.useLightingUniform, lighting);
+        gl.uniform1i(shaderProgramColoredObject.useLightingUniform, true);
 
-        gl.uniform3fv(shaderProgramColoredObject.lightingDirectionUniform, lightPosition);
-        gl.uniform3fv(shaderProgramColoredObject.ambientColorUniform, ambientColor );
-        gl.uniform3fv(shaderProgramColoredObject.directionalColorUniform, diffuseColor);
+        gl.uniform3fv(shaderProgramColoredObject.lightingDirectionUniform, light.position);
+        gl.uniform3fv(shaderProgramColoredObject.ambientColorUniform, light.ambient );
+        gl.uniform3fv(shaderProgramColoredObject.directionalColorUniform, light.diffuse);
     };
 
     this.draw = function(){

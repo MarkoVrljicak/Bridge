@@ -25,9 +25,9 @@ function TensorSet(data, curve){
         }
     };
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
+    this.setupLighting = function(light){
         for (var i = 0; i < this.tensors.length; i++){
-            this.tensors[i].setupLighting(lightPosition, ambientColor, diffuseColor);
+            this.tensors[i].setupLighting(light);
         }
     };
 

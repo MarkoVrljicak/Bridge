@@ -20,13 +20,13 @@ function Pillar(th1, th2, th3) {
     this.cap.initBuffers();
     this.cap.initTexture(textures.rust);
 
-    this.setupLighting = function(lightPosition, ambientColor, diffuseColor, reflectivity, shininess){
-        this.h1.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
-        this.h2.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
-        this.h3.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
-        this.t1.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
-        this.t2.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
-        this.cap.setupLighting(lightPosition, ambientColor, diffuseColor, reflectivity, shininess);
+    this.setupLighting = function(light){
+        this.h1.setupLighting(light);
+        this.h2.setupLighting(light);
+        this.h3.setupLighting(light);
+        this.t1.setupLighting(light);
+        this.t2.setupLighting(light);
+        this.cap.setupLighting(light);
     };
 
     this.setIdentity = function() {
