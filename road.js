@@ -1,5 +1,5 @@
 function Road(data){
-    ColoredGeometry.call(this);
+    CompositeTexturedGeometry.call(this);
 
     this.length = data.side;
     this.n_sections = 300;
@@ -8,33 +8,32 @@ function Road(data){
     this.z_pos = data.bridge_pos;
     this.lowest_point = data.lowest_point;
     this.section = [
+        0, .5, 6,
+        0, .5, -6,
+        0, .5, -6,
+        0, 1, -6,
+        0, 1, -8,
         0, -.5, -8,
         0, -.5, 8,
         0, 1, 8,
         0, 1, 6,
-        0, 1, 6,
-        0, .5, 6,
-        0, .5, -6,
-        0, 1, -6,
-        0, 1, -6,
-        0, 1, -8,
-        0, -.5, -8
+        0, .5, 6
     ];
 
     this.section_normals = [
-        0, -.7, -.7,
-        0, -.7, .7,
-        0, 1, 0,
-        0, 0, -1,
-        0, .7, -.7,
         0, 1, 0,
         0, 1, 0,
         0, 1, 0,
         0, 0, 1,
         0, .7, -.7,
-        0, -.7, -.7
+        0, -.7, -.7,
+        0, -.7, .7,
+        0, 1, 0,
+        0, 0, -1,
+        0, .7, -.7
     ];
 
+    /*
     this.section_colors = [
         .01, .01, .01,
         .01, .01, .01,
@@ -45,14 +44,19 @@ function Road(data){
         .01, .01, .01,
         .1, .1, .1,
         .1, .1, .1,
-        .1, .1, .1,
-        .01, .01, .01
+        .1, .1, .1
+    ];
+    */
+
+    this.section_texture_select = [
+        0, 0, 1, 1, 1, 1, 1, 1, 1, 1
     ];
 
     this.initBuffers = function(){
         this.position_buffer = [];
         this.normal_buffer = [];
-        this.color_buffer = [];
+        this.texture_coord_buffer = [];
+        this.texture_select_buffer = [];
         this.index_buffer = [];
 
         var step = this.length/this.n_sections;
@@ -78,7 +82,24 @@ function Road(data){
             }
             this.position_buffer.push.apply(this.position_buffer, new_section);
             this.normal_buffer.push.apply(this.normal_buffer, this.section_normals);
-            this.color_buffer.push.apply(this.color_buffer, this.section_colors);
+            this.texture_select_buffer.push.apply(this.texture_select_buffer, this.section_texture_select);
+            //this.color_buffer.push.apply(this.color_buffer, this.section_colors);
+            var v = 0.5 + (offset/this.length);
+            this.texture_coord_buffer.push.apply(this.texture_coord_buffer,
+                [
+                    0, v,
+                    1, v,
+                    0, v,
+                    (1/22), v,
+                    (3/22), v,
+                    (6/22), v,
+                    (16/22), v,
+                    (19/22), v,
+                    (20/22), v,
+                    1, v
+
+                ]
+            );
         }
 
         for (var longitude = 0; longitude < this.n_sections; longitude++){

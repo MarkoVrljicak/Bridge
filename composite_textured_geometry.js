@@ -1,38 +1,21 @@
-function TexturedGeometry(){
-    Geometry.call(this);
+function CompositeTexturedGeometry() {
+    TexturedGeometry.call(this);
 
-    this.material = {
-        //Default values
-        ambientReflectivity: vec3.fromValues(.5, .5, .5),
-        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
-        specularReflectivity: vec3.fromValues(.5, .5, .5),
-        shininess: 1.0
-    };
-
-    this.model_matrix = mat4.create();
-
-    this.position_buffer = null;
-    this.normal_buffer = null;
-    this.texture_coord_buffer = null;
-    this.index_buffer = null;
-
-    this.webgl_position_buffer = null;
-    this.webgl_normal_buffer = null;
-    this.webgl_texture_coord_buffer = null;
-    this.webgl_index_buffer = null;
-
-    this.texture = null;
+    this.webgl_texture_select_buffer = null;
+    this.texture_select_buffer = null;
+    this.texture = [];
 
     this.initTexture = function(texture_file){
-        this.texture = gl.createTexture();
-        this.texture.image = new Image();
+        var new_texture = gl.createTexture();
+        new_texture.image = new Image();
 
         var model = this;
 
-        this.texture.image.onload = function () {
+        new_texture.image.onload = function () {
             handleLoadedTexture(model)
         };
-        this.texture.image.src = texture_file;
+        new_texture.image.src = texture_file;
+        this.texture.push(new_texture);
     };
 
     this.bufferize = function(){
@@ -59,25 +42,12 @@ function TexturedGeometry(){
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.index_buffer), gl.STATIC_DRAW);
         this.webgl_index_buffer.itemSize = 1;
         this.webgl_index_buffer.numItems = this.index_buffer.length;
-    };
 
-    this.setupShaders = function(){
-        gl.useProgram(shaderProgramTexturedObject);
-    };
-
-    this.setupLighting = function(light){
-        this.setupShaders();
-
-        gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, light.position);
-
-        gl.uniform3fv(shaderProgramTexturedObject.ambientIntensityUniform, light.ambient);
-        gl.uniform3fv(shaderProgramTexturedObject.diffuseIntensityUniform, light.diffuse);
-        gl.uniform3fv(shaderProgramTexturedObject.specularIntensityUniform, light.specular);
-
-        gl.uniform3fv(shaderProgramTexturedObject.ambientReflectivityUniform, this.material.ambientReflectivity);
-        gl.uniform3fv(shaderProgramTexturedObject.diffuseReflectivityUniform, this.material.diffuseReflectivity);
-        gl.uniform3fv(shaderProgramTexturedObject.specularReflectivityUniform, this.material.specularReflectivity);
-        gl.uniform1f(shaderProgramTexturedObject.shininessUniform, this.material.shininess);
+        this.webgl_texture_select_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_texture_select_buffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.webgl_texture_select_buffer), gl.STATIC_DRAW);
+        this.webgl_texture_select_buffer.itemSize = 1;
+        this.webgl_texture_select_buffer.numItems = this.webgl_texture_select_buffer.length;
     };
 
     this.draw = function(){
@@ -95,8 +65,11 @@ function TexturedGeometry(){
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
         gl.vertexAttribPointer(shaderProgramTexturedObject.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_texture_select_buffer);
+        gl.vertexAttribPointer(shaderProgramTexturedObject.textureSelectAttribute, this.texture_select_buffer.itemSize, gl.FLOAT, false, 0, 0);
+
         gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.bindTexture(gl.TEXTURE_2D, this.texture[0]);
         gl.uniform1i(shaderProgramTexturedObject.samplerUniform, 0);
 
         gl.uniformMatrix4fv(shaderProgramTexturedObject.ModelMatrixUniform, false, this.model_matrix);
@@ -106,11 +79,9 @@ function TexturedGeometry(){
         mat3.transpose(normalMatrix, normalMatrix);
         gl.uniformMatrix3fv(shaderProgramTexturedObject.nMatrixUniform, false, normalMatrix);
 
-        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.bindTexture(gl.TEXTURE_2D, this.texture[0]);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();
     };
-
-
 }

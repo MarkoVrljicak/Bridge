@@ -14,6 +14,7 @@
     <script type="text/javascript" src="geometry.js"></script>
     <script type="text/javascript" src="camera.js"></script>
     <script type="text/javascript" src="textured_geometry.js"></script>
+    <script type="text/javascript" src="composite_textured_geometry.js"></script>
     <script type="text/javascript" src="textured_sphere.js"></script>
     <script type="text/javascript" src="textured_cylinder.js"></script>
     <script type="text/javascript" src="colored_geometry.js"></script>
@@ -113,6 +114,27 @@
         }
     </script>
 
+    <script id="shader-fs-composite-textured-obj" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec2 vTextureCoord;
+        varying vec3 vLightWeighting;
+
+        uniform sampler2D uSampler0;
+        uniform sampler2D uSampler1;
+
+        uniform int uTextureSelect;
+
+        void main(void) {
+            vec4 textureColor;
+            if (uTextureSelect == 0)
+                textureColor = texture2D(uSampler0, vec2(vTextureCoord.s, vTextureCoord.t));
+            else
+                textureColor = texture2D(uSampler1, vec2(vTextureCoord.s, vTextureCoord.t));
+            gl_FragColor = vec4(textureColor.rgb * vLightWeighting, textureColor.a);
+        }
+    </script>
+
     <script id="shader-vs-textured-obj" type="x-shader/x-vertex">
         attribute vec3 aVertexPosition;
         attribute vec3 aVertexNormal;
@@ -137,22 +159,16 @@
         varying vec2 vTextureCoord;
         varying vec3 vLightWeighting;
 
-        void main(void) {
-            // Transformamos al vertice al espacio de la camara
-            vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
+        void getEyeSpace(out vec3 transformedNormal, out vec4 posCameraView){
+            transformedNormal = normalize(uNMatrix * aVertexNormal);
+            posCameraView = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
+        }
 
-            // Transformamos al vertice al espacio de la proyeccion
-            gl_Position = uPMatrix * pos_camera_view;
-
-            // Coordenada de textura sin modifiaciones
-            vTextureCoord = aTextureCoord;
-
-            // Calculos de la iluminacion
+        vec3 phongModel(vec4 posCameraView, vec3 transformedNormal){
             vec3 light_dir =  normalize(uLightPosition - aVertexNormal);
 
-            vec3 transformedNormal = normalize(uNMatrix * aVertexNormal);
-            vec3 s = normalize(light_dir - vec3(pos_camera_view));
-            vec3 v = normalize(-vec3(pos_camera_view));
+            vec3 s = normalize(light_dir - vec3(posCameraView));
+            vec3 v = normalize(-vec3(posCameraView));
             vec3 r = reflect(-s, transformedNormal);
             float sn = max(dot(s, transformedNormal), 0.0);
 
@@ -163,7 +179,18 @@
                 specular = uSpecularIntensity * uSpecularReflectivity * pow(max(dot(r,v), 0.0), uShininess);
             }
 
-            vLightWeighting = ambient + diffuse + specular;
+            return ambient + diffuse + specular;
+        }
+
+        void main(void) {
+            vec3 transformedNormal;
+            vec4 posCameraView;
+            getEyeSpace(transformedNormal, posCameraView);
+
+            gl_Position = uPMatrix * posCameraView;
+            vTextureCoord = aTextureCoord;
+
+            vLightWeighting = phongModel(posCameraView, transformedNormal);
         }
     </script>
 
@@ -185,7 +212,9 @@
             rust: "maps/rust.jpg",
             sky: "maps/sky_lightblue_mod.jpg",
             crown: "maps/leaves.jpg",
-            bark: "maps/bark.jpg"
+            bark: "maps/bark.jpg",
+            asfalt: "maps/asfalt.jpg",
+            sidewalk: "maps/sidewalk.jpg"
         };
 
         function initGL(canvas) {
@@ -235,12 +264,13 @@
         }
 
         var shaderProgramTexturedObject;
+        var shaderProgramCompositeTexturedObject;
         var shaderProgramColoredObject;
 
         function initShaders() {
             initTexturedShader();
+            initCompositeTexturedShader();
             initColoredShader();
-
         }
 
         function initTexturedShader(){
@@ -283,6 +313,50 @@
             shaderProgramTexturedObject.shininessUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uShininess");
         }
 
+        function initCompositeTexturedShader(){
+            //Setup
+            var fragmentShaderCompositeTexturedObj = getShader(gl, "shader-fs-composite-textured-obj");
+            var vertexShaderTexturedObj = getShader(gl, "shader-vs-textured-obj");
+            shaderProgramCompositeTexturedObject = gl.createProgram();
+            gl.attachShader(shaderProgramCompositeTexturedObject, vertexShaderTexturedObj);
+            gl.attachShader(shaderProgramCompositeTexturedObject, fragmentShaderCompositeTexturedObj);
+            gl.linkProgram(shaderProgramCompositeTexturedObject);
+            if (!gl.getProgramParameter(shaderProgramCompositeTexturedObject, gl.LINK_STATUS)) {
+                alert("Could not initialise shaders");
+            }
+
+            //Buffers & matrices
+            shaderProgramCompositeTexturedObject.vertexPositionAttribute = gl.getAttribLocation(shaderProgramCompositeTexturedObject, "aVertexPosition");
+            gl.enableVertexAttribArray(shaderProgramCompositeTexturedObject.vertexPositionAttribute);
+            shaderProgramCompositeTexturedObject.textureCoordAttribute = gl.getAttribLocation(shaderProgramCompositeTexturedObject, "aTextureCoord");
+            gl.enableVertexAttribArray(shaderProgramCompositeTexturedObject.textureCoordAttribute);
+            shaderProgramCompositeTexturedObject.vertexNormalAttribute = gl.getAttribLocation(shaderProgramCompositeTexturedObject, "aVertexNormal");
+            gl.enableVertexAttribArray(shaderProgramCompositeTexturedObject.vertexNormalAttribute);
+            shaderProgramCompositeTexturedObject.textureSelectAttribute = gl.getAttribLocation(shaderProgramCompositeTexturedObject, "aTextureSelect");
+            gl.enableVertexAttribArray(shaderProgramCompositeTexturedObject.textureSelectAttribute);
+
+            shaderProgramCompositeTexturedObject.pMatrixUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uPMatrix");
+            shaderProgramCompositeTexturedObject.ViewMatrixUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uViewMatrix");
+            shaderProgramCompositeTexturedObject.ModelMatrixUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uModelMatrix");
+            shaderProgramCompositeTexturedObject.nMatrixUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uNMatrix");
+
+            //Texture
+            shaderProgramCompositeTexturedObject.sampler0Uniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uSampler0");
+            shaderProgramCompositeTexturedObject.sampler1Uniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uSampler1");
+
+            //Light specs
+            shaderProgramCompositeTexturedObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uLightPosition");
+            shaderProgramCompositeTexturedObject.ambientIntensityUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uAmbientIntensity");
+            shaderProgramCompositeTexturedObject.diffuseIntensityUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uDiffuseIntensity");
+            shaderProgramCompositeTexturedObject.specularIntensityUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uSpecularIntensity");
+
+            //Material specs
+            shaderProgramCompositeTexturedObject.ambientReflectivityUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uAmbientReflectivity");
+            shaderProgramCompositeTexturedObject.diffuseReflectivityUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uDiffuseReflectivity");
+            shaderProgramCompositeTexturedObject.specularReflectivityUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uSpecularReflectivity");
+            shaderProgramCompositeTexturedObject.shininessUniform = gl.getUniformLocation(shaderProgramCompositeTexturedObject, "uShininess");
+        }
+
         function initColoredShader(){
             var fragmentShaderColoredObj = getShader(gl, "shader-fs-colored-obj");
             var vertexShaderColoredObj = getShader(gl, "shader-vs-colored-obj");
@@ -308,6 +382,18 @@
             shaderProgramColoredObject.ambientColorUniform = gl.getUniformLocation(shaderProgramColoredObject, "uAmbientColor");
             shaderProgramColoredObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramColoredObject, "uLightPosition");
             shaderProgramColoredObject.directionalColorUniform = gl.getUniformLocation(shaderProgramColoredObject, "uDirectionalColor");
+        }
+
+        function handleLoadedTexture(model) {
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.bindTexture(gl.TEXTURE_2D, model.texture);
+
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, model.texture.image);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+            gl.generateMipmap(gl.TEXTURE_2D);
+
+            gl.bindTexture(gl.TEXTURE_2D, null);
         }
 
         var camera_matrix = mat4.create();
