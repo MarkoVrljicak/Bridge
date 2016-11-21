@@ -5,7 +5,6 @@ function Bridge(data) {
     this.towers = [];
 
     this.road = new Road(data);
-    this.road.initBuffers();
 
     this.setTowerPos = function(){
         switch(this.n_towers){
