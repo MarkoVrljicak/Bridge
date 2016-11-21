@@ -6,8 +6,6 @@ function Bridge(data) {
 
     this.road = new Road(data);
     this.road.initBuffers();
-    this.road.initTexture(textures.asfalt);
-    this.road.initTexture(textures.sidewalk);
 
     this.setTowerPos = function(){
         switch(this.n_towers){

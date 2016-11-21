@@ -25,7 +25,7 @@ function Scene(){
     // Light settings
     var light = {
         position: vec3.fromValues(-1500, 1500.0, 1500),
-        ambient: vec3.fromValues(.4, .4, .4),
+        ambient: vec3.fromValues(.35, .35, .35),
         diffuse: vec3.fromValues(1, 1, 1),
         specular: vec3.fromValues(1, 1, 1)
     };
