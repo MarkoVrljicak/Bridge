@@ -1,15 +1,25 @@
 function River(data){
-    ColoredGeometry.call(this);
+    NMapGeometry.call(this);
     this.side = data.side;
 
     this.latitude_bands = 150;
     this.longitude_bands = 150;
 
+    this.material = {
+        //Default values
+        ambientReflectivity: vec3.fromValues(1, 1, 1),
+        diffuseReflectivity: vec3.fromValues(1, 1, 1),
+        specularReflectivity: vec3.fromValues(1, 1, 1),
+        shininess: 200.0
+    };
+
     this.initBuffers = function(){
         this.position_buffer = [];
         this.normal_buffer = [];
+        this.tangent_buffer = [];
         this.color_buffer = [];
         this.index_buffer = [];
+        this.texture_coord_buffer = [];
 
         var lat_number;
         var long_number;
@@ -22,13 +32,20 @@ function River(data){
                 this.normal_buffer.push(1);
                 this.normal_buffer.push(0);
 
-                this.color_buffer.push(0);
-                this.color_buffer.push(0);
-                this.color_buffer.push(.3);
+                this.tangent_buffer.push(1);
+                this.tangent_buffer.push(0);
+                this.tangent_buffer.push(0);
+
+                this.color_buffer.push(.1);
+                this.color_buffer.push(.4);
+                this.color_buffer.push(.4);
 
                 this.position_buffer.push(long_number);
                 this.position_buffer.push(0);
                 this.position_buffer.push(lat_number);
+
+                this.texture_coord_buffer.push(.5 + long_number/this.side);
+                this.texture_coord_buffer.push(.5 + lat_number/this.side);
             }
         }
 

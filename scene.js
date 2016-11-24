@@ -7,6 +7,7 @@ function Scene(){
 
     this.river = new River(data);
     this.river.initBuffers();
+    this.river.initTexture(textures.water_normal);
 
     this.land = new Land(data);
     this.land.initBuffers();

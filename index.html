@@ -14,6 +14,7 @@
     <script type="text/javascript" src="geometry.js"></script>
     <script type="text/javascript" src="camera.js"></script>
     <script type="text/javascript" src="textured_geometry.js"></script>
+    <script type="text/javascript" src="n_map_geometry.js"></script>
     <script type="text/javascript" src="road_piece.js"></script>
     <script type="text/javascript" src="sidewalk.js"></script>
     <script type="text/javascript" src="street.js"></script>
@@ -52,10 +53,8 @@
         varying vec3 vVertexColor;
         varying vec3 vLightWeighting;
 
-        uniform sampler2D uSampler;
-
         void main(void) {
-            gl_FragColor = vec4(vVertexColor.rgb * vLightWeighting * .001, 1.0);
+            gl_FragColor = vec4(vVertexColor.rgb * vLightWeighting, 1.0);
         }
     </script>
 
@@ -90,8 +89,7 @@
             vVertexColor = aVertexColor;
 
             // Calculos de la iluminacion
-            vec3 light_dir =  uLightPosition - aVertexNormal;
-            normalize(light_dir);
+            vec3 light_dir =  normalize(uLightPosition - aVertexNormal);
             if (!uUseLighting) {
                 vLightWeighting = vec3(1.0, 1.0, 1.0);
             } else {
@@ -170,6 +168,98 @@
         }
     </script>
 
+    <script id="shader-fs-normal-mapping" type="x-shader/x-fragment">
+        precision mediump float;
+
+        varying vec3 lightDir;
+        varying vec2 vTextureCoord;
+        varying vec3 viewDir;
+        varying vec3 vVertexColor;
+
+        uniform sampler2D NormalMapTex;
+
+        uniform vec3 uAmbientIntensity;
+        uniform vec3 uDiffuseIntensity;
+        uniform vec3 uSpecularIntensity;
+
+        uniform vec3 uAmbientReflectivity;
+        uniform vec3 uDiffuseReflectivity;
+        uniform vec3 uSpecularReflectivity;
+        uniform float uShininess;
+
+        vec3 phongModel(vec3 n) {
+            vec3 r = reflect(-lightDir, n);
+            vec3 ambient = uAmbientIntensity * uAmbientReflectivity;
+            float sn = max(dot(lightDir, n), 0.0);
+            vec3 diffuse = uDiffuseIntensity * uDiffuseReflectivity * sn;
+            vec3 spec = vec3(0.0);
+            if (sn > 0.0){
+                spec = uSpecularIntensity * uSpecularReflectivity * pow(max(dot(r, viewDir), 0.0), uShininess);
+            }
+            return ambient + diffuse + spec;
+        }
+
+        void main() {
+            // Lookup the normal from the normal map
+            vec4 normal = texture2D(NormalMapTex, vTextureCoord);
+
+            gl_FragColor = vec4(vVertexColor.rgb * phongModel(normal.xyz), 1.0);
+        }
+    </script>
+
+    <script id="shader-vs-normal-mapping" type="x-shader/x-vertex">
+        varying vec3 lightDir;
+        varying vec3 viewDir;
+        varying vec2 vTextureCoord;
+        varying vec3 vVertexColor;
+
+        attribute vec3 aVertexPosition;
+        attribute vec3 aVertexNormal;
+        attribute vec2 aTextureCoord;
+        attribute vec4 aVertexTangent;
+        attribute vec3 aVertexColor;
+
+        uniform vec3 uLightPosition;
+
+        uniform mat4 uViewMatrix;
+        uniform mat4 uModelMatrix;
+        uniform mat4 uPMatrix;
+        uniform mat3 uNMatrix;
+
+        void main(void){
+            lightDir =  normalize(uLightPosition - aVertexNormal);
+
+            // Transform normal and tangent to eye space
+            vec3 n = normalize(uNMatrix * aVertexNormal);
+            vec3 t = normalize(uNMatrix * vec3(aVertexTangent));
+
+            // Compute the binormal
+            vec3 b = normalize(cross(n, t)) * aVertexTangent.w;
+
+            // Matrix for transformation to tangent space
+            mat3 toObjectLocal = mat3(
+                t.x, b.x, n.x,
+                t.y, b.y, n.y,
+                t.z, b.z, n.z
+            );
+
+            // Get the position in eye coordinates
+            vec4 pos = uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
+
+            // Transform light dir and view dir to tangent space
+            lightDir = normalize(toObjectLocal*(uLightPosition.xyz-vec3(pos)));
+            viewDir = toObjectLocal*vec3(normalize(-pos));
+
+            // Pass along the texture coordinate
+            vTextureCoord = aTextureCoord;
+            // Coordenada de textura sin modifiaciones
+            vVertexColor = aVertexColor;
+
+            // Transformamos al vertice al espacio de la proyeccion
+            gl_Position = uPMatrix * pos;
+        }
+    </script>
+
     <script type="text/javascript">
         function onMouseClick(){
             mouseDown = true;
@@ -190,7 +280,8 @@
             crown: "maps/leaves.jpg",
             bark: "maps/bark.jpg",
             sidewalk: "maps/sidewalk.jpg",
-            street: "maps/asfalt.jpg"
+            street: "maps/asfalt.jpg",
+            water_normal: "maps/water_normal3.jpg"
         };
 
         function initGL(canvas) {
@@ -241,10 +332,12 @@
 
         var shaderProgramTexturedObject;
         var shaderProgramColoredObject;
+        var shaderProgramNMapObject;
 
         function initShaders() {
             initTexturedShader();
             initColoredShader();
+            initNormalMapShader();
 
         }
 
@@ -286,6 +379,50 @@
             shaderProgramTexturedObject.diffuseReflectivityUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uDiffuseReflectivity");
             shaderProgramTexturedObject.specularReflectivityUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uSpecularReflectivity");
             shaderProgramTexturedObject.shininessUniform = gl.getUniformLocation(shaderProgramTexturedObject, "uShininess");
+        }
+
+        function initNormalMapShader(){
+            //Setup
+            var fragmentShaderNMapObj = getShader(gl, "shader-fs-normal-mapping");
+            var vertexShaderNMapObj = getShader(gl, "shader-vs-normal-mapping");
+            shaderProgramNMapObject = gl.createProgram();
+            gl.attachShader(shaderProgramNMapObject, vertexShaderNMapObj);
+            gl.attachShader(shaderProgramNMapObject, fragmentShaderNMapObj);
+            gl.linkProgram(shaderProgramNMapObject);
+            if (!gl.getProgramParameter(shaderProgramNMapObject, gl.LINK_STATUS)) {
+                alert("Could not initialise shaders");
+            }
+
+            //Buffers & matrices
+            shaderProgramNMapObject.vertexPositionAttribute = gl.getAttribLocation(shaderProgramNMapObject, "aVertexPosition");
+            gl.enableVertexAttribArray(shaderProgramNMapObject.vertexPositionAttribute);
+            shaderProgramNMapObject.textureCoordAttribute = gl.getAttribLocation(shaderProgramNMapObject, "aTextureCoord");
+            gl.enableVertexAttribArray(shaderProgramNMapObject.textureCoordAttribute);
+            shaderProgramNMapObject.vertexNormalAttribute = gl.getAttribLocation(shaderProgramNMapObject, "aVertexNormal");
+            gl.enableVertexAttribArray(shaderProgramNMapObject.vertexNormalAttribute);
+            shaderProgramNMapObject.vertexTangentAttribute = gl.getAttribLocation(shaderProgramNMapObject, "aVertexTangent");
+            gl.enableVertexAttribArray(shaderProgramNMapObject.vertexTangentAttribute);
+            shaderProgramNMapObject.vertexColorAttribute = gl.getAttribLocation(shaderProgramNMapObject, "aVertexColor");
+            gl.enableVertexAttribArray(shaderProgramNMapObject.vertexColorAttribute);
+            shaderProgramNMapObject.pMatrixUniform = gl.getUniformLocation(shaderProgramNMapObject, "uPMatrix");
+            shaderProgramNMapObject.ViewMatrixUniform = gl.getUniformLocation(shaderProgramNMapObject, "uViewMatrix");
+            shaderProgramNMapObject.ModelMatrixUniform = gl.getUniformLocation(shaderProgramNMapObject, "uModelMatrix");
+            shaderProgramNMapObject.nMatrixUniform = gl.getUniformLocation(shaderProgramNMapObject, "uNMatrix");
+
+            //Texture
+            shaderProgramNMapObject.normalMapUniform = gl.getUniformLocation(shaderProgramNMapObject, "NormalMapTex");
+
+            //Light specs
+            shaderProgramNMapObject.lightingDirectionUniform = gl.getUniformLocation(shaderProgramNMapObject, "uLightPosition");
+            shaderProgramNMapObject.ambientIntensityUniform = gl.getUniformLocation(shaderProgramNMapObject, "uAmbientIntensity");
+            shaderProgramNMapObject.diffuseIntensityUniform = gl.getUniformLocation(shaderProgramNMapObject, "uDiffuseIntensity");
+            shaderProgramNMapObject.specularIntensityUniform = gl.getUniformLocation(shaderProgramNMapObject, "uSpecularIntensity");
+
+            //Material specs
+            shaderProgramNMapObject.ambientReflectivityUniform = gl.getUniformLocation(shaderProgramNMapObject, "uAmbientReflectivity");
+            shaderProgramNMapObject.diffuseReflectivityUniform = gl.getUniformLocation(shaderProgramNMapObject, "uDiffuseReflectivity");
+            shaderProgramNMapObject.specularReflectivityUniform = gl.getUniformLocation(shaderProgramNMapObject, "uSpecularReflectivity");
+            shaderProgramNMapObject.shininessUniform = gl.getUniformLocation(shaderProgramNMapObject, "uShininess");
         }
 
         function initColoredShader(){
