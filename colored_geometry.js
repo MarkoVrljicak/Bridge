@@ -11,6 +11,8 @@ function ColoredGeometry(){
     this.webgl_color_buffer = null;
     this.webgl_index_buffer = null;
 
+    this.shader = shaderProgramColoredObject;
+
     this.bufferize = function(){
         // Creación e Inicialización de los buffers a nivel de OpenGL
         this.webgl_normal_buffer = gl.createBuffer();
@@ -38,42 +40,38 @@ function ColoredGeometry(){
         this.webgl_index_buffer.numItems = this.index_buffer.length;
     };
 
-    this.setupShaders = function(){
-        gl.useProgram(shaderProgramColoredObject);
-    };
-
     this.setupLighting = function(light){
         // Configuración de la luz
         // Se inicializan las variables asociadas con la Iluminación
         this.setupShaders();
-        gl.uniform1i(shaderProgramColoredObject.useLightingUniform, true);
+        gl.uniform1i(this.shader.useLightingUniform, true);
 
-        gl.uniform3fv(shaderProgramColoredObject.lightingDirectionUniform, light.position);
-        gl.uniform3fv(shaderProgramColoredObject.ambientColorUniform, light.ambient );
-        gl.uniform3fv(shaderProgramColoredObject.directionalColorUniform, light.diffuse);
+        gl.uniform3fv(this.shader.lightingDirectionUniform, light.position);
+        gl.uniform3fv(this.shader.ambientColorUniform, light.ambient );
+        gl.uniform3fv(this.shader.directionalColorUniform, light.diffuse);
     };
 
     this.draw = function(){
         this.setupShaders();
 
-        gl.uniformMatrix4fv(shaderProgramColoredObject.pMatrixUniform, false, pMatrix);
-        gl.uniformMatrix4fv(shaderProgramColoredObject.ViewMatrixUniform, false, camera_matrix);
+        gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
+        gl.uniformMatrix4fv(this.shader.ViewMatrixUniform, false, camera_matrix);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
-        gl.vertexAttribPointer(shaderProgramColoredObject.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_color_buffer);
-        gl.vertexAttribPointer(shaderProgramColoredObject.vertexColorAttribute, this.webgl_color_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.vertexColorAttribute, this.webgl_color_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
-        gl.vertexAttribPointer(shaderProgramColoredObject.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
-        gl.uniformMatrix4fv(shaderProgramColoredObject.ModelMatrixUniform, false, this.model_matrix);
+        gl.uniformMatrix4fv(this.shader.ModelMatrixUniform, false, this.model_matrix);
         var normalMatrix = mat3.create();
         mat3.fromMat4(normalMatrix, this.model_matrix);
         mat3.invert(normalMatrix, normalMatrix);
         mat3.transpose(normalMatrix, normalMatrix);
-        gl.uniformMatrix3fv(shaderProgramColoredObject.nMatrixUniform, false, normalMatrix);
+        gl.uniformMatrix3fv(this.shader.nMatrixUniform, false, normalMatrix);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();

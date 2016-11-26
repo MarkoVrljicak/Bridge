@@ -27,6 +27,8 @@ function NMapGeometry(){
 
     this.texture = null;
 
+    this.shader = shaderProgramNMapObject;
+
     function handleLoadedTexture(model) {
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.bindTexture(gl.TEXTURE_2D, model.texture);
@@ -39,7 +41,7 @@ function NMapGeometry(){
         gl.bindTexture(gl.TEXTURE_2D, null);
     }
 
-    this.initTexture = function(texture_file){
+    this.initNormalMap = function(texture_file){
         this.texture = gl.createTexture();
         this.texture.image = new Image();
 
@@ -89,58 +91,48 @@ function NMapGeometry(){
         this.webgl_index_buffer.numItems = this.index_buffer.length;
     };
 
-    this.setupShaders = function(){
-        gl.useProgram(shaderProgramNMapObject);
-    };
-
     this.setupLighting = function(light){
         this.setupShaders();
 
-        gl.uniform3fv(shaderProgramNMapObject.lightingDirectionUniform, light.position);
+        gl.uniform3fv(this.shader.lightingDirectionUniform, light.position);
 
-        gl.uniform3fv(shaderProgramNMapObject.ambientIntensityUniform, light.ambient);
-        gl.uniform3fv(shaderProgramNMapObject.diffuseIntensityUniform, light.diffuse);
-        gl.uniform3fv(shaderProgramNMapObject.specularIntensityUniform, light.specular);
+        gl.uniform3fv(this.shader.ambientIntensityUniform, light.ambient);
+        gl.uniform3fv(this.shader.diffuseIntensityUniform, light.diffuse);
+        gl.uniform3fv(this.shader.specularIntensityUniform, light.specular);
 
-        gl.uniform3fv(shaderProgramNMapObject.ambientReflectivityUniform, this.material.ambientReflectivity);
-        gl.uniform3fv(shaderProgramNMapObject.diffuseReflectivityUniform, this.material.diffuseReflectivity);
-        gl.uniform3fv(shaderProgramNMapObject.specularReflectivityUniform, this.material.specularReflectivity);
-        gl.uniform1f(shaderProgramNMapObject.shininessUniform, this.material.shininess);
+        gl.uniform3fv(this.shader.ambientReflectivityUniform, this.material.ambientReflectivity);
+        gl.uniform3fv(this.shader.diffuseReflectivityUniform, this.material.diffuseReflectivity);
+        gl.uniform3fv(this.shader.specularReflectivityUniform, this.material.specularReflectivity);
+        gl.uniform1f(this.shader.shininessUniform, this.material.shininess);
     };
 
     this.draw = function(){
         this.setupShaders();
 
-        gl.uniformMatrix4fv(shaderProgramNMapObject.pMatrixUniform, false, pMatrix);
-        gl.uniformMatrix4fv(shaderProgramNMapObject.ViewMatrixUniform, false, camera_matrix);
+        gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
+        gl.uniformMatrix4fv(this.shader.ViewMatrixUniform, false, camera_matrix);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
-        gl.vertexAttribPointer(shaderProgramNMapObject.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
+        gl.vertexAttribPointer(this.shader.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_color_buffer);
-        gl.vertexAttribPointer(shaderProgramNMapObject.vertexColorAttribute, this.webgl_color_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
+        gl.vertexAttribPointer(this.shader.vertexColorAttribute, this.webgl_color_buffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_texture_coord_buffer);
-        gl.vertexAttribPointer(shaderProgramNMapObject.textureCoordAttribute, this.webgl_texture_coord_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
+        gl.vertexAttribPointer(this.shader.textureCoordAttribute, this.webgl_texture_coord_buffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
-        gl.vertexAttribPointer(shaderProgramNMapObject.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
+        gl.vertexAttribPointer(this.shader.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_tangent_buffer);
-        gl.vertexAttribPointer(shaderProgramNMapObject.vertexTangentAttribute, this.webgl_tangent_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.vertexTangentAttribute, this.webgl_tangent_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        gl.uniform1i(shaderProgramNMapObject.normalMapUniform, 0);
+        gl.uniform1i(this.shader.normalMapUniform, 0);
 
-        gl.uniformMatrix4fv(shaderProgramNMapObject.ModelMatrixUniform, false, this.model_matrix);
+        gl.uniformMatrix4fv(this.shader.ModelMatrixUniform, false, this.model_matrix);
         var normalMatrix = mat3.create();
         mat3.fromMat4(normalMatrix, this.model_matrix);
         mat3.invert(normalMatrix, normalMatrix);
         mat3.transpose(normalMatrix, normalMatrix);
-        gl.uniformMatrix3fv(shaderProgramNMapObject.nMatrixUniform, false, normalMatrix);
-
-        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.uniformMatrix3fv(this.shader.nMatrixUniform, false, normalMatrix);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();

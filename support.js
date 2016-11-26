@@ -35,7 +35,8 @@ function Support(data, tower_pos){
             }
             this.wires.push(new Wire(curve, 100, 20));
             this.wires[i].initBuffers();
-            this.wires[i].initTexture("maps/wires.jpg");
+            this.wires[i].initNormalMap(textures.wire);
+            this.wires[i].initReflectionCube(textures.skybox);
             this.left_tensor_set.push(new TensorSet(data, curve));
             this.right_tensor_set.push(new TensorSet(data, curve));
         }

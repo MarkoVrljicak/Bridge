@@ -1,6 +1,8 @@
 function TexturedGeometry(){
     Geometry.call(this);
 
+    this.shader = shaderProgramTexturedObject;
+
     this.material = {
         //Default values
         ambientReflectivity: vec3.fromValues(.5, .5, .5),
@@ -73,52 +75,46 @@ function TexturedGeometry(){
         this.webgl_index_buffer.numItems = this.index_buffer.length;
     };
 
-    this.setupShaders = function(){
-        gl.useProgram(shaderProgramTexturedObject);
-    };
-
     this.setupLighting = function(light){
         this.setupShaders();
 
-        gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, light.position);
+        gl.uniform3fv(this.shader.lightingDirectionUniform, light.position);
 
-        gl.uniform3fv(shaderProgramTexturedObject.ambientIntensityUniform, light.ambient);
-        gl.uniform3fv(shaderProgramTexturedObject.diffuseIntensityUniform, light.diffuse);
-        gl.uniform3fv(shaderProgramTexturedObject.specularIntensityUniform, light.specular);
+        gl.uniform3fv(this.shader.ambientIntensityUniform, light.ambient);
+        gl.uniform3fv(this.shader.diffuseIntensityUniform, light.diffuse);
+        gl.uniform3fv(this.shader.specularIntensityUniform, light.specular);
 
-        gl.uniform3fv(shaderProgramTexturedObject.ambientReflectivityUniform, this.material.ambientReflectivity);
-        gl.uniform3fv(shaderProgramTexturedObject.diffuseReflectivityUniform, this.material.diffuseReflectivity);
-        gl.uniform3fv(shaderProgramTexturedObject.specularReflectivityUniform, this.material.specularReflectivity);
-        gl.uniform1f(shaderProgramTexturedObject.shininessUniform, this.material.shininess);
+        gl.uniform3fv(this.shader.ambientReflectivityUniform, this.material.ambientReflectivity);
+        gl.uniform3fv(this.shader.diffuseReflectivityUniform, this.material.diffuseReflectivity);
+        gl.uniform3fv(this.shader.specularReflectivityUniform, this.material.specularReflectivity);
+        gl.uniform1f(this.shader.shininessUniform, this.material.shininess);
     };
 
     this.draw = function(){
         this.setupShaders();
 
-        gl.uniformMatrix4fv(shaderProgramTexturedObject.pMatrixUniform, false, pMatrix);
-        gl.uniformMatrix4fv(shaderProgramTexturedObject.ViewMatrixUniform, false, camera_matrix);
+        gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
+        gl.uniformMatrix4fv(this.shader.ViewMatrixUniform, false, camera_matrix);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
-        gl.vertexAttribPointer(shaderProgramTexturedObject.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_texture_coord_buffer);
-        gl.vertexAttribPointer(shaderProgramTexturedObject.textureCoordAttribute, this.webgl_texture_coord_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.textureCoordAttribute, this.webgl_texture_coord_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
-        gl.vertexAttribPointer(shaderProgramTexturedObject.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(this.shader.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        gl.uniform1i(shaderProgramTexturedObject.samplerUniform, 0);
+        gl.uniform1i(this.shader.samplerUniform, 0);
 
-        gl.uniformMatrix4fv(shaderProgramTexturedObject.ModelMatrixUniform, false, this.model_matrix);
+        gl.uniformMatrix4fv(this.shader.ModelMatrixUniform, false, this.model_matrix);
         var normalMatrix = mat3.create();
         mat3.fromMat4(normalMatrix, this.model_matrix);
         mat3.invert(normalMatrix, normalMatrix);
         mat3.transpose(normalMatrix, normalMatrix);
-        gl.uniformMatrix3fv(shaderProgramTexturedObject.nMatrixUniform, false, normalMatrix);
-
-        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.uniformMatrix3fv(this.shader.nMatrixUniform, false, normalMatrix);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
         this.drawMode();

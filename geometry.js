@@ -1,6 +1,12 @@
 function Geometry() {
     this.model_matrix = mat4.create();
 
+    this.shader = null;
+
+    this.setupShaders = function(){
+        gl.useProgram(this.shader);
+    };
+
     this.setIdentity = function(){
         mat4.identity(this.model_matrix);
     };

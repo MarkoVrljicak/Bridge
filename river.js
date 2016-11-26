@@ -1,5 +1,5 @@
 function River(data){
-    NMapGeometry.call(this);
+    NormalReflectGeometry.call(this);
     this.side = data.side;
 
     this.latitude_bands = 150;

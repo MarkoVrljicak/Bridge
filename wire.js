@@ -1,5 +1,5 @@
 function Wire(curve, n_curve_evaluations, longitude_bands){
-    TexturedGeometry.call(this);
+    NormalReflectGeometry.call(this);
 
     this.curve = curve;
     this.curve_len = Math.abs(this.curve.evaluate(1)[0] - this.curve.evaluate(0)[0]);
@@ -12,6 +12,9 @@ function Wire(curve, n_curve_evaluations, longitude_bands){
         this.normal_buffer = [];
         this.texture_coord_buffer = [];
         this.index_buffer = [];
+
+        this.tangent_buffer = [];
+        this.color_buffer = [];
 
         var eval;
         var longitude;
@@ -33,8 +36,16 @@ function Wire(curve, n_curve_evaluations, longitude_bands){
                 this.normal_buffer.push(Math.cos(phi) * .5);
                 this.normal_buffer.push(Math.sin(phi) * .5);
 
-                this.texture_coord_buffer.push(u);
+                this.tangent_buffer.push(1);
+                this.tangent_buffer.push(0);
+                this.tangent_buffer.push(0);
+
+                this.color_buffer.push(.5);
+                this.color_buffer.push(.5);
+                this.color_buffer.push(.5);
+
                 this.texture_coord_buffer.push(v);
+                this.texture_coord_buffer.push(u);
 
                 this.position_buffer.push(x);
                 this.position_buffer.push(y);
