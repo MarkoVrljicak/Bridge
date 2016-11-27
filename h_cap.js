@@ -1,5 +1,5 @@
 function HCap(){
-    TexturedGeometry.call(this);
+    NormalTexturedGeometry.call(this);
 
     this.initBuffers = function(){
         this.position_buffer = [
@@ -17,6 +17,7 @@ function HCap(){
             -1.5, 0, -.5
         ];
         this.normal_buffer = [];
+        this.tangent_buffer = [];
         this.texture_coord_buffer = [
             0, 0,
             1, 0,
@@ -38,6 +39,10 @@ function HCap(){
             this.normal_buffer.push(0);
             this.normal_buffer.push(1);
             this.normal_buffer.push(0);
+
+            this.tangent_buffer.push(1);
+            this.tangent_buffer.push(0);
+            this.tangent_buffer.push(0);
         }
 
         this.bufferize();

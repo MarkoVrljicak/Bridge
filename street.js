@@ -11,6 +11,10 @@ function Street(data){
         0, 1, 0
     ];
 
+    this.section_tangents = [
+        1, 0, 0,
+        1, 0, 0
+    ];
     this.textureCoordinates = function(v){
         return [
             0, v,

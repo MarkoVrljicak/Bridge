@@ -1,5 +1,5 @@
 function RoadPiece(data){
-    TexturedGeometry.call(this);
+    NormalTexturedGeometry.call(this);
 
     this.length = data.side;
     this.n_sections = 300;
@@ -14,6 +14,7 @@ function RoadPiece(data){
     this.initBuffers = function(){
         this.position_buffer = [];
         this.normal_buffer = [];
+        this.tangent_buffer = [];
         this.index_buffer = [];
         this.texture_coord_buffer = [];
 
@@ -40,6 +41,7 @@ function RoadPiece(data){
             }
             this.position_buffer.push.apply(this.position_buffer, new_section);
             this.normal_buffer.push.apply(this.normal_buffer, this.section_normals);
+            this.tangent_buffer.push.apply(this.tangent_buffer, this.section_tangents);
             var v = 0.5 + offset/this.length;
             this.texture_coord_buffer.push.apply(this.texture_coord_buffer, this.textureCoordinates(v));
         }

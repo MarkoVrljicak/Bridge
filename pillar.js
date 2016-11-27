@@ -1,24 +1,30 @@
 function Pillar(th1, th2, th3) {
     this.h1 = new HSection();
     this.h1.initBuffers();
-    this.h1.initTexture(textures.rust);
+    this.h1.initTexture(textures.rust.color);
+    this.h1.initNormalMap(textures.rust.normal);
     this.h2 = new HSection();
     this.h2.initBuffers();
-    this.h2.initTexture(textures.rust);
+    this.h2.initTexture(textures.rust.color);
+    this.h2.initNormalMap(textures.rust.normal);
     this.h3 = new HSection();
     this.h3.initBuffers();
-    this.h3.initTexture(textures.rust);
+    this.h3.initTexture(textures.rust.color);
+    this.h3.initNormalMap(textures.rust.normal);
 
     this.t1 = new HTransition();
     this.t1.initBuffers();
-    this.t1.initTexture(textures.rust);
+    this.t1.initTexture(textures.rust.color);
+    this.t1.initNormalMap(textures.rust.normal);
     this.t2 = new HTransition();
     this.t2.initBuffers();
-    this.t2.initTexture(textures.rust);
+    this.t2.initTexture(textures.rust.color);
+    this.t2.initNormalMap(textures.rust.normal);
 
     this.cap = new HCap();
     this.cap.initBuffers();
-    this.cap.initTexture(textures.rust);
+    this.cap.initTexture(textures.rust.color);
+    this.cap.initNormalMap(textures.rust.normal);
 
     this.setupLighting = function(light){
         this.h1.setupLighting(light);
@@ -39,7 +45,8 @@ function Pillar(th1, th2, th3) {
     };
 
     this.draw = function() {
-        this.h1.scale(1, th1/3, 1);
+        this.h1.translate(0, -2*th1, 0);
+        this.h1.scale(1, th1, 1);
         this.h1.draw();
 
         this.h2.translate(0, th1, 0);

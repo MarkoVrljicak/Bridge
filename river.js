@@ -1,5 +1,6 @@
 function River(data){
     NormalReflectGeometry.call(this);
+    this.alpha = .9;
     this.side = data.side;
 
     this.latitude_bands = 150;
@@ -66,6 +67,17 @@ function River(data){
     };
 
     this.drawMode = function(){
+        //
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        //gl.disable(gl.DEPTH_TEST);
+        //
+
         gl.drawElements(gl.TRIANGLES, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
+
+        //
+        gl.disable(gl.BLEND);
+        //gl.enable(gl.DEPTH_TEST);
+        //
     };
 }

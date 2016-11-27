@@ -1,5 +1,5 @@
 function HTransition(){
-    TexturedGeometry.call(this);
+    NormalTexturedGeometry.call(this);
 
     this.initBuffers = function(){
         this.position_buffer = [
@@ -57,6 +57,34 @@ function HTransition(){
             -.6, .6, .6,
             -.6, .6, -.6,
             -.6, .6, -.6 //26 vertices
+        ];
+        this.tangent_buffer = [
+            .6, .6, -.6,
+            .6, .6, -.6,
+            .6, .6, .6,
+            .6, .6, .6,
+            -.6, .6, .6,
+            -.6, .6, .6,
+            -.6, .6, -.6,
+            -.6, .6, -.6,
+            .6, .6, -.6,
+            .6, .6, -.6,
+            .6, .6, .6,
+            .6, .6, .6,
+            -.6, .6, .6,
+            -.6, .6, .6,
+            -.6, .6, -.6,
+            -.6, .6, -.6,
+            .6, .6, -.6,
+            .6, .6, -.6,
+            .6, .6, .6,
+            .6, .6, .6,
+            -.6, .6, .6,
+            -.6, .6, .6,
+            -.6, .6, -.6,
+            -.6, .6, -.6,
+            .6, .6, -.6,
+            .6, .6, -.6 //26 vertices
         ];
         this.texture_coord_buffer = [
             0, 1,

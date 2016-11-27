@@ -46,11 +46,6 @@ function Scene(){
             this.sky.draw();
         }
 
-        //River
-        this.river.setupLighting(light);
-        this.river.setIdentity();
-        this.river.draw();
-
         //Land
         this.land.setupLighting(light);
         this.land.setIdentity();
@@ -73,6 +68,11 @@ function Scene(){
             );
             this.trees[i].draw();
         }
+
+        //River
+        this.river.setupLighting(light);
+        this.river.setIdentity();
+        this.river.draw();
     };
 
     this.on_bridge = function(z){

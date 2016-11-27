@@ -2,6 +2,7 @@ function NormalReflectGeometry() {
     NMapGeometry.call(this);
 
     this.reflect_factor = .1; // Default
+    this.alpha = .5;
     this.cube_map = null;
 
     this.shader = shaderProgramNormalReflectObject;
@@ -54,6 +55,7 @@ function NormalReflectGeometry() {
 
         gl.uniform3fv(this.shader.worldCameraPositionUniform, camera.eye_point);
         gl.uniform1f(this.shader.reflectFactorUniform, this.reflect_factor);
+        gl.uniform1f(this.shader.alphaUniform, this.alpha);
     };
 
     this.draw = function(){

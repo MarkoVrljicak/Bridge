@@ -1,11 +1,13 @@
 function Road(data){
     this.sidewalk = new Sidewalk(data);
     this.sidewalk.initBuffers();
-    this.sidewalk.initTexture(textures.sidewalk);
+    this.sidewalk.initTexture(textures.road.sidewalk.color);
+    this.sidewalk.initNormalMap(textures.road.sidewalk.normal);
 
     this.street = new Street(data);
     this.street.initBuffers();
-    this.street.initTexture(textures.street);
+    this.street.initTexture(textures.road.street.color);
+    this.street.initNormalMap(textures.road.street.normal);
 
     this.setupLighting = function(light){
         this.sidewalk.setupLighting(light);

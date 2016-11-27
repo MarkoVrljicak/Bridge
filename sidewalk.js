@@ -27,6 +27,13 @@ function Sidewalk(data) {
         0, 1, 0
     ];
 
+    this.section_tangents = [];
+    for (var i = 0; i < this.section_normals.length; i++){
+        this.section_tangents.push(1);
+        this.section_tangents.push(0);
+        this.section_tangents.push(0);
+    }
+
     this.textureCoordinates = function (v) {
         return [
             0, v,
