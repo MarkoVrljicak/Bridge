@@ -3,6 +3,14 @@ function Geometry() {
 
     this.shader = null;
 
+    this.material = {
+        //Default values
+        ambientReflectivity: vec3.fromValues(.5, .5, .5),
+        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
+        specularReflectivity: vec3.fromValues(.5, .5, .5),
+        shininess: 1.0
+    };
+
     this.setupShaders = function(){
         gl.useProgram(this.shader);
     };

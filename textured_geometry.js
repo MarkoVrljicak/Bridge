@@ -3,16 +3,6 @@ function TexturedGeometry(){
 
     this.shader = shaderProgramTexturedObject;
 
-    this.material = {
-        //Default values
-        ambientReflectivity: vec3.fromValues(.5, .5, .5),
-        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
-        specularReflectivity: vec3.fromValues(.5, .5, .5),
-        shininess: 1.0
-    };
-
-    this.model_matrix = mat4.create();
-
     this.position_buffer = null;
     this.normal_buffer = null;
     this.texture_coord_buffer = null;
@@ -98,10 +88,8 @@ function TexturedGeometry(){
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
         gl.vertexAttribPointer(this.shader.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_texture_coord_buffer);
         gl.vertexAttribPointer(this.shader.textureCoordAttribute, this.webgl_texture_coord_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
         gl.vertexAttribPointer(this.shader.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
