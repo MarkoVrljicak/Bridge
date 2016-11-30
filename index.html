@@ -445,9 +445,9 @@
         uniform sampler2D uEarthColors;
         uniform sampler2D uRockColors;
         uniform sampler2D uSandColors;
-        uniform sampler2D uEarthNormals;
+        //uniform sampler2D uEarthNormals;
         uniform sampler2D uRockNormals;
-        uniform sampler2D uSandNormals;
+        //uniform sampler2D uSandNormals;
 
         uniform vec3 uAmbientIntensity;
         uniform vec3 uDiffuseIntensity;
@@ -477,9 +477,11 @@
         }
 
         void main() {
-            vec4 earth = mix_component(uEarthColors, uEarthNormals);
+            //vec4 earth = mix_component(uEarthColors, uEarthNormals);
             vec4 rock = mix_component(uRockColors, uRockNormals);
-            vec4 sand = mix_component(uSandColors, uSandNormals);
+            //vec4 sand = mix_component(uSandColors, uSandNormals);
+            vec4 earth = texture2D(uEarthColors, vec2(vTextureCoord.s, vTextureCoord.t));
+            vec4 sand = texture2D(uSandColors, vec2(vTextureCoord.s, vTextureCoord.t));
 
             gl_FragColor = mix(mix(sand, rock, vIsRock), earth, vIsLand);
         }
@@ -820,9 +822,9 @@
             shaderProgramTerrain.earthColorUniform = gl.getUniformLocation(shaderProgramTerrain, "uEarthColors");
             shaderProgramTerrain.rockColorUniform = gl.getUniformLocation(shaderProgramTerrain, "uRockColors");
             shaderProgramTerrain.sandColorUniform = gl.getUniformLocation(shaderProgramTerrain, "uSandColors");
-            shaderProgramTerrain.earthNormalUniform = gl.getUniformLocation(shaderProgramTerrain, "uEarthNormals");
+            //shaderProgramTerrain.earthNormalUniform = gl.getUniformLocation(shaderProgramTerrain, "uEarthNormals");
             shaderProgramTerrain.rockNormalUniform = gl.getUniformLocation(shaderProgramTerrain, "uRockNormals");
-            shaderProgramTerrain.sandNormalUniform = gl.getUniformLocation(shaderProgramTerrain, "uSandNormals");
+            //shaderProgramTerrain.sandNormalUniform = gl.getUniformLocation(shaderProgramTerrain, "uSandNormals");
 
             //Light specs
             shaderProgramTerrain.lightingDirectionUniform = gl.getUniformLocation(shaderProgramTerrain, "uLightPosition");
