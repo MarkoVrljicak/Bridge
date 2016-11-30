@@ -1,8 +1,8 @@
 function Land(data) {
     Geometry.call(this);
 
-    this.latitude_bands = 300;
-    this.longitude_bands = 300;
+    this.latitude_bands = 220;
+    this.longitude_bands = 220;
 
     this.shader = shaderProgramTerrain;
 
@@ -59,10 +59,10 @@ function Land(data) {
                 z = lowest_point[2];
 
                 // Logica de coordenadas u, v
-                //u = (x % 5) / 5;
-                //v = (z % 5) / 5;
-                u = long_number/this.longitude_bands;
-                v = lat_number/this.latitude_bands;
+                u = (x % 5) / 5;
+                v = (z % 5) / 5;
+                //u = long_number/this.longitude_bands;
+                //v = lat_number/this.latitude_bands;
                 this.texture_coord_buffer.push(u);
                 this.texture_coord_buffer.push(v);
 
@@ -109,24 +109,20 @@ function Land(data) {
                 this.position_buffer.push(x);
                 this.position_buffer.push(y);
                 this.position_buffer.push(z);
-            }
-        }
 
-        var row, col;
-        for (row = 0; row < this.latitude_bands; row++) {
-            if (row % 2) {
-                for (col = 0; col < this.longitude_bands; col++){
-                    this.index_buffer.push(col + row * (this.longitude_bands + 1));
-                    this.index_buffer.push(col + (row + 1) * (this.longitude_bands + 1));
-                }
-            } else {
-                for (col = this.longitude_bands; col > 0; col--){
-                    this.index_buffer.push(col + (row+1) * (this.longitude_bands + 1));
-                    this.index_buffer.push(col - 1 + row * (this.longitude_bands + 1));
+                if (lat_number != this.latitude_bands && long_number != this.longitude_bands) {
+                    var first = (lat_number * (this.longitude_bands + 1)) + long_number;
+                    var second = first + this.longitude_bands + 1;
+                    this.index_buffer.push(first);
+                    this.index_buffer.push(second);
+                    this.index_buffer.push(first + 1);
+
+                    this.index_buffer.push(second);
+                    this.index_buffer.push(second + 1);
+                    this.index_buffer.push(first + 1);
                 }
             }
         }
-
         this.bufferize();
     };
 
@@ -267,17 +263,17 @@ function Land(data) {
         gl.bindTexture(gl.TEXTURE_2D, this.textures[2]);
         gl.uniform1i(this.shader.sandColorUniform, 2);
 
-        //gl.activeTexture(gl.TEXTURE3);
-        //gl.bindTexture(gl.TEXTURE_2D, this.normals[0]);
-        //gl.uniform1i(this.shader.earthNormalUniform, 3);
+        gl.activeTexture(gl.TEXTURE3);
+        gl.bindTexture(gl.TEXTURE_2D, this.normals[0]);
+        gl.uniform1i(this.shader.earthNormalUniform, 3);
 
         gl.activeTexture(gl.TEXTURE4);
         gl.bindTexture(gl.TEXTURE_2D, this.normals[1]);
         gl.uniform1i(this.shader.rockNormalUniform, 4);
 
-        //gl.activeTexture(gl.TEXTURE5);
-        //gl.bindTexture(gl.TEXTURE_2D, this.normals[2]);
-        //gl.uniform1i(this.shader.sandNormalUniform, 5);
+        gl.activeTexture(gl.TEXTURE5);
+        gl.bindTexture(gl.TEXTURE_2D, this.normals[2]);
+        gl.uniform1i(this.shader.sandNormalUniform, 5);
 
         gl.uniformMatrix4fv(this.shader.ModelMatrixUniform, false, this.model_matrix);
         var normalMatrix = mat3.create();
@@ -291,6 +287,6 @@ function Land(data) {
     };
 
     this.drawMode = function () {
-        gl.drawElements(gl.TRIANGLE_STRIP, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
+        gl.drawElements(gl.TRIANGLES, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
     };
 }
