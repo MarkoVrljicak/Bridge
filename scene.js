@@ -11,7 +11,6 @@ function Scene(){
     this.river.initReflectionCube(textures.skybox);
 
     this.land = new Land(data);
-    this.land.initBuffers();
 
     this.bridge = new Bridge(data);
 
@@ -50,12 +49,6 @@ function Scene(){
         this.land.setupLighting(light);
         this.land.setIdentity();
         this.land.translate(-this.side/2, 0, -this.side/2);
-        this.land.initTexture(textures.land.earth.color);
-        this.land.initTexture(textures.land.rock.color);
-        this.land.initTexture(textures.land.sand.color);
-        this.land.initNormalMap(textures.land.earth.normal);
-        this.land.initNormalMap(textures.land.rock.normal);
-        this.land.initNormalMap(textures.land.sand.normal);
         this.land.draw();
 
         //Bridge

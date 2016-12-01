@@ -13,6 +13,7 @@
 
     <script type="text/javascript" src="geometry.js"></script>
     <script type="text/javascript" src="camera.js"></script>
+    <script type="text/javascript" src="land.js"></script>
     <script type="text/javascript" src="textured_geometry.js"></script>
     <script type="text/javascript" src="normal_textured_geometry.js"></script>
     <script type="text/javascript" src="n_map_geometry.js"></script>
@@ -39,7 +40,7 @@
     <script type="text/javascript" src="tensor_set.js"></script>
     <script type="text/javascript" src="support.js"></script>
     <script type="text/javascript" src="river.js"></script>
-    <script type="text/javascript" src="land.js"></script>
+    <script type="text/javascript" src="land_portion.js"></script>
     <script type="text/javascript" src="crown.js"></script>
     <script type="text/javascript" src="pillar.js"></script>
     <script type="text/javascript" src="road.js"></script>
@@ -477,11 +478,9 @@
         }
 
         void main() {
-            vec4 earth = mix_component(uEarthColors, uEarthNormals);
-            vec4 rock = mix_component(uRockColors, uRockNormals);
-            vec4 sand = mix_component(uSandColors, uSandNormals);
-
-            gl_FragColor = mix(mix(sand, rock, vIsRock), earth, vIsLand);
+            if (vIsLand == 1.0) gl_FragColor = mix_component(uEarthColors, uEarthNormals);
+            else if (vIsRock == 0.0) gl_FragColor = mix_component(uSandColors, uSandNormals);
+            else gl_FragColor = gl_FragColor = mix_component(uRockColors, uRockNormals);
         }
     </script>
 
@@ -490,16 +489,16 @@
         varying vec3 viewDir;
         varying vec2 vTextureCoord;
 
-        varying float vIsLand;      // New
-        varying float vIsRock;      // New
+        varying float vIsLand;
+        varying float vIsRock;
 
         attribute vec3 aVertexPosition;
         attribute vec3 aVertexNormal;
         attribute vec2 aTextureCoord;
         attribute vec4 aVertexTangent;
         attribute vec3 aVertexColor;
-        attribute float aIsLand;    // New
-        attribute float aIsRock;    // New
+        attribute float aIsLand;
+        attribute float aIsRock;
 
         uniform vec3 uLightPosition;
 
