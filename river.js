@@ -3,8 +3,8 @@ function River(data){
     this.alpha = .9;
     this.side = data.side;
 
-    this.latitude_bands = 150;
-    this.longitude_bands = 150;
+    this.latitude_bands = 2;
+    this.longitude_bands = 2;
 
     this.material = {
         //Default values

@@ -1,8 +1,8 @@
 function LandPortion(data, i, j, size) {
     Geometry.call(this);
 
-    this.latitude_bands = 200;
-    this.longitude_bands = 200;
+    this.latitude_bands = 128;
+    this.longitude_bands = 128;
 
     this.start_i = i;
     this.start_j = j;

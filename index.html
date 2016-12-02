@@ -1046,20 +1046,18 @@
         $("body")
             .keydown(function(e){
                 if (e.keyCode == 88) toggle_cam(); // X
-                if (!orbital) {
                     if (e.keyCode == 87) ahead += 1; // W
                     if (e.keyCode == 65) sideways -= 1; // A
                     if (e.keyCode == 83) ahead -= 1; // S
                     if (e.keyCode == 68) sideways += 1; // D
-                }
+
             })
             .keyup(function(e){
-                if (!orbital) {
                     if (e.keyCode == 87) ahead = 0; // W
                     if (e.keyCode == 65) sideways = 0; // A
                     if (e.keyCode == 83) ahead = 0; // S
                     if (e.keyCode == 68) sideways = 0; // D
-                }
+
             });
     </script>
 

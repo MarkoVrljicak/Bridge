@@ -17,7 +17,7 @@ function Scene(){
     this.trees = [];
     this.tree_positions = [];
 
-    this.sky = new TexturedSphere(30, 30);
+    this.sky = new TexturedSphere(32, 32);
     var sky_radius = 500;
     this.sky.initBuffers();
     this.sky.initTexture(textures.sky);

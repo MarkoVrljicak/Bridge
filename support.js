@@ -33,7 +33,7 @@ function Support(data, tower_pos){
                     ]
                 )
             }
-            this.wires.push(new Wire(curve, 100, 20));
+            this.wires.push(new Wire(curve, 64, 64));
             this.wires[i].initBuffers();
             this.wires[i].initNormalMap(textures.wire);
             this.wires[i].initReflectionCube(textures.skybox);
