@@ -7,7 +7,7 @@ function Scene(){
 
     // Light settings
     var light = {
-        position: vec3.fromValues(0.0, 300.0, 0.0),
+        position: vec3.fromValues(150.0, 300.0, 0.0),
         ambient: vec3.fromValues(.4, .4, .4),//(.4, .4, .4),
         diffuse: vec3.fromValues(1, 1, 1),
         specular: vec3.fromValues(1, 1, 1)//(1, 1, 1)
@@ -48,7 +48,7 @@ function Scene(){
 
 
     this.draw = function(){
-        vec3.rotateZ(light.position, light.position, vec3.fromValues(0,0,1), Math.PI/320);
+        vec3.rotateY(light.position, light.position, vec3.fromValues(0,1,0), Math.PI/320);
 
         this.sun.setIdentity();
         this.sun.translate(light.position[0], light.position[1], light.position[2]);

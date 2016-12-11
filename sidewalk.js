@@ -34,7 +34,7 @@ function Sidewalk(data) {
 
     this.textureCoordinates = function (v) {
         return [
-            0, v, // TODO: Arreglar
+            0, v,
             0, v,
             1 / 22, v,
             3 / 22, v,
