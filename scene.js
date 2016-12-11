@@ -7,7 +7,7 @@ function Scene(){
 
     // Light settings
     var light = {
-        position: vec3.fromValues(200.0, 200.0, -200.0),
+        position: vec3.fromValues(0.0, 300.0, 0.0),
         ambient: vec3.fromValues(.4, .4, .4),//(.4, .4, .4),
         diffuse: vec3.fromValues(1, 1, 1),
         specular: vec3.fromValues(1, 1, 1)//(1, 1, 1)
@@ -48,7 +48,7 @@ function Scene(){
 
 
     this.draw = function(){
-        vec3.rotateY(light.position, light.position, vec3.fromValues(0,1,0), Math.PI/320);
+        vec3.rotateZ(light.position, light.position, vec3.fromValues(0,0,1), Math.PI/320);
 
         this.sun.setIdentity();
         this.sun.translate(light.position[0], light.position[1], light.position[2]);
@@ -64,8 +64,8 @@ function Scene(){
         //Land
         this.land.setIdentity();
         this.land.translate(-this.side/2, 0, -this.side/2);
-
         this.land.draw();
+
 
         //Bridge
         this.bridge.setIdentity();
@@ -93,6 +93,7 @@ function Scene(){
         var right = data.bridge_pos + (this.bridge.getWidth()/2) + margin;
         return left < z && z < right;
     };
+
 
     this.spawnTrees = function() {
         var margin = this.side/2;

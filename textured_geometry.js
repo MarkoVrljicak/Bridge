@@ -30,6 +30,9 @@ function TexturedGeometry(){
     this.initTexture = function(texture_file){
         this.texture = gl.createTexture();
         this.texture.image = new Image();
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([128, 128, 128, 255]));
 
         var model = this;
 

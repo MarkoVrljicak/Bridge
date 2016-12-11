@@ -142,8 +142,6 @@ function LandPortion(data, i, j, size) {
         }
 
         this.bufferize();
-
-
     };
 
     this.bufferize = function(){
@@ -200,13 +198,14 @@ function LandPortion(data, i, j, size) {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
         gl.generateMipmap(gl.TEXTURE_2D);
-
-        gl.bindTexture(gl.TEXTURE_2D, null);
     }
 
     this.initTexture = function(texture_file){
         var tex = gl.createTexture();
         tex.image = new Image();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([128, 128, 128, 255]));
 
         tex.image.onload = function () {
             handleLoadedTexture(tex)
@@ -218,6 +217,11 @@ function LandPortion(data, i, j, size) {
     this.initNormalMap = function(texture_file){
         var normal_map = gl.createTexture();
         normal_map.image = new Image();
+        normal_map.image = new Image();
+        gl.bindTexture(gl.TEXTURE_2D, normal_map);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([128, 128, 128, 255]));
+
 
         normal_map.image.onload = function () {
             handleLoadedTexture(normal_map)
@@ -229,7 +233,6 @@ function LandPortion(data, i, j, size) {
     // ILUMINACION
 
     this.activateLighting = function(){
-
         gl.uniform3fv(this.shader.lightingDirectionUniform, this.light.position);
 
         gl.uniform3fv(this.shader.ambientIntensityUniform, this.light.ambient);

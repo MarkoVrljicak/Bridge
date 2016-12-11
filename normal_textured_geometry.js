@@ -47,6 +47,9 @@ function NormalTexturedGeometry(){
     this.initTexture = function(texture_file){
         this.texture = gl.createTexture();
         this.texture.image = new Image();
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([128, 128, 128, 255]));
 
         var model = this;
 
@@ -59,6 +62,9 @@ function NormalTexturedGeometry(){
     this.initNormalMap = function(texture_file){
         this.normal_map = gl.createTexture();
         this.normal_map.image = new Image();
+        gl.bindTexture(gl.TEXTURE_2D, this.normal_map);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([128, 128, 128, 255]));
 
         var model = this;
 
