@@ -2,13 +2,18 @@ function Geometry() {
     this.model_matrix = mat4.create();
 
     this.shader = null;
+    this.light = null;
 
     this.material = {
         //Default values
         ambientReflectivity: vec3.fromValues(.5, .5, .5),
-        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
+        diffuseReflectivity: vec3.fromValues(1, 1, 1),
         specularReflectivity: vec3.fromValues(.5, .5, .5),
-        shininess: 1.0
+        shininess: 16.0
+    };
+
+    this.setupLighting = function(light){
+        this.light = light;
     };
 
     this.setupShaders = function(){

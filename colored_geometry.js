@@ -40,19 +40,19 @@ function ColoredGeometry(){
         this.webgl_index_buffer.numItems = this.index_buffer.length;
     };
 
-    this.setupLighting = function(light){
+    this.activateLighting = function(){
         // Configuración de la luz
         // Se inicializan las variables asociadas con la Iluminación
-        this.setupShaders();
         gl.uniform1i(this.shader.useLightingUniform, true);
 
-        gl.uniform3fv(this.shader.lightingDirectionUniform, light.position);
-        gl.uniform3fv(this.shader.ambientColorUniform, light.ambient );
-        gl.uniform3fv(this.shader.directionalColorUniform, light.diffuse);
+        gl.uniform3fv(this.shader.lightingDirectionUniform, this.light.position);
+        gl.uniform3fv(this.shader.ambientColorUniform, this.light.ambient );
+        gl.uniform3fv(this.shader.directionalColorUniform, this.light.diffuse);
     };
 
     this.draw = function(){
         this.setupShaders();
+        this.activateLighting();
 
         gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(this.shader.ViewMatrixUniform, false, camera_matrix);

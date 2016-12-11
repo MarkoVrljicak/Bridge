@@ -3,15 +3,14 @@ function River(data){
     this.alpha = .9;
     this.side = data.side;
 
-    this.latitude_bands = 2;
-    this.longitude_bands = 2;
+    this.latitude_bands = 1;
+    this.longitude_bands = 1;
 
     this.material = {
-        //Default values
-        ambientReflectivity: vec3.fromValues(1, 1, 1),
-        diffuseReflectivity: vec3.fromValues(1, 1, 1),
+        ambientReflectivity: vec3.fromValues(.5, .5, .5),
+        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
         specularReflectivity: vec3.fromValues(1, 1, 1),
-        shininess: 200.0
+        shininess: 16.0
     };
 
     this.initBuffers = function(){
@@ -63,6 +62,7 @@ function River(data){
                 this.index_buffer.push(first + 1);
             }
         }
+
         this.bufferize();
     };
 

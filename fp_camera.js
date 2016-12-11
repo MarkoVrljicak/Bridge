@@ -16,12 +16,17 @@ function FPCamera(data){
     this.zoom = function(speed){};
 
     this.pan = function(x_speed, y_speed){
-        var temp = this.eye_point;
-        this.eye_point = vec3.fromValues(0, 0, 0);
-        vec3.rotateY(this.sight_direction, this.sight_direction, this.eye_point, -x_speed/150);
-        //vec3.rotateX(this.sight_direction, this.sight_direction, this.eye_point, -y_speed/200);
-        //vec3.rotateZ(this.sight_direction, this.sight_direction, this.eye_point, -y_speed/200);
-        this.eye_point = temp;
+        var sensibility = 150;
+
+        var m = mat4.create();
+        mat4.identity(m);
+        mat4.rotate(m, m, -x_speed/sensibility, this.up_point);
+
+        var axis = vec3.create();
+        vec3.cross(axis, this.up_point, this.sight_direction);
+
+        mat4.rotate(m, m, y_speed/sensibility, axis);
+        vec3.transformMat4(this.sight_direction, this.sight_direction, m);
     };
 
     this.move = function(ahead, sideways){
@@ -32,6 +37,7 @@ function FPCamera(data){
         vec3.cross(v_sideways, this.up_point, this.sight_direction);
         vec3.scale(v_sideways, v_sideways, -sideways);
         vec3.add(direction, v_ahead, v_sideways);
+        direction[1] = 0;
         vec3.add(this.eye_point, this.eye_point, direction);
     };
 

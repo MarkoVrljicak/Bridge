@@ -19,25 +19,18 @@ function OrbitalCamera(){
         this.height = this.eye_point[1];
     };
 
-    this.pan = function(speed){
-        var orbit_radius_vector = vec2.create();
-        orbit_radius_vector[0] = this.eye_point[0];
-        orbit_radius_vector[1] = this.eye_point[2];
-        var orbit_radius_length = vec2.length(orbit_radius_vector);
-        // Move
-        var direction = vec3.create();
-        vec3.cross(direction, this.eye_point, this.up_point);
-        vec3.normalize(direction, direction);
-        vec3.add(this.eye_point, vec3.scale(direction, direction, speed), this.eye_point);
-        // Correct
-        this.eye_point[1] = this.height;
-        var uncorrected = vec2.create();
-        uncorrected[0] = this.eye_point[0];
-        uncorrected[1] = this.eye_point[2];
-        var scale_factor = orbit_radius_length/vec2.length(uncorrected);
-        vec2.scale(uncorrected, uncorrected, scale_factor);
-        this.eye_point[0] = uncorrected[0];
-        this.eye_point[2] = uncorrected[1];
+    this.pan = function(x_speed, y_speed){
+        var sensibility = 150;
+
+        var m = mat4.create();
+        mat4.identity(m);
+        mat4.rotate(m, m, -x_speed/sensibility, this.up_point);
+
+        var axis = vec3.create();
+        vec3.cross(axis, this.up_point, this.eye_point);
+
+        mat4.rotate(m, m, -y_speed/sensibility, axis);
+        vec3.transformMat4(this.eye_point, this.eye_point, m);
     };
 
     this.onWheel = function(e) {
@@ -51,11 +44,14 @@ function OrbitalCamera(){
     this.onMovement = function(e){
         if (mouseDown) {
             var X = e.pageX;
+            var Y = e.pageY;
             if (lastMouseX) {
-                var delta = X - lastMouseX;
-                camera.pan(delta);
+                var delta_x = X - lastMouseX;
+                var delta_y = Y - lastMouseY;
+                camera.pan(delta_x, delta_y);
             }
             lastMouseX = X;
+            lastMouseY = Y;
         }
 
     }

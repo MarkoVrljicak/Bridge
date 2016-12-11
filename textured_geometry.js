@@ -65,14 +65,12 @@ function TexturedGeometry(){
         this.webgl_index_buffer.numItems = this.index_buffer.length;
     };
 
-    this.setupLighting = function(light){
-        this.setupShaders();
+    this.activateLighting = function(){
+        gl.uniform3fv(this.shader.lightingDirectionUniform, this.light.position);
 
-        gl.uniform3fv(this.shader.lightingDirectionUniform, light.position);
-
-        gl.uniform3fv(this.shader.ambientIntensityUniform, light.ambient);
-        gl.uniform3fv(this.shader.diffuseIntensityUniform, light.diffuse);
-        gl.uniform3fv(this.shader.specularIntensityUniform, light.specular);
+        gl.uniform3fv(this.shader.ambientIntensityUniform, this.light.ambient);
+        gl.uniform3fv(this.shader.diffuseIntensityUniform, this.light.diffuse);
+        gl.uniform3fv(this.shader.specularIntensityUniform, this.light.specular);
 
         gl.uniform3fv(this.shader.ambientReflectivityUniform, this.material.ambientReflectivity);
         gl.uniform3fv(this.shader.diffuseReflectivityUniform, this.material.diffuseReflectivity);
@@ -82,6 +80,7 @@ function TexturedGeometry(){
 
     this.draw = function(){
         this.setupShaders();
+        this.activateLighting();
 
         gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(this.shader.ViewMatrixUniform, false, camera_matrix);
