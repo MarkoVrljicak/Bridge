@@ -145,7 +145,10 @@ function NormalTexturedGeometry(){
 
         gl.uniformMatrix4fv(this.shader.ModelMatrixUniform, false, this.model_matrix);
         var normalMatrix = mat3.create();
+        var viewMatrix = mat3.create();
         mat3.fromMat4(normalMatrix, this.model_matrix);
+        //mat3.fromMat4(viewMatrix, camera_matrix);
+        //mat3.multiply(normalMatrix, viewMatrix, normalMatrix);
         mat3.invert(normalMatrix, normalMatrix);
         mat3.transpose(normalMatrix, normalMatrix);
         gl.uniformMatrix3fv(this.shader.nMatrixUniform, false, normalMatrix);

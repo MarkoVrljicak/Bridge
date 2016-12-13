@@ -1,5 +1,5 @@
 function Tree() {
-    this.trunk = new TexturedCylinder(32, 32);
+    this.trunk = new TexturedCylinder(16, 16);
     this.trunk.initBuffers();
     this.trunk.initTexture(textures.bark);
 
@@ -24,7 +24,7 @@ function Tree() {
         ])
     ];
 
-    this.crown = new Crown(curves[Math.floor(Math.random() * curves.length)], 16, 16);
+    this.crown = new Crown(curves[Math.floor(Math.random() * curves.length)], 32, 32);
     this.crown.initBuffers();
     this.crown.initTexture(textures.crown);
 
@@ -38,11 +38,14 @@ function Tree() {
         this.crown.setIdentity();
     };
 
-    this.draw = function() {
+    this.applyTransform = function(){
         this.trunk.scale(.6,3,.6);
-        this.trunk.draw();
         this.crown.translate(0, 2, 0);
         this.crown.scale(1.5, 1.5, 1.5);
+    }
+
+    this.draw = function() {
+        this.trunk.draw();
         this.crown.draw();
     };
 

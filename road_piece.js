@@ -44,6 +44,12 @@ function RoadPiece(data){
             this.tangent_buffer.push.apply(this.tangent_buffer, this.section_tangents);
             var v = 0.5 + (16*offset)/this.length;
             this.texture_coord_buffer.push.apply(this.texture_coord_buffer, this.textureCoordinates(v));
+            if (v == 1) {
+                this.position_buffer.push.apply(this.position_buffer, new_section);
+                this.normal_buffer.push.apply(this.normal_buffer, this.section_normals);
+                this.tangent_buffer.push.apply(this.tangent_buffer, this.section_tangents);
+                this.texture_coord_buffer.push.apply(this.texture_coord_buffer, this.textureCoordinates(0));
+            }
         }
 
         for (var longitude = 0; longitude < this.n_sections; longitude++){

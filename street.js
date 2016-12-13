@@ -15,7 +15,6 @@ function Street(data){
         1, 0, 0,
         1, 0, 0
     ];
-
     this.textureCoordinates = function(v){
         return [
             0, v,

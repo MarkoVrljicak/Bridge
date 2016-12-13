@@ -26,6 +26,26 @@ function Pillar(th1, th2, th3) {
     this.cap.initTexture(textures.rust.color);
     this.cap.initNormalMap(textures.rust.normal);
 
+    this.applyTransform = function(){
+        this.h1.translate(0, -2*th1, 0);
+        this.h1.scale(1, th1, 1);
+
+        this.h2.translate(0, th1, 0);
+        this.h2.scale(.7, th2/3, .7);
+
+        this.h3.translate(0, th1 + th2, 0);
+        this.h3.scale(.49, th3/3, .49);
+
+        this.t1.translate(0, th1, 0);
+
+        this.t2.translate(0, th1 + th2, 0);
+        this.t2.scale(.7,.7,.7);
+
+        this.cap.translate(0, th1 + th2 + th3, 0);
+        this.cap.scale(.49, 1, .49);
+    }
+
+
     this.setupLighting = function(light){
         this.h1.setupLighting(light);
         this.h2.setupLighting(light);
@@ -45,29 +65,12 @@ function Pillar(th1, th2, th3) {
     };
 
     this.draw = function() {
-        this.h1.translate(0, -2*th1, 0);
-        this.h1.scale(1, th1, 1);
         this.h1.draw();
-
-        this.h2.translate(0, th1, 0);
-        this.h2.scale(.7, th2/3, .7);
         this.h2.draw();
-
-        this.h3.translate(0, th1 + th2, 0);
-        this.h3.scale(.49, th3/3, .49);
         this.h3.draw();
-
-        this.t1.translate(0, th1, 0);
         this.t1.draw();
-
-        this.t2.translate(0, th1 + th2, 0);
-        this.t2.scale(.7,.7,.7);
         this.t2.draw();
-
-        this.cap.translate(0, th1 + th2 + th3, 0);
-        this.cap.scale(.49, 1, .49);
         this.cap.draw();
-
     };
 
     this.translate = function(x, y, z){

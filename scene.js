@@ -7,10 +7,10 @@ function Scene(){
 
     // Light settings
     var light = {
-        position: vec3.fromValues(150.0, 300.0, 0.0),
-        ambient: vec3.fromValues(.4, .4, .4),//(.4, .4, .4),
+        position: vec3.fromValues(0, 200, -150),
+        ambient: vec3.fromValues(.3, .3, .3),//(.4, .4, .4),
         diffuse: vec3.fromValues(1, 1, 1),
-        specular: vec3.fromValues(1, 1, 1)//(1, 1, 1)
+        specular: vec3.fromValues(.7, .7, .7)//(1, 1, 1)
     };
 
     // Models
@@ -22,8 +22,11 @@ function Scene(){
 
     this.land = new Land(data);
     this.land.setupLighting(light);
+    this.land.setIdentity();
+    this.land.translate(-this.side/2, 0, -this.side/2);
 
     this.bridge = new Bridge(data);
+    this.bridge.applyTransform();
     this.bridge.setupLighting(light);
 
     this.trees = [];
@@ -40,6 +43,8 @@ function Scene(){
     });
     this.sky.initTexture(textures.sky);
     this.sky.material.ambientReflectivity = vec3.fromValues(1, 1, 1);
+    this.sky.setIdentity();
+    this.sky.scale(sky_radius, sky_radius, sky_radius);
 
     this.sun = new ColoredSphere(32, 32);
     this.sun.initBuffers();
@@ -48,42 +53,16 @@ function Scene(){
 
 
     this.draw = function(){
-        vec3.rotateY(light.position, light.position, vec3.fromValues(0,1,0), Math.PI/320);
+        //vec3.rotateY(light.position, light.position, vec3.fromValues(0,1,0), Math.PI/320);
 
         this.sun.setIdentity();
         this.sun.translate(light.position[0], light.position[1], light.position[2]);
         this.sun.draw();
 
-        //Sky
-        if (camera.insideSky(sky_radius)){
-            this.sky.setIdentity();
-            this.sky.scale(sky_radius, sky_radius, sky_radius);
-            this.sky.draw();
-        }
-
-        //Land
-        this.land.setIdentity();
-        this.land.translate(-this.side/2, 0, -this.side/2);
+        if (camera.insideSky(sky_radius)) this.sky.draw();
         this.land.draw();
-
-
-        //Bridge
-        this.bridge.setIdentity();
         this.bridge.draw();
-
-        //Trees
-        for (var i = 0; i < this.trees.length; i++){
-            this.trees[i].setIdentity();
-            this.trees[i].translate(
-                this.tree_positions[3*i],
-                this.tree_positions[3*i+1],
-                this.tree_positions[3*i+2]
-            );
-            this.trees[i].draw();
-        }
-
-        //River
-        this.river.setIdentity();
+        for (var i = 0; i < this.trees.length; i++) this.trees[i].draw();
         this.river.draw();
     };
 
@@ -113,5 +92,12 @@ function Scene(){
     this.spawnTrees();
     for (var i = 0; i < this.trees.length; i++){
         this.trees[i].setupLighting(light);
+        this.trees[i].setIdentity();
+        this.trees[i].translate(
+            this.tree_positions[3*i],
+            this.tree_positions[3*i+1],
+            this.tree_positions[3*i+2]
+        );
+        this.trees[i].applyTransform();
     }
 }

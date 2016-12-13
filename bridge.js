@@ -39,6 +39,18 @@ function Bridge(data) {
 
     this.buildTowers();
 
+    this.applyTransform = function() {
+        for (var i = 0; i < this.n_towers; i++){
+            this.towers[i].translate(
+                this.tower_pos[i][0],
+                this.tower_pos[i][1],
+                this.tower_pos[i][2]
+            );
+            this.towers[i].applyTransform();
+            //this.support.applyTransform();
+        }
+    };
+
     this.setupLighting = function(light){
         this.road.setupLighting(light);
         for (var i = 0; i < this.n_towers; i++){
@@ -57,15 +69,11 @@ function Bridge(data) {
 
     this.draw = function() {
         this.road.draw();
+        this.support.setIdentity();
+        this.support.draw();
         for (var i = 0; i < this.n_towers; i++){
-            this.towers[i].translate(
-                this.tower_pos[i][0],
-                this.tower_pos[i][1],
-                this.tower_pos[i][2]
-            );
             this.towers[i].draw();
         }
-        this.support.draw();
     };
 
     this.getWidth = function() {

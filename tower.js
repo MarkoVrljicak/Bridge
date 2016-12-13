@@ -10,6 +10,14 @@ function Tower(data) {
 
     this.width = data.bridge_width;
 
+    this.applyTransform = function(){
+
+        this.pillars[0].translate(0, 0, -this.width/2);
+        this.pillars[1].translate(0, 0, this.width/2);
+        this.pillars[0].applyTransform();
+        this.pillars[1].applyTransform();
+    }
+
     this.setupLighting = function(light){
         this.pillars[0].setupLighting(light);
         this.pillars[1].setupLighting(light);
@@ -21,9 +29,7 @@ function Tower(data) {
     };
 
     this.draw = function() {
-        this.pillars[0].translate(0, 0, -this.width/2);
         this.pillars[0].draw();
-        this.pillars[1].translate(0, 0, this.width/2);
         this.pillars[1].draw();
     };
 

@@ -1,13 +1,21 @@
 function LandPortion(data, i, j, size) {
     Geometry.call(this);
 
-    this.latitude_bands = 128;
-    this.longitude_bands = 128;
+    this.latitude_bands = 64;
+    this.longitude_bands = 64;
 
     this.start_i = i;
     this.start_j = j;
 
     this.shader = shaderProgramTerrain;
+
+    this.material = {
+        //Default values
+        ambientReflectivity: vec3.fromValues(.5, .5, .5),
+        diffuseReflectivity: vec3.fromValues(1, 1, 1),
+        specularReflectivity: vec3.fromValues(.25, .25, .25),
+        shininess: 8.0
+    };
 
     this.position_buffer = null;
     this.normal_buffer = null;
@@ -16,6 +24,7 @@ function LandPortion(data, i, j, size) {
     this.index_buffer = null;
     this.is_land_buffer = null;
     this.is_rock_buffer = null;
+    this.is_sand_buffer = null;
 
     this.webgl_position_buffer = null;
     this.webgl_normal_buffer = null;
@@ -24,6 +33,7 @@ function LandPortion(data, i, j, size) {
     this.webgl_index_buffer = null;
     this.webgl_is_land_buffer = null;
     this.webgl_is_rock_buffer = null;
+    this.webgl_is_sand_buffer = null;
 
     // En los siguientes arrays la logica supone
     // que el orden es tierra, roca, arena.
@@ -31,7 +41,6 @@ function LandPortion(data, i, j, size) {
     this.normals = [];
 
     // MODELO
-
     this.initBuffers = function () {
         this.position_buffer = [];
         this.normal_buffer = [];
@@ -40,6 +49,7 @@ function LandPortion(data, i, j, size) {
         this.index_buffer = [];
         this.is_land_buffer = [];
         this.is_rock_buffer = [];
+        this.is_sand_buffer = [];
 
         var lat_number = 0;
         var long_number = 0;
@@ -97,13 +107,39 @@ function LandPortion(data, i, j, size) {
                     this.tangent_buffer.push(t[1]);
                     this.tangent_buffer.push(t[2]);
 
-                    this.is_land_buffer.push(0);
-                    if (y < data.ph1/3) this.is_rock_buffer.push(0);
-                    else if (y > 2*data.ph1/3) this.is_rock_buffer.push(1.0);
-                    else {
-                        var chance = 1.0-(y-(data.ph1/3))/(data.ph1/3);
-                        if (Math.random() < chance) this.is_rock_buffer.push(0.0);
-                        else this.is_rock_buffer.push(1.0);
+                    var chance;
+                    if (y < data.ph1/5){
+                        this.is_land_buffer.push(0.0);
+                        this.is_rock_buffer.push(0.0);
+                        this.is_sand_buffer.push(1.0);
+                    } else if (y < data.ph1/2.5) {
+                        chance = 1.0-(y-(data.ph1/5))/(data.ph1/5);
+                        this.is_land_buffer.push(0.0);
+                        if (Math.random() < chance) {
+                            this.is_sand_buffer.push(1.0);
+                            this.is_rock_buffer.push(0.0);
+                        } else {
+                            this.is_sand_buffer.push(0.0);
+                            this.is_rock_buffer.push(1.0);
+                        }
+                    } else if (y < (3*data.ph1)/5) {
+                        this.is_land_buffer.push(0.0);
+                        this.is_rock_buffer.push(1.0);
+                        this.is_sand_buffer.push(0.0);
+                    } else if (y < (4*data.ph1)/5) {
+                        chance = 1.0-(y-(3*data.ph1/5))/(data.ph1/5);
+                        this.is_sand_buffer.push(0.0);
+                        if (Math.random() < chance) {
+                            this.is_land_buffer.push(0.0);
+                            this.is_rock_buffer.push(1.0);
+                        } else {
+                            this.is_land_buffer.push(1.0);
+                            this.is_rock_buffer.push(0.0);
+                        }
+                    } else {
+                        this.is_land_buffer.push(1.0);
+                        this.is_rock_buffer.push(0.0);
+                        this.is_sand_buffer.push(0.0);
                     }
 
                 } else {
@@ -118,6 +154,7 @@ function LandPortion(data, i, j, size) {
 
                     this.is_land_buffer.push(1.0);
                     this.is_rock_buffer.push(0);
+                    this.is_sand_buffer.push(0);
                 }
 
                 this.position_buffer.push(x);
@@ -180,6 +217,12 @@ function LandPortion(data, i, j, size) {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.is_rock_buffer), gl.STATIC_DRAW);
         this.webgl_is_rock_buffer.itemSize = 1;
         this.webgl_is_rock_buffer.numItems = this.webgl_is_rock_buffer.length;
+
+        this.webgl_is_sand_buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_is_sand_buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.is_sand_buffer), gl.STATIC_DRAW);
+        this.webgl_is_sand_buffer.itemSize = 1;
+        this.webgl_is_sand_buffer.numItems = this.webgl_is_sand_buffer.length;
 
         this.webgl_index_buffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
@@ -266,6 +309,8 @@ function LandPortion(data, i, j, size) {
         gl.vertexAttribPointer(this.shader.vertexIsLandAttribute, this.webgl_is_land_buffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_is_rock_buffer);
         gl.vertexAttribPointer(this.shader.vertexIsRockAttribute, this.webgl_is_rock_buffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_is_sand_buffer);
+        gl.vertexAttribPointer(this.shader.vertexIsSandAttribute, this.webgl_is_sand_buffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, this.textures[0]);
