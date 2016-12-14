@@ -275,6 +275,7 @@
         uniform float uReflectFactor;
 
         vec3 phongModel(vec3 n) {
+            n = n * vec3(2.0) - vec3(1.0);
             vec3 r = reflect(-lightDir, n);
             vec3 ambient = uAmbientIntensity * uAmbientReflectivity;
             float sn = max(dot(lightDir, n), 0.0);
@@ -335,7 +336,7 @@
             vec4 pos =  uModelMatrix * vec4(aVertexPosition, 1.0);
 
             lightDir = normalize(toObjectLocal*(uLightPosition-vec3(pos)));
-            viewDir = toObjectLocal*normalize(vec3(-pos));
+            viewDir = normalize(uWorldCameraPosition);
 
             vTextureCoord = aTextureCoord;
             vVertexColor = aVertexColor;
@@ -370,6 +371,7 @@
         uniform float uShininess;
 
         vec3 phongModel(vec3 n) {
+            n = n * vec3(2.0) - vec3(1.0);
             vec3 r = reflect(-lightDir, n);
             vec3 ambient = uAmbientIntensity * uAmbientReflectivity;
             float sn = max(dot(lightDir, n), 0.0);
@@ -436,7 +438,6 @@
         varying vec3 lightDir;
         varying vec2 vTextureCoord;
         varying vec3 viewDir;
-        varying vec3 vVertexColor;
 
         varying float vIsLand;
         varying float vIsRock;
@@ -458,10 +459,12 @@
         uniform vec3 uSpecularReflectivity;
         uniform float uShininess;
 
+
         vec3 phongModel(vec3 n) {
+            n = n * vec3(2.0) - vec3(1.0);
             vec3 r = reflect(-lightDir, n);
             vec3 ambient = uAmbientIntensity * uAmbientReflectivity;
-            float sn = max(dot(lightDir, n), 0.0);
+            float sn = clamp(dot(lightDir, n), 0.0, 1.0);
             vec3 diffuse = uDiffuseIntensity * uDiffuseReflectivity * sn;
             vec3 spec = vec3(0.0);
             if (sn > 0.0){
@@ -485,10 +488,8 @@
                 vec4 sand = mix_component(uSandColors, uSandNormals);
                 gl_FragColor = mix(rock, sand, 0.5 + ((vIsSand - vIsRock)/2.0));
             }
-
-
-
         }
+
     </script>
 
     <script id="shader-vs-terrain" type="x-shader/x-vertex">
@@ -504,7 +505,6 @@
         attribute vec3 aVertexNormal;
         attribute vec2 aTextureCoord;
         attribute vec4 aVertexTangent;
-        attribute vec3 aVertexColor;
         attribute float aIsLand;
         attribute float aIsRock;
         attribute float aIsSand;
@@ -520,7 +520,7 @@
             vec3 n = normalize(uNMatrix * aVertexNormal);
             vec3 t = normalize(uNMatrix * vec3(aVertexTangent));
 
-            vec3 b = normalize(cross(n, t)) * aVertexTangent.w;
+            vec3 b = normalize(cross(n, t));
 
             mat3 toObjectLocal = mat3(
                 t.x, b.x, n.x,
@@ -531,8 +531,8 @@
             vec4 vertPos = uModelMatrix * vec4(aVertexPosition, 1.0);
             vec4 pos = uViewMatrix * vertPos;
 
-            lightDir = normalize(toObjectLocal*(uLightPosition.xyz-vertPos.xyz));
-            viewDir = toObjectLocal*vec3(normalize(-vertPos.xyz));
+            lightDir = normalize(toObjectLocal*(uLightPosition-vec3(vertPos)));
+            viewDir = toObjectLocal*vec3(normalize(-vertPos));
 
             vTextureCoord = aTextureCoord;
 

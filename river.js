@@ -1,6 +1,6 @@
 function River(data){
     NormalReflectGeometry.call(this);
-    this.alpha = .9;
+    this.alpha = .8;
     this.side = data.side;
 
     this.latitude_bands = 1;
@@ -8,9 +8,9 @@ function River(data){
 
     this.material = {
         ambientReflectivity: vec3.fromValues(.5, .5, .5),
-        diffuseReflectivity: vec3.fromValues(.5, .5, .5),
+        diffuseReflectivity: vec3.fromValues(.7, .7, .7),
         specularReflectivity: vec3.fromValues(1, 1, 1),
-        shininess: 16.0
+        shininess: 32.0
     };
 
     this.initBuffers = function(){

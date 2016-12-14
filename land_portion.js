@@ -11,10 +11,10 @@ function LandPortion(data, i, j, size) {
 
     this.material = {
         //Default values
-        ambientReflectivity: vec3.fromValues(.5, .5, .5),
-        diffuseReflectivity: vec3.fromValues(1, 1, 1),
-        specularReflectivity: vec3.fromValues(.25, .25, .25),
-        shininess: 8.0
+        ambientReflectivity: vec3.fromValues(.7, .7, .7),
+        diffuseReflectivity: vec3.fromValues(.8, .8, .8),
+        specularReflectivity: vec3.fromValues(.5, .5, .5),
+        shininess: 16.0
     };
 
     this.position_buffer = null;
@@ -93,7 +93,7 @@ function LandPortion(data, i, j, size) {
                         *(data.ph1+data.ph3);
 
                     var n = vec3.fromValues(x, y, z);
-                    var center = vec3.fromValues(lowest_point[0], lowest_point[1], lowest_point[2]);
+                    var center = vec3.fromValues(lowest_point[0], data.ph1+(data.ph3/2), lowest_point[2]);
                     vec3.subtract(n, center, n);
                     vec3.normalize(n, n);
 

@@ -7,10 +7,10 @@ function Scene(){
 
     // Light settings
     var light = {
-        position: vec3.fromValues(0, 200, -150),
-        ambient: vec3.fromValues(.3, .3, .3),//(.4, .4, .4),
+        position: vec3.fromValues(0, 500, -50),
+        ambient: vec3.fromValues(.5, .5, .5),
         diffuse: vec3.fromValues(1, 1, 1),
-        specular: vec3.fromValues(.7, .7, .7)//(1, 1, 1)
+        specular: vec3.fromValues(1, 1, 1)
     };
 
     // Models
@@ -46,19 +46,7 @@ function Scene(){
     this.sky.setIdentity();
     this.sky.scale(sky_radius, sky_radius, sky_radius);
 
-    this.sun = new ColoredSphere(32, 32);
-    this.sun.initBuffers();
-    this.sun.setupLighting(light);
-    this.sun.setUniformColor(.8, .2, .1);
-
-
     this.draw = function(){
-        //vec3.rotateY(light.position, light.position, vec3.fromValues(0,1,0), Math.PI/320);
-
-        this.sun.setIdentity();
-        this.sun.translate(light.position[0], light.position[1], light.position[2]);
-        this.sun.draw();
-
         if (camera.insideSky(sky_radius)) this.sky.draw();
         this.land.draw();
         this.bridge.draw();

@@ -1,7 +1,7 @@
 function NormalReflectGeometry() {
     NMapGeometry.call(this);
 
-    this.reflect_factor = .1; // Default
+    this.reflect_factor = .5; // Default
     this.alpha = .5;
     this.cube_map = null;
 
@@ -10,8 +10,6 @@ function NormalReflectGeometry() {
     this.initReflectionCube = function(cube){
         var texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
-        //gl.texImage2D(gl.TEXTURE_CUBE_MAP, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-        //    new Uint8Array([128, 128, 128, 255]));
         gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);

@@ -8,7 +8,7 @@ function Geometry() {
         //Default values
         ambientReflectivity: vec3.fromValues(.5, .5, .5),
         diffuseReflectivity: vec3.fromValues(1, 1, 1),
-        specularReflectivity: vec3.fromValues(.7, .7, .7),
+        specularReflectivity: vec3.fromValues(1, 1, 1),
         shininess: 16.0
     };
 
